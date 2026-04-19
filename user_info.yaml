@@ -1,0 +1,20 @@
+#############################################
+### 사용자 정보                            ###
+#############################################
+users:
+  - username: admin
+    password_hash: 0b3de8e34f335acb7344a2549224d3ac99c90f11363af7293e207ba85e5b24e1
+    access_level: developer
+    full_name: "관리자"
+  - username: engineer1
+    password_hash: 08f7e3d860b380a991ce0c1af8283c84db99e7eae2d1d65bdc6f38da0b90df8a
+    access_level: engineer
+    full_name: "엔지니어1"
+  - username: power_user1
+    password_hash: 55902f42b0e0b943f0d0b7c53a8b4b73e1f5a2e6b4c5d8f9a8e1f6g5h2i3j4k
+    access_level: power_user
+    full_name: "파워유저1"
+  - username: user1
+    password_hash: 4d967a2a964769644c18a7d30f91e882b8f1d08279e9dbee0d57727109c002f6
+    access_level: user
+    full_name: "일반사용자1"
