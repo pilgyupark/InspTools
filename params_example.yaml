@@ -1,952 +1,750 @@
-#############################################
-### 파라미터 정의 정보                     ###
-#############################################
 parameters:
-#############################################
-### COMMON 모듈 파라미터 정의 정보         ###
-  - name: module_type
-    label: "모듈 유형"
-    type: choice
-    default: "SCW_RIGHT"
-    min: null
-    max: null
-    options:
-      - "SCW_RIGHT"
-      - "SCW_LEFT"
-      - "PTD_RIGHT"
-    group: null                 # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "COMMON"            # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "PRD_NZ_CENTER 검사에서 사용할 모듈 유형을 선택합니다."
-    access_level: engineer      # 접근 레벨은 engineer로 설정되어 있어 엔지니어만 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-
-# 캘리브레션을 위한 좌표 추출을 위한 매칭 관련 파라미터들입니다. 참조 이미지 경로, 템플릿 ROI, 검색 ROI, 참조 위치 등을 포함합니다.
-# calibration_pos1 그룹에 속한 파라미터들은 PR_NZ_CENTER 기능과 관련된 캘리브레션을 위한 좌표 추출에 사용됩니다. 이 그룹에는 참조 이미지 경로, 템플릿 ROI, 검색 ROI, 참조 위치 등의 파라미터가 포함되어 있습니다. 이러한 파라미터들은 특징점 매칭을 수행하기 위한 설정을 제공하며, 사용자 접근 레벨에 따라 보이거나 숨겨질 수 있습니다.
-  - name: ref_image_path
-    label: "참조 이미지"
-    type: path
-    default: "./images/pos1.bmp"
-    min: null 
-    max: null
-    options:
-      - "*.jpg"
-      - "*.png"
-      - "*.bmp"
-      - "*.*"
-    group: "Calibration"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Position1"        # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "COMMON"            # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭에 사용할 참조 이미지 파일 경로를 지정합니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: template_roi
-    label: "템플릿 ROI"
-    type: roi
-    default: [100, 100, 200, 200]
-    min: null 
-    max: null
-    options: null
-    group: "Calibration"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Position1"         # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "COMMON"            # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정합니다. 형식은 [x, y, width, height]입니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: search_roi
-    label: "검색 ROI"
-    type: roi
-    default: [0, 0, 400, 400]
-    min: null 
-    max: null
-    options: null
-    group: "Calibration"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Position1"         # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "COMMON"            # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭을 하기 위한 검색 영역(ROI)을 지정합니다. 형식은 [x, y, width, height]입니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: ref_position
-    label: "참조 위치"
-    type: point
-    default: [150, 150]
-    min: null 
-    max: null
-    options: null
-    group: "Calibration"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Position1"        # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "COMMON"            # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭에 사용할 참조 이미지에서 기준이 되는 위치를 지정합니다. 형식은 [x, y]입니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-    
-# calibration_pos2 그룹에 속한 파라미터들은 PR_NZ_CENTER 기능과 관련된 캘리브레션을 위한 좌표 추출에 사용됩니다. 이 그룹에는 참조 이미지 경로, 템플릿 ROI, 검색 ROI, 참조 위치 등의 파라미터가 포함되어 있습니다. 이러한 파라미터들은 특징점 매칭을 수행하기 위한 설정을 제공하며, 사용자 접근 레벨에 따라 보이거나 숨겨질 수 있습니다.
-  - name: ref_image_path
-    label: "참조 이미지"
-    type: path
-    default: "./images/pos2.bmp"
-    min: null 
-    max: null
-    options:
-      - "*.jpg"
-      - "*.png"
-      - "*.bmp"
-      - "*.*"
-    group: "Calibration"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Position2"        # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "COMMON"            # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭에 사용할 참조 이미지 파일 경로를 지정합니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: template_roi
-    label: "템플릿 ROI"
-    type: roi
-    default: [100, 100, 200, 200]
-    min: null 
-    max: null
-    options: null
-    group: "Calibration"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Position2"        # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "COMMON"            # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정합니다. 형식은 [x, y, width, height]입니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: search_roi
-    label: "검색 ROI"
-    type: roi
-    default: [0, 0, 400, 400]
-    min: null 
-    max: null
-    options: null
-    group: "Calibration"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Position2"        # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "COMMON"            # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭을 하기 위한 검색 영역(ROI)을 지정합니다. 형식은 [x, y, width, height]입니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: ref_position
-    label: "참조 위치"
-    type: point
-    default: [150, 150]
-    min: null 
-    max: null
-    options: null
-    group: "Calibration"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Position2"        # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "COMMON"            # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭에 사용할 참조 이미지에서 기준이 되는 위치를 지정합니다. 형식은 [x, y]입니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-    
-# calibration_pos3 그룹에 속한 파라미터들은 PR_NZ_CENTER 기능과 관련된 캘리브레션을 위한 좌표 추출에 사용됩니다. 이 그룹에는 참조 이미지 경로, 템플릿 ROI, 검색 ROI, 참조 위치 등의 파라미터가 포함되어 있습니다. 이러한 파라미터들은 특징점 매칭을 수행하기 위한 설정을 제공하며, 사용자 접근 레벨에 따라 보이거나 숨겨질 수 있습니다.
-  - name: ref_image_path
-    label: "참조 이미지"
-    type: path
-    default: "./images/pos3.bmp"
-    min: null 
-    max: null
-    options:
-      - "*.jpg"
-      - "*.png"
-      - "*.bmp"
-      - "*.*"
-    group: "Calibration"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Position3"        # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "COMMON"            # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭에 사용할 참조 이미지 파일 경로를 지정합니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: template_roi
-    label: "템플릿 ROI"
-    type: roi
-    default: [100, 100, 200, 200]
-    min: null 
-    max: null
-    options: null
-    group: "Calibration"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Position3"        # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "COMMON"            # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정합니다. 형식은 [x, y, width, height]입니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: search_roi
-    label: "검색 ROI"
-    type: roi
-    default: [0, 0, 400, 400]
-    min: null 
-    max: null
-    options: null
-    group: "Calibration"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Position3"        # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "COMMON"            # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭을 하기 위한 검색 영역(ROI)을 지정합니다. 형식은 [x, y, width, height]입니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: ref_position
-    label: "참조 위치"
-    type: point
-    default: [150, 150]
-    min: null 
-    max: null
-    options: null
-    group: "Calibration"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Position3"        # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "COMMON"            # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭에 사용할 참조 이미지에서 기준이 되는 위치를 지정합니다. 형식은 [x, y]입니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-
-    
-# calibration_pos4 그룹에 속한 파라미터들은 PR_NZ_CENTER 기능과 관련된 캘리브레션을 위한 좌표 추출에 사용됩니다. 이 그룹에는 참조 이미지 경로, 템플릿 ROI, 검색 ROI, 참조 위치 등의 파라미터가 포함되어 있습니다. 이러한 파라미터들은 특징점 매칭을 수행하기 위한 설정을 제공하며, 사용자 접근 레벨에 따라 보이거나 숨겨질 수 있습니다.
-  - name: ref_image_path
-    label: "참조 이미지"
-    type: path
-    default: "./images/pos4.bmp"
-    min: null 
-    max: null
-    options:
-      - "*.jpg"
-      - "*.png"
-      - "*.bmp"
-      - "*.*"
-    group: "Calibration"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Position4"        # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "COMMON"            # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭에 사용할 참조 이미지 파일 경로를 지정합니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: template_roi
-    label: "템플릿 ROI"
-    type: roi
-    default: [100, 100, 200, 200]
-    min: null 
-    max: null
-    options: null
-    group: "Calibration"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Position4"        # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "COMMON"            # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정합니다. 형식은 [x, y, width, height]입니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: search_roi
-    label: "검색 ROI"
-    type: roi
-    default: [0, 0, 400, 400]
-    min: null 
-    max: null
-    options: null
-    group: "Calibration"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Position4"        # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "COMMON"            # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭을 하기 위한 검색 영역(ROI)을 지정합니다. 형식은 [x, y, width, height]입니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: ref_position
-    label: "참조 위치"
-    type: point
-    default: [150, 150]
-    min: null 
-    max: null
-    options: null
-    group: "Calibration"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Position4"        # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "COMMON"            # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭에 사용할 참조 이미지에서 기준이 되는 위치를 지정합니다. 형식은 [x, y]입니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-
-# 캘리브레션을 위한 좌표 추출을 위한 매칭 관련 파라미터들입니다. 매칭 방법, 매칭 점수 임계값, 특징점 거리 임계값, 최대 매칭 점 개수 등을 포함합니다.
-  - name: match_method
-    label: "매칭 방법"
-    type: choice
-    default: "SIFT"
-    min: null
-    max: null
-    options:
-      - "SIFT"
-      - "ORB"
-      - "AKAZE"
-    group: "Calibration"   # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Matching"        # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "COMMON"            # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭에서 매칭 점수의 임계값을 지정합니다. 이 값보다 높은 점수를 가진 매칭만 유효한 매칭으로 간주됩니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: score_threshold
-    label: "매칭 점수 임계값"
-    type: float
-    default: 0.7
-    min: 0.0
-    max: 1.0 
-    options: null
-    group: "Calibration"   # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Matching"        # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "COMMON"            # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭에서 매칭 점수의 임계값을 지정합니다. 이 값보다 높은 점수를 가진 매칭만 유효한 매칭으로 간주됩니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: point_distance_threshold
-    label: "특징점 거리 임계값"
-    type: float
-    default: 40.0
-    min: 0.0
-    max: 100.0
-    options: null
-    group: "Calibration"   # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Matching"        # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "COMMON"            # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭에 사용할 참조 이미지 파일 경로를 지정합니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: max_matching_points
-    label: "최대 매칭 점 개수"
-    type: int
-    default: 1
-    min: 1
-    max: 10
-    options: null
-    group: "Calibration"   # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Matching"        # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.  
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "COMMON"            # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점을 매칭할 때 최대 매칭 점 개수를 지정합니다."
-    access_level: developer    # 접근 레벨은 developer로 설정되어 있어 개발자만 이 파라미터를 볼 수 있습니다.
-    visibility: hidden         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-    
-  - name: input_pts
-    label: "입력 좌표 (4점)"
-    type: list
-    default: [[150, 200], [300, 200], [300, 150], [150, 150]]
-    min: null 
-    max: null
-    options: null
-    group: "Calibration"   # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Matrix"        # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "COMMON"            # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "4개의 위치에서 추출된 좌표를 지정합니다. 형식은 [[x1, y1], [x2, y2], [x3, y3], [x4, y4]]입니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: output_pts
-    label: "출력 좌표 (4점)"
-    type: list
-    default: [[150, 200], [300, 200], [300, 150], [150, 150]]
-    min: null 
-    max: null
-    options: null
-    group: "Calibration"   # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Matrix"        # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "COMMON"            # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "캘리브레이션 목표 좌표를 지정합니다. 형식은 [[x1, y1], [x2, y2], [x3, y3], [x4, y4]]입니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: matrix
-    label: "변환 행렬"
-    type: list
-    default: [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
-    min: null
-    max: null
-    options: null
-    group: "Calibration"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Matrix"        # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "COMMON"            # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "캘리브레이션 변환 행렬을 지정합니다. 형식은 3x3 행렬입니다."
-    access_level: developer     # 접근 레벨은 developer로 설정되어 있어 개발자만 이 파라미터를 볼 수 있습니다.
-    visibility: visible          # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-
-  - name: ref_image_path
-    label: "참조 이미지"
-    type: path
-    default: "./images/ref_image.bmp"
-    min: null
-    max: null
-    options: null
-    group: "Inspection"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Position"        # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "COMMON"            # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭에 사용할 참조 이미지 파일 경로를 지정합니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: template_roi
-    label: "템플릿 ROI"
-    type: roi
-    default: [100, 100, 200, 200]
-    min: null
-    max: null
-    options: null
-    group: "Inspection"         # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Position"         # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "COMMON"            # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정합니다. 형식은 [x, y, width, height]입니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: search_roi
-    label: "검색 ROI"
-    type: roi
-    default: [0, 0, 400, 400]
-    min: null
-    max: null
-    options: null
-    group: "Inspection"         # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Position"         # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "COMMON"            # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "매칭에 사용할 검색 영역(ROI)을 지정합니다. 형식은 [x, y, width, height]입니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-
-  - name: match_method
-    label: "매칭 방법"
-    type: choice
-    default: "SIFT"
-    min: null
-    max: null
-    options:
-      - "SIFT"
-      - "ORB"
-      - "AKAZE"
-    group: "Inspection"   # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Matching"        # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "COMMON"            # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭에서 매칭 점수의 임계값을 지정합니다. 이 값보다 높은 점수를 가진 매칭만 유효한 매칭으로 간주됩니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: score_threshold
-    label: "매칭 점수 임계값"
-    type: float
-    default: 0.7
-    min: 0.0
-    max: 1.0 
-    options: null
-    group: "Inspection"   # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Matching"        # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "COMMON"            # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭에서 매칭 점수의 임계값을 지정합니다. 이 값보다 높은 점수를 가진 매칭만 유효한 매칭으로 간주됩니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: point_distance_threshold
-    label: "특징점 거리 임계값"
-    type: float
-    default: 40.0
-    min: 0.0
-    max: 100.0
-    options: null
-    group: "Inspection"   # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Matching"        # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "COMMON"            # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭에 사용할 참조 이미지 파일 경로를 지정합니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: max_matching_points
-    label: "최대 매칭 점 개수"
-    type: int
-    default: 1
-    min: 1
-    max: 10
-    options: null
-    group: "Inspection"         # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Matching"        # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.  
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "COMMON"            # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점을 매칭할 때 최대 매칭 점 개수를 지정합니다."
-    access_level: developer    # 접근 레벨은 developer로 설정되어 있어 개발자만 이 파라미터를 볼 수 있습니다.
-    visibility: hidden         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-
-#############################################
-### SCW1-13 모듈 파라미터 정보             ###
-  - name: module_type
-    label: "모듈 유형"
-    type: choice
-    default: "SCW_RIGHT"
-    min: null
-    max: null
-    options:
-      - "SCW_RIGHT"
-      - "SCW_LEFT"
-      - "PTD_RIGHT"
-    group: null                 # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "SCW1-13"           # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "PRD_NZ_CENTER 검사에서 사용할 모듈 유형을 선택합니다."
-    access_level: engineer      # 접근 레벨은 engineer로 설정되어 있어 엔지니어만 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-
-# 캘리브레션을 위한 좌표 추출을 위한 매칭 관련 파라미터들입니다. 참조 이미지 경로, 템플릿 ROI, 검색 ROI, 참조 위치 등을 포함합니다.
-# calibration_pos1 그룹에 속한 파라미터들은 PR_NZ_CENTER 기능과 관련된 캘리브레션을 위한 좌표 추출에 사용됩니다. 이 그룹에는 참조 이미지 경로, 템플릿 ROI, 검색 ROI, 참조 위치 등의 파라미터가 포함되어 있습니다. 이러한 파라미터들은 특징점 매칭을 수행하기 위한 설정을 제공하며, 사용자 접근 레벨에 따라 보이거나 숨겨질 수 있습니다.
-  - name: ref_image_path
-    label: "참조 이미지"
-    type: path
-    default: "./images/pos1.bmp"
-    min: null 
-    max: null
-    options:
-      - "*.jpg"
-      - "*.png"
-      - "*.bmp"
-      - "*.*"
-    group: "Calibration"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Position 1"       # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "SCW1-13"           # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭에 사용할 참조 이미지 파일 경로를 지정합니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: template_roi
-    label: "템플릿 ROI"
-    type: roi
-    default: [100, 100, 200, 200]
-    min: null 
-    max: null
-    options: null
-    group: "Calibration"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Position 1"       # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "SCW1-13"           # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정합니다. 형식은 [x, y, width, height]입니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: search_roi
-    label: "검색 ROI"
-    type: roi
-    default: [0, 0, 400, 400]
-    min: null 
-    max: null
-    options: null
-    group: "Calibration"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Position 1"       # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "SCW1-13"           # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭을 하기 위한 검색 영역(ROI)을 지정합니다. 형식은 [x, y, width, height]입니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: ref_position
-    label: "참조 위치"
-    type: point
-    default: [150, 150]
-    min: null 
-    max: null
-    options: null
-    group: "Calibration"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Position 1"       # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "SCW1-13"           # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭에 사용할 참조 이미지에서 기준이 되는 위치를 지정합니다. 형식은 [x, y]입니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-    
-# calibration_pos2 그룹에 속한 파라미터들은 PR_NZ_CENTER 기능과 관련된 캘리브레션을 위한 좌표 추출에 사용됩니다. 이 그룹에는 참조 이미지 경로, 템플릿 ROI, 검색 ROI, 참조 위치 등의 파라미터가 포함되어 있습니다. 이러한 파라미터들은 특징점 매칭을 수행하기 위한 설정을 제공하며, 사용자 접근 레벨에 따라 보이거나 숨겨질 수 있습니다.
-  - name: ref_image_path
-    label: "참조 이미지"
-    type: path
-    default: "./images/pos2.bmp"
-    min: null 
-    max: null
-    options:
-      - "*.jpg"
-      - "*.png"
-      - "*.bmp"
-      - "*.*"
-    group: "Calibration"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Position 2"       # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "SCW1-13"           # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭에 사용할 참조 이미지 파일 경로를 지정합니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: template_roi
-    label: "템플릿 ROI"
-    type: roi
-    default: [100, 100, 200, 200]
-    min: null 
-    max: null
-    options: null
-    group: "Calibration"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Position 2"       # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "SCW1-13"           # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정합니다. 형식은 [x, y, width, height]입니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: search_roi
-    label: "검색 ROI"
-    type: roi
-    default: [0, 0, 400, 400]
-    min: null 
-    max: null
-    options: null
-    group: "Calibration"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Position 2"       # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "SCW1-13"           # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭을 하기 위한 검색 영역(ROI)을 지정합니다. 형식은 [x, y, width, height]입니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: ref_position
-    label: "참조 위치"
-    type: point
-    default: [150, 150]
-    min: null 
-    max: null
-    options: null
-    group: "Calibration"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Position 2"       # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "SCW1-13"           # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭에 사용할 참조 이미지에서 기준이 되는 위치를 지정합니다. 형식은 [x, y]입니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-    
-# calibration_pos3 그룹에 속한 파라미터들은 PR_NZ_CENTER 기능과 관련된 캘리브레션을 위한 좌표 추출에 사용됩니다. 이 그룹에는 참조 이미지 경로, 템플릿 ROI, 검색 ROI, 참조 위치 등의 파라미터가 포함되어 있습니다. 이러한 파라미터들은 특징점 매칭을 수행하기 위한 설정을 제공하며, 사용자 접근 레벨에 따라 보이거나 숨겨질 수 있습니다.
-  - name: ref_image_path
-    label: "참조 이미지"
-    type: path
-    default: "./images/pos3.bmp"
-    min: null 
-    max: null
-    options:
-      - "*.jpg"
-      - "*.png"
-      - "*.bmp"
-      - "*.*"
-    group: "Calibration"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Position 3"       # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "SCW1-13"           # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭에 사용할 참조 이미지 파일 경로를 지정합니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: template_roi
-    label: "템플릿 ROI"
-    type: roi
-    default: [100, 100, 200, 200]
-    min: null 
-    max: null
-    options: null
-    group: "Calibration"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Position 3"       # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "SCW1-13"           # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정합니다. 형식은 [x, y, width, height]입니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: search_roi
-    label: "검색 ROI"
-    type: roi
-    default: [0, 0, 400, 400]
-    min: null 
-    max: null
-    options: null
-    group: "Calibration"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Position 3"       # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "SCW1-13"           # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭을 하기 위한 검색 영역(ROI)을 지정합니다. 형식은 [x, y, width, height]입니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: ref_position
-    label: "참조 위치"
-    type: point
-    default: [150, 150]
-    min: null 
-    max: null
-    options: null
-    group: "Calibration"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Position 3"       # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "SCW1-13"           # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭에 사용할 참조 이미지에서 기준이 되는 위치를 지정합니다. 형식은 [x, y]입니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-
-    
-# calibration_pos4 그룹에 속한 파라미터들은 PR_NZ_CENTER 기능과 관련된 캘리브레션을 위한 좌표 추출에 사용됩니다. 이 그룹에는 참조 이미지 경로, 템플릿 ROI, 검색 ROI, 참조 위치 등의 파라미터가 포함되어 있습니다. 이러한 파라미터들은 특징점 매칭을 수행하기 위한 설정을 제공하며, 사용자 접근 레벨에 따라 보이거나 숨겨질 수 있습니다.
-  - name: ref_image_path
-    label: "참조 이미지"
-    type: path
-    default: "./images/pos4.bmp"
-    min: null 
-    max: null
-    options:
-      - "*.jpg"
-      - "*.png"
-      - "*.bmp"
-      - "*.*"
-    group: "Calibration"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Position 4"       # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "SCW1-13"           # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭에 사용할 참조 이미지 파일 경로를 지정합니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: template_roi
-    label: "템플릿 ROI"
-    type: roi
-    default: [100, 100, 200, 200]
-    min: null 
-    max: null
-    options: null
-    group: "Calibration"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Position 4"       # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "SCW1-13"           # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정합니다. 형식은 [x, y, width, height]입니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: search_roi
-    label: "검색 ROI"
-    type: roi
-    default: [0, 0, 400, 400]
-    min: null 
-    max: null
-    options: null
-    group: "Calibration"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Position 4"       # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "SCW1-13"           # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭을 하기 위한 검색 영역(ROI)을 지정합니다. 형식은 [x, y, width, height]입니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: ref_position
-    label: "참조 위치"
-    type: point
-    default: [150, 150]
-    min: null 
-    max: null
-    options: null
-    group: "Calibration"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Position 4"       # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "SCW1-13"           # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭에 사용할 참조 이미지에서 기준이 되는 위치를 지정합니다. 형식은 [x, y]입니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-
-# 캘리브레션을 위한 좌표 추출을 위한 매칭 관련 파라미터들입니다. 매칭 방법, 매칭 점수 임계값, 특징점 거리 임계값, 최대 매칭 점 개수 등을 포함합니다.
-  - name: match_method
-    label: "매칭 방법"
-    type: choice
-    default: "SIFT"
-    min: null
-    max: null
-    options:
-      - "SIFT"
-      - "ORB"
-      - "AKAZE"
-    group: "Calibration"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Matching"         # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "SCW1-13"           # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭에서 매칭 점수의 임계값을 지정합니다. 이 값보다 높은 점수를 가진 매칭만 유효한 매칭으로 간주됩니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: score_threshold
-    label: "매칭 점수 임계값"
-    type: float
-    default: 0.7
-    min: 0.0
-    max: 1.0 
-    options: null
-    group: "Calibration"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Matching"         # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "SCW1-13"           # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭에서 매칭 점수의 임계값을 지정합니다. 이 값보다 높은 점수를 가진 매칭만 유효한 매칭으로 간주됩니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: point_distance_threshold
-    label: "특징점 거리 임계값"
-    type: float
-    default: 40.0
-    min: 0.0
-    max: 100.0
-    options: null
-    group: "Calibration"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Matching"         # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "SCW1-13"           # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭에 사용할 참조 이미지 파일 경로를 지정합니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: max_matching_points
-    label: "최대 매칭 점 개수"
-    type: int
-    default: 1
-    min: 1
-    max: 10
-    options: null
-    group: "Calibration"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Matching"         # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "SCW1-13"           # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점을 매칭할 때 최대 매칭 점 개수를 지정합니다."
-    access_level: developer     # 접근 레벨은 developer로 설정되어 있어 개발자만 이 파라미터를 볼 수 있습니다.
-    visibility: hidden          # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: input_pts
-    label: "입력 좌표 (4점)"
-    type: list
-    default: [[150, 200], [300, 200], [300, 150], [150, 150]]
-    min: null 
-    max: null
-    options: null
-    group: "Calibration"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Matrix"           # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "SCW1-13"           # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "4개의 위치에서 추출된 좌표를 지정합니다. 형식은 [[x1, y1], [x2, y2], [x3, y3], [x4, y4]]입니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: output_pts
-    label: "출력 좌표 (4점)"
-    type: list
-    default: [[150, 200], [300, 200], [300, 150], [150, 150]]
-    min: null 
-    max: null
-    options: null
-    group: "Calibration"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Matrix"           # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "SCW1-13"           # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "캘리브레이션 목표 좌표를 지정합니다. 형식은 [[x1, y1], [x2, y2], [x3, y3], [x4, y4]]입니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: matrix
-    label: "변환 행렬"
-    type: list
-    default: [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
-    min: null
-    max: null
-    options: null
-    group: "Calibration"        # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Matrix"           # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "SCW1-13"           # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "캘리브레이션 변환 행렬을 지정합니다. 형식은 3x3 행렬입니다."
-    access_level: developer     # 접근 레벨은 developer로 설정되어 있어 개발자만 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: ref_image_path
-    label: "참조 이미지"
-    type: path
-    default: "./images/ref_image.bmp"
-    min: null
-    max: null
-    options: null
-    group: "Inspection"         # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Position"         # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "SCW1-13"           # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭에 사용할 참조 이미지 파일 경로를 지정합니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: template_roi
-    label: "템플릿 ROI"
-    type: roi
-    default: [100, 100, 200, 200]
-    min: null
-    max: null
-    options: null
-    group: "Inspection"         # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Position"         # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "SCW1-13"           # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정합니다. 형식은 [x, y, width, height]입니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: search_roi
-    label: "검색 ROI"
-    type: roi
-    default: [0, 0, 400, 400]
-    min: null
-    max: null
-    options: null
-    group: "Inspection"         # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Position"         # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "SCW1-13"           # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "매칭에 사용할 검색 영역(ROI)을 지정합니다. 형식은 [x, y, width, height]입니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: match_method
-    label: "매칭 방법"
-    type: choice
-    default: "SIFT"
-    min: null
-    max: null
-    options:
-      - "SIFT"
-      - "ORB"
-      - "AKAZE"
-    group: "Inspection"         # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Matching"         # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "SCW1-13"           # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭에서 매칭 점수의 임계값을 지정합니다. 이 값보다 높은 점수를 가진 매칭만 유효한 매칭으로 간주됩니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: score_threshold
-    label: "매칭 점수 임계값"
-    type: float
-    default: 0.7
-    min: 0.0
-    max: 1.0 
-    options: null
-    group: "Inspection"         # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Matching"         # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "SCW1-13"           # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭에서 매칭 점수의 임계값을 지정합니다. 이 값보다 높은 점수를 가진 매칭만 유효한 매칭으로 간주됩니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: point_distance_threshold
-    label: "특징점 거리 임계값"
-    type: float
-    default: 40.0
-    min: 0.0
-    max: 100.0
-    options: null
-    group: "Inspection"         # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Matching"         # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "SCW1-13"           # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점 매칭에 사용할 참조 이미지 파일 경로를 지정합니다."
-    access_level: user          # 접근 레벨은 user로 설정되어 있어 모든 사용자가 이 파라미터를 볼 수 있습니다.
-    visibility: visible         # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
-  - name: max_matching_points
-    label: "최대 매칭 점 개수"
-    type: int
-    default: 1
-    min: 1
-    max: 10
-    options: null
-    group: "Inspection"         # 그룹은 UI에서 파라미터를 논리적으로 묶어주는 역할을 합니다. 같은 그룹에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    section: "Matching"         # 섹션은 그룹 내에서 파라미터를 더 세부적으로 묶어주는 역할을 합니다. 같은 섹션에 속한 파라미터들은 UI에서 함께 표시됩니다.
-    feature: "PR_NZ_CENTER"     # 기능은 UI에서 파라미터가 속한 기능을 나타냅니다. 같은 기능에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    module: "SCW1-13"           # 모듈은 UI에서 파라미터가 속한 모듈을 나타냅니다. 같은 모듈에 속한 파라미터들은 UI에서 함께 표시될 수 있습니다.
-    help_text: "특징점을 매칭할 때 최대 매칭 점 개수를 지정합니다."
-    access_level: developer     # 접근 레벨은 developer로 설정되어 있어 개발자만 이 파라미터를 볼 수 있습니다.
-    visibility: hidden          # 기본값은 visible이며, hidden으로 설정하면 해당 파라미터는 UI에서 보이지 않게 됩니다.
+- name: module_type
+  label: 모듈 유형
+  type: choice
+  default: SCW_RIGHT
+  options: [SCW_RIGHT, SCW_LEFT, PTD_RIGHT]
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: PRD_NZ_CENTER 검사에서 사용할 모듈 유형을 선택합니다.
+  access_level: engineer
+- name: ref_image_path
+  label: 참조 이미지
+  type: path
+  default: ./images/pos1.bmp
+  options: ['*.jpg', '*.png', '*.bmp', '*.*']
+  group: Calibration
+  section: Position1
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에 사용할 참조 이미지 파일 경로를 지정합니다.
+  access_level: user
+- name: template_roi
+  label: 템플릿 ROI
+  type: roi
+  default: [100, 100, 200, 200]
+  group: Calibration
+  section: Position1
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정합니다. 형식은 [x, y, width, height]입니다.
+  access_level: user
+- name: search_roi
+  label: 검색 ROI
+  type: roi
+  default: [0, 0, 400, 400]
+  group: Calibration
+  section: Position1
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭을 하기 위한 검색 영역(ROI)을 지정합니다. 형식은 [x, y, width, height]입니다.
+  access_level: user
+- name: ref_position
+  label: 참조 위치
+  type: point
+  default: [150, 150]
+  group: Calibration
+  section: Position1
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에 사용할 참조 이미지에서 기준이 되는 위치를 지정합니다. 형식은 [x, y]입니다.
+  access_level: user
+- name: ref_image_path
+  label: 참조 이미지
+  type: path
+  default: ./images/pos2.bmp
+  options: ['*.jpg', '*.png', '*.bmp', '*.*']
+  group: Calibration
+  section: Position2
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에 사용할 참조 이미지 파일 경로를 지정합니다.
+  access_level: user
+- name: template_roi
+  label: 템플릿 ROI
+  type: roi
+  default: [100, 100, 200, 200]
+  group: Calibration
+  section: Position2
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정합니다. 형식은 [x, y, width, height]입니다.
+  access_level: user
+- name: search_roi
+  label: 검색 ROI
+  type: roi
+  default: [0, 0, 400, 400]
+  group: Calibration
+  section: Position2
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭을 하기 위한 검색 영역(ROI)을 지정합니다. 형식은 [x, y, width, height]입니다.
+  access_level: user
+- name: ref_position
+  label: 참조 위치
+  type: point
+  default: [150, 150]
+  group: Calibration
+  section: Position2
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에 사용할 참조 이미지에서 기준이 되는 위치를 지정합니다. 형식은 [x, y]입니다.
+  access_level: user
+- name: ref_image_path
+  label: 참조 이미지
+  type: path
+  default: ./images/pos3.bmp
+  options: ['*.jpg', '*.png', '*.bmp', '*.*']
+  group: Calibration
+  section: Position3
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에 사용할 참조 이미지 파일 경로를 지정합니다.
+  access_level: user
+- name: template_roi
+  label: 템플릿 ROI
+  type: roi
+  default: [100, 100, 200, 200]
+  group: Calibration
+  section: Position3
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정합니다. 형식은 [x, y, width, height]입니다.
+  access_level: user
+- name: search_roi
+  label: 검색 ROI
+  type: roi
+  default: [0, 0, 400, 400]
+  group: Calibration
+  section: Position3
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭을 하기 위한 검색 영역(ROI)을 지정합니다. 형식은 [x, y, width, height]입니다.
+  access_level: user
+- name: ref_position
+  label: 참조 위치
+  type: point
+  default: [150, 150]
+  group: Calibration
+  section: Position3
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에 사용할 참조 이미지에서 기준이 되는 위치를 지정합니다. 형식은 [x, y]입니다.
+  access_level: user
+- name: ref_image_path
+  label: 참조 이미지
+  type: path
+  default: ./images/pos4.bmp
+  options: ['*.jpg', '*.png', '*.bmp', '*.*']
+  group: Calibration
+  section: Position4
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에 사용할 참조 이미지 파일 경로를 지정합니다.
+  access_level: user
+- name: template_roi
+  label: 템플릿 ROI
+  type: roi
+  default: [100, 100, 200, 200]
+  group: Calibration
+  section: Position4
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정합니다. 형식은 [x, y, width, height]입니다.
+  access_level: user
+- name: search_roi
+  label: 검색 ROI
+  type: roi
+  default: [0, 0, 400, 400]
+  group: Calibration
+  section: Position4
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭을 하기 위한 검색 영역(ROI)을 지정합니다. 형식은 [x, y, width, height]입니다.
+  access_level: user
+- name: ref_position
+  label: 참조 위치
+  type: point
+  default: [150, 150]
+  group: Calibration
+  section: Position4
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에 사용할 참조 이미지에서 기준이 되는 위치를 지정합니다. 형식은 [x, y]입니다.
+  access_level: user
+- name: match_method
+  label: 매칭 방법
+  type: choice
+  default: SIFT
+  options: [SIFT, ORB, AKAZE]
+  group: Calibration
+  section: Matching
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에서 매칭 점수의 임계값을 지정합니다. 이 값보다 높은 점수를 가진 매칭만 유효한 매칭으로 간주됩니다.
+  access_level: user
+- name: score_threshold
+  label: 매칭 점수 임계값
+  type: float
+  default: 0.7
+  min: 0.0
+  max: 1.0
+  group: Calibration
+  section: Matching
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에서 매칭 점수의 임계값을 지정합니다. 이 값보다 높은 점수를 가진 매칭만 유효한 매칭으로 간주됩니다.
+  access_level: user
+- name: point_distance_threshold
+  label: 특징점 거리 임계값
+  type: float
+  default: 40.0
+  min: 0.0
+  max: 100.0
+  group: Calibration
+  section: Matching
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에 사용할 참조 이미지 파일 경로를 지정합니다.
+  access_level: user
+- name: max_matching_points
+  label: 최대 매칭 점 개수
+  type: int
+  default: 1
+  min: 1
+  max: 10
+  group: Calibration
+  section: Matching
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점을 매칭할 때 최대 매칭 점 개수를 지정합니다.
+  access_level: developer
+  visibility: hidden
+- name: input_pts
+  label: 입력 좌표 (4점)
+  type: list
+  default: [[150, 200], [300, 200], [300, 150], [150, 150]]
+  group: Calibration
+  section: Matrix
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 4개의 위치에서 추출된 좌표를 지정합니다. 형식은 [[x1, y1], [x2, y2], [x3, y3], [x4, y4]]입니다.
+  access_level: user
+- name: output_pts
+  label: 출력 좌표 (4점)
+  type: list
+  default: [[150, 200], [300, 200], [300, 150], [150, 150]]
+  group: Calibration
+  section: Matrix
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 캘리브레이션 목표 좌표를 지정합니다. 형식은 [[x1, y1], [x2, y2], [x3, y3], [x4, y4]]입니다.
+  access_level: user
+- name: matrix
+  label: 변환 행렬
+  type: list
+  default: &id001 [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
+  group: Calibration
+  section: Matrix
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 캘리브레이션 변환 행렬을 지정합니다. 형식은 3x3 행렬입니다.
+  access_level: developer
+- name: ref_image_path
+  label: 참조 이미지
+  type: path
+  default: ./images/ref_image.bmp
+  group: Inspection
+  section: Position
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에 사용할 참조 이미지 파일 경로를 지정합니다.
+  access_level: user
+- name: template_roi
+  label: 템플릿 ROI
+  type: roi
+  default: [100, 100, 200, 200]
+  group: Inspection
+  section: Position
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정합니다. 형식은 [x, y, width, height]입니다.
+  access_level: user
+- name: search_roi
+  label: 검색 ROI
+  type: roi
+  default: [0, 0, 400, 400]
+  group: Inspection
+  section: Position
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 매칭에 사용할 검색 영역(ROI)을 지정합니다. 형식은 [x, y, width, height]입니다.
+  access_level: user
+- name: match_method
+  label: 매칭 방법
+  type: choice
+  default: SIFT
+  options: [SIFT, ORB, AKAZE]
+  group: Inspection
+  section: Matching
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에서 매칭 점수의 임계값을 지정합니다. 이 값보다 높은 점수를 가진 매칭만 유효한 매칭으로 간주됩니다.
+  access_level: user
+- name: score_threshold
+  label: 매칭 점수 임계값
+  type: float
+  default: 0.7
+  min: 0.0
+  max: 1.0
+  group: Inspection
+  section: Matching
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에서 매칭 점수의 임계값을 지정합니다. 이 값보다 높은 점수를 가진 매칭만 유효한 매칭으로 간주됩니다.
+  access_level: user
+- name: point_distance_threshold
+  label: 특징점 거리 임계값
+  type: float
+  default: 40.0
+  min: 0.0
+  max: 100.0
+  group: Inspection
+  section: Matching
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에 사용할 참조 이미지 파일 경로를 지정합니다.
+  access_level: user
+- name: max_matching_points
+  label: 최대 매칭 점 개수
+  type: int
+  default: 1
+  min: 1
+  max: 10
+  group: Inspection
+  section: Matching
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점을 매칭할 때 최대 매칭 점 개수를 지정합니다.
+  access_level: developer
+  visibility: hidden
+- name: module_type
+  label: 모듈 유형
+  type: choice
+  default: SCW_RIGHT
+  options: [SCW_RIGHT, SCW_LEFT, PTD_RIGHT]
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: PRD_NZ_CENTER 검사에서 사용할 모듈 유형을 선택합니다.
+  access_level: engineer
+- name: ref_image_path
+  label: 참조 이미지
+  type: path
+  default: ./images/pos1.bmp
+  options: ['*.jpg', '*.png', '*.bmp', '*.*']
+  group: Calibration
+  section: Position 1
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 특징점 매칭에 사용할 참조 이미지 파일 경로를 지정합니다.
+  access_level: user
+- name: template_roi
+  label: 템플릿 ROI
+  type: roi
+  default: [100, 100, 200, 200]
+  group: Calibration
+  section: Position 1
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정합니다. 형식은 [x, y, width, height]입니다.
+  access_level: user
+- name: search_roi
+  label: 검색 ROI
+  type: roi
+  default: [0, 0, 400, 400]
+  group: Calibration
+  section: Position 1
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 특징점 매칭을 하기 위한 검색 영역(ROI)을 지정합니다. 형식은 [x, y, width, height]입니다.
+  access_level: user
+- name: ref_position
+  label: 참조 위치
+  type: point
+  default: [150, 150]
+  group: Calibration
+  section: Position 1
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 특징점 매칭에 사용할 참조 이미지에서 기준이 되는 위치를 지정합니다. 형식은 [x, y]입니다.
+  access_level: user
+- name: ref_image_path
+  label: 참조 이미지
+  type: path
+  default: ./images/pos2.bmp
+  options: ['*.jpg', '*.png', '*.bmp', '*.*']
+  group: Calibration
+  section: Position 2
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 특징점 매칭에 사용할 참조 이미지 파일 경로를 지정합니다.
+  access_level: user
+- name: template_roi
+  label: 템플릿 ROI
+  type: roi
+  default: [100, 100, 200, 200]
+  group: Calibration
+  section: Position 2
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정합니다. 형식은 [x, y, width, height]입니다.
+  access_level: user
+- name: search_roi
+  label: 검색 ROI
+  type: roi
+  default: [0, 0, 400, 400]
+  group: Calibration
+  section: Position 2
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 특징점 매칭을 하기 위한 검색 영역(ROI)을 지정합니다. 형식은 [x, y, width, height]입니다.
+  access_level: user
+- name: ref_position
+  label: 참조 위치
+  type: point
+  default: [150, 150]
+  group: Calibration
+  section: Position 2
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 특징점 매칭에 사용할 참조 이미지에서 기준이 되는 위치를 지정합니다. 형식은 [x, y]입니다.
+  access_level: user
+- name: ref_image_path
+  label: 참조 이미지
+  type: path
+  default: ./images/pos3.bmp
+  options: ['*.jpg', '*.png', '*.bmp', '*.*']
+  group: Calibration
+  section: Position 3
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 특징점 매칭에 사용할 참조 이미지 파일 경로를 지정합니다.
+  access_level: user
+- name: template_roi
+  label: 템플릿 ROI
+  type: roi
+  default: [100, 100, 200, 200]
+  group: Calibration
+  section: Position 3
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정합니다. 형식은 [x, y, width, height]입니다.
+  access_level: user
+- name: search_roi
+  label: 검색 ROI
+  type: roi
+  default: [0, 0, 400, 400]
+  group: Calibration
+  section: Position 3
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 특징점 매칭을 하기 위한 검색 영역(ROI)을 지정합니다. 형식은 [x, y, width, height]입니다.
+  access_level: user
+- name: ref_position
+  label: 참조 위치
+  type: point
+  default: [150, 150]
+  group: Calibration
+  section: Position 3
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 특징점 매칭에 사용할 참조 이미지에서 기준이 되는 위치를 지정합니다. 형식은 [x, y]입니다.
+  access_level: user
+- name: ref_image_path
+  label: 참조 이미지
+  type: path
+  default: ./images/pos4.bmp
+  options: ['*.jpg', '*.png', '*.bmp', '*.*']
+  group: Calibration
+  section: Position 4
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 특징점 매칭에 사용할 참조 이미지 파일 경로를 지정합니다.
+  access_level: user
+- name: template_roi
+  label: 템플릿 ROI
+  type: roi
+  default: [100, 100, 200, 200]
+  group: Calibration
+  section: Position 4
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정합니다. 형식은 [x, y, width, height]입니다.
+  access_level: user
+- name: search_roi
+  label: 검색 ROI
+  type: roi
+  default: [0, 0, 400, 400]
+  group: Calibration
+  section: Position 4
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 특징점 매칭을 하기 위한 검색 영역(ROI)을 지정합니다. 형식은 [x, y, width, height]입니다.
+  access_level: user
+- name: ref_position
+  label: 참조 위치
+  type: point
+  default: [150, 150]
+  group: Calibration
+  section: Position 4
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 특징점 매칭에 사용할 참조 이미지에서 기준이 되는 위치를 지정합니다. 형식은 [x, y]입니다.
+  access_level: user
+- name: match_method
+  label: 매칭 방법
+  type: choice
+  default: SIFT
+  options: [SIFT, ORB, AKAZE]
+  group: Calibration
+  section: Matching
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 특징점 매칭에서 매칭 점수의 임계값을 지정합니다. 이 값보다 높은 점수를 가진 매칭만 유효한 매칭으로 간주됩니다.
+  access_level: user
+- name: score_threshold
+  label: 매칭 점수 임계값
+  type: float
+  default: 0.7
+  min: 0.0
+  max: 1.0
+  group: Calibration
+  section: Matching
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 특징점 매칭에서 매칭 점수의 임계값을 지정합니다. 이 값보다 높은 점수를 가진 매칭만 유효한 매칭으로 간주됩니다.
+  access_level: user
+- name: point_distance_threshold
+  label: 특징점 거리 임계값
+  type: float
+  default: 40.0
+  min: 0.0
+  max: 100.0
+  group: Calibration
+  section: Matching
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 특징점 매칭에 사용할 참조 이미지 파일 경로를 지정합니다.
+  access_level: user
+- name: max_matching_points
+  label: 최대 매칭 점 개수
+  type: int
+  default: 1
+  min: 1
+  max: 10
+  group: Calibration
+  section: Matching
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 특징점을 매칭할 때 최대 매칭 점 개수를 지정합니다.
+  access_level: developer
+  visibility: hidden
+- name: input_pts
+  label: 입력 좌표 (4점)
+  type: list
+  default: [[150, 200], [300, 200], [300, 150], [150, 150]]
+  group: Calibration
+  section: Matrix
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 4개의 위치에서 추출된 좌표를 지정합니다. 형식은 [[x1, y1], [x2, y2], [x3, y3], [x4, y4]]입니다.
+  access_level: user
+- name: output_pts
+  label: 출력 좌표 (4점)
+  type: list
+  default: [[150, 200], [300, 200], [300, 150], [150, 150]]
+  group: Calibration
+  section: Matrix
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 캘리브레이션 목표 좌표를 지정합니다. 형식은 [[x1, y1], [x2, y2], [x3, y3], [x4, y4]]입니다.
+  access_level: user
+- name: matrix
+  label: 변환 행렬
+  type: list
+  default: &id002 [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
+  group: Calibration
+  section: Matrix
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 캘리브레이션 변환 행렬을 지정합니다. 형식은 3x3 행렬입니다.
+  access_level: developer
+- name: ref_image_path
+  label: 참조 이미지
+  type: path
+  default: ./images/ref_image.bmp
+  group: Inspection
+  section: Position
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 특징점 매칭에 사용할 참조 이미지 파일 경로를 지정합니다.
+  access_level: user
+- name: template_roi
+  label: 템플릿 ROI
+  type: roi
+  default: [100, 100, 200, 200]
+  group: Inspection
+  section: Position
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정합니다. 형식은 [x, y, width, height]입니다.
+  access_level: user
+- name: search_roi
+  label: 검색 ROI
+  type: roi
+  default: [0, 0, 400, 400]
+  group: Inspection
+  section: Position
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 매칭에 사용할 검색 영역(ROI)을 지정합니다. 형식은 [x, y, width, height]입니다.
+  access_level: user
+- name: match_method
+  label: 매칭 방법
+  type: choice
+  default: SIFT
+  options: [SIFT, ORB, AKAZE]
+  group: Inspection
+  section: Matching
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 특징점 매칭에서 매칭 점수의 임계값을 지정합니다. 이 값보다 높은 점수를 가진 매칭만 유효한 매칭으로 간주됩니다.
+  access_level: user
+- name: score_threshold
+  label: 매칭 점수 임계값
+  type: float
+  default: 0.7
+  min: 0.0
+  max: 1.0
+  group: Inspection
+  section: Matching
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 특징점 매칭에서 매칭 점수의 임계값을 지정합니다. 이 값보다 높은 점수를 가진 매칭만 유효한 매칭으로 간주됩니다.
+  access_level: user
+- name: point_distance_threshold
+  label: 특징점 거리 임계값
+  type: float
+  default: 40.0
+  min: 0.0
+  max: 100.0
+  group: Inspection
+  section: Matching
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 특징점 매칭에 사용할 참조 이미지 파일 경로를 지정합니다.
+  access_level: user
+- name: max_matching_points
+  label: 최대 매칭 점 개수
+  type: int
+  default: 1
+  min: 1
+  max: 10
+  group: Inspection
+  section: Matching
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 특징점을 매칭할 때 최대 매칭 점 개수를 지정합니다.
+  access_level: developer
+  visibility: hidden
+values:
+  COMMON:
+    PR_NZ_CENTER:
+      default:
+        default:
+          module_type: SCW_RIGHT
+      Calibration:
+        Position1:
+          ref_image_path: ./images/pos1.bmp
+          template_roi: [100, 100, 200, 200]
+          search_roi: [0, 0, 400, 400]
+          ref_position: [150, 150]
+        Position2:
+          ref_image_path: ./images/pos1.bmp
+          template_roi: [100, 100, 200, 200]
+          search_roi: [0, 0, 400, 400]
+          ref_position: [150, 150]
+        Position3:
+          ref_image_path: ./images/pos1.bmp
+          template_roi: [100, 100, 200, 200]
+          search_roi: [0, 0, 400, 400]
+          ref_position: [150, 150]
+        Position4:
+          ref_image_path: ./images/pos1.bmp
+          template_roi: [100, 100, 200, 200]
+          search_roi: [0, 0, 400, 400]
+          ref_position: [150, 150]
+        Matching:
+          match_method: SIFT
+          score_threshold: 0.7
+          point_distance_threshold: 40.0
+          max_matching_points: 1
+        Matrix:
+          input_pts: [[150, 200], [300, 200], [300, 150], [150, 150]]
+          output_pts: [[150, 200], [300, 200], [300, 150], [150, 150]]
+          matrix: *id001
+      Inspection:
+        Position:
+          ref_image_path: ./images/pos1.bmp
+          template_roi: [100, 100, 200, 200]
+          search_roi: [0, 0, 400, 400]
+        Matching:
+          match_method: SIFT
+          score_threshold: 0.7
+          point_distance_threshold: 40.0
+          max_matching_points: 1
+  SCW1-13:
+    PR_NZ_CENTER:
+      default:
+        default:
+          module_type: SCW_RIGHT
+      Calibration:
+        Position 1:
+          ref_image_path: ./images/pos1.bmp
+          template_roi: [100, 100, 200, 200]
+          search_roi: [0, 0, 400, 400]
+          ref_position: [150, 150]
+        Position 2:
+          ref_image_path: ./images/pos1.bmp
+          template_roi: [100, 100, 200, 200]
+          search_roi: [0, 0, 400, 400]
+          ref_position: [150, 150]
+        Position 3:
+          ref_image_path: ./images/pos1.bmp
+          template_roi: [100, 100, 200, 200]
+          search_roi: [0, 0, 400, 400]
+          ref_position: [150, 150]
+        Position 4:
+          ref_image_path: ./images/pos1.bmp
+          template_roi: [100, 100, 200, 200]
+          search_roi: [0, 0, 400, 400]
+          ref_position: [150, 150]
+        Matching:
+          match_method: SIFT
+          score_threshold: 0.7
+          point_distance_threshold: 40.0
+          max_matching_points: 1
+        Matrix:
+          input_pts: [[150, 200], [300, 200], [300, 150], [150, 150]]
+          output_pts: [[150, 200], [300, 200], [300, 150], [150, 150]]
+          matrix: *id002
+      Inspection:
+        Position:
+          ref_image_path: ./images/pos1.bmp
+          template_roi: [100, 100, 200, 200]
+          search_roi: [0, 0, 400, 400]
+        Matching:
+          match_method: SIFT
+          score_threshold: 0.7
+          point_distance_threshold: 40.0
+          max_matching_points: 1

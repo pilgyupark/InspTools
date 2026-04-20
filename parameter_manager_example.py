@@ -5,15 +5,17 @@ from typing import Optional
 
 from ParameManager import ParameterForm, ParameterManager, User, UserManager
 
-def main(current_user: User) -> None:
+def main() -> None:
+    current_user: Optional[User] = User()
+
+    root = tk.Tk()
+    root.title(f"파라미터 매니저 예제 - (권한: {current_user.access_level} - {current_user.full_name})")
+
     base_dir = pathlib.Path(__file__).resolve().parent
     schema_path = base_dir / "params_example.yaml"
     save_path = base_dir / "params_example_saved.yaml"
 
     manager = ParameterManager.load_yaml(str(schema_path))
-
-    root = tk.Tk()
-    root.title("파라미터 매니저 예제")
 
     form = ParameterForm(root, manager, current_user=current_user)
     form.pack(fill="x", padx=12, pady=12)
@@ -29,14 +31,7 @@ def main(current_user: User) -> None:
     save_button = tk.Button(button_frame, text="저장", command=on_apply)
     save_button.pack(side="right")
 
-    root.mainloop()
-
-
-if __name__ == "__main__":
-    def _show_login_dialog() -> User:
-        root = tk.Tk()
-        current_user: Optional[User] = None
-
+    def _show_login_dialog():
         """로그인 다이얼로그 표시"""
         login_window = tk.Toplevel(root)
         login_window.title("로그인")
@@ -56,11 +51,12 @@ if __name__ == "__main__":
         password_entry.pack(pady=5)
 
         def on_login() -> None:
+            nonlocal username_var, password_var, login_window
             username = username_var.get()
             password = password_var.get()
-            user_manager = UserManager.load_from_yaml("user_info.yaml")
+            user_manager = UserManager.load_or_create_from_yaml("user_info.yaml")
             if user_manager.authenticate(username, password):
-                current_user = user_manager.current_user
+                set_user(user_manager.current_user)
                 login_window.destroy()
             else:
                 from tkinter import messagebox
@@ -70,10 +66,21 @@ if __name__ == "__main__":
         login_button.pack(pady=10)
         
         login_window.transient(root)
-        login_window.grab_set()
+        login_window.grab_set() 
         root.wait_window(login_window)
-        return current_user
-    
-    current_user = _show_login_dialog()
-    main(current_user)
+
+    def set_user(user: User) -> None:
+        nonlocal current_user, root, form
+        current_user = user
+        form.update_user(current_user)
+        root.title(f"파라미터 매니저 예제 - (권한: {current_user.access_level} - {current_user.full_name})")
+
+    login_button = tk.Button(button_frame, text="로그인", command=_show_login_dialog)
+    login_button.pack(side="right")
+
+    root.mainloop()
+
+
+if __name__ == "__main__":
+    main()
     

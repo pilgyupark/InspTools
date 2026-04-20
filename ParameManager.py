@@ -45,14 +45,17 @@ class AccessLevel(Enum):
         except (ValueError, KeyError):
             return True
 
-
+#print("admin", hashlib.sha256("admin".encode()).hexdigest())
+#print("engineer1", hashlib.sha256("engineer1".encode()).hexdigest())
+#print("power_user1", hashlib.sha256("power_user1".encode()).hexdigest())
+#print("user1", hashlib.sha256("user1".encode()).hexdigest())
 @dataclass
 class User:
     """사용자 정보"""
-    username: str
-    password_hash: str
+    username: str = "user1"
+    password_hash: str = hashlib.sha256("user1".encode()).hexdigest()
     access_level: str = "user"
-    full_name: str = ""
+    full_name: str = "User1"
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> "User":
@@ -533,7 +536,6 @@ class ParameterForm:
         manager: ParameterManager,
         on_apply: Optional[callable] = None,
         use_hierarchy: bool = True,
-        require_login: bool = False,
         current_user: Optional["User"] = None,
     ) -> None:
         self.master = master
@@ -546,6 +548,32 @@ class ParameterForm:
         self.current_user = current_user
         
         self._build_form()
+
+    def update_user(self, user: User) -> None:
+        """사용자 정보 업데이트 및 접근 권한에 따른 UI 갱신"""
+        self.current_user = user
+        current_level = self._get_current_access_level()
+        
+        for unique_id, info in self.widgets_info.items():
+            param = self.manager.parameters.get(unique_id)
+            if not param:
+                continue
+            
+            has_access = current_level and current_level.has_access(param.access_level)
+            widget = info["widget"]
+            
+            if not has_access:
+                if isinstance(widget, ttk.Frame):
+                    for child in widget.winfo_children():
+                        child.config(state="disabled")
+                else:
+                    widget.config(state="readonly" if hasattr(widget, "state") else "disabled")
+            else:
+                if isinstance(widget, ttk.Frame):
+                    for child in widget.winfo_children():
+                        child.config(state="normal")
+                else:
+                    widget.config(state="normal")
 
     def _get_current_access_level(self) -> Optional[AccessLevel]:
         """현재 사용자의 접근 레벨 반환"""
@@ -861,7 +889,7 @@ if __name__ == "__main__":
         print("params_example.yaml 파일이 없습니다.")
     else:
         manager = ParameterManager.load_yaml(str(config_path))
-        form = ParameterForm(root, manager, use_hierarchy=True, require_login=False, current_user=current_user)
+        form = ParameterForm(root, manager, use_hierarchy=True, current_user=current_user)
         form.pack(fill="both", expand=True, padx=10, pady=10)
 
         button_frame = tk.Frame(root)

@@ -3,18 +3,18 @@
 #############################################
 users:
   - username: admin
-    password_hash: 0b3de8e34f335acb7344a2549224d3ac99c90f11363af7293e207ba85e5b24e1
+    password_hash: 8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
     access_level: developer
-    full_name: "관리자"
+    full_name: "Administrator"
   - username: engineer1
-    password_hash: 08f7e3d860b380a991ce0c1af8283c84db99e7eae2d1d65bdc6f38da0b90df8a
+    password_hash: b4b73d4bab61d1ffd4d3d2c38245f66d109dfc46920b7b047c0a0f448ac92d96
     access_level: engineer
-    full_name: "엔지니어1"
+    full_name: "Engineer1"
   - username: power_user1
-    password_hash: 55902f42b0e0b943f0d0b7c53a8b4b73e1f5a2e6b4c5d8f9a8e1f6g5h2i3j4k
+    password_hash: 052d9cabb0146dbf1c6b07142caab041cd04672ddf34d6ecc990f79710166a0b
     access_level: power_user
-    full_name: "파워유저1"
+    full_name: "Power_User1"
   - username: user1
-    password_hash: 4d967a2a964769644c18a7d30f91e882b8f1d08279e9dbee0d57727109c002f6
+    password_hash: 0a041b9462caa4a31bac3567e0b6e6fd9100787db2ab433d96f6d178cabfce90
     access_level: user
-    full_name: "일반사용자1"
+    full_name: "User1"

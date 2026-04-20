@@ -3,18 +3,19 @@ from tkinter import filedialog, messagebox, ttk
 from typing import Dict
 from pathlib import Path
 import yaml
-from ParameManager import ParameterForm, ParameterManager
+from ParameManager import ParameterForm, ParameterManager, User, UserManager
 
 class MainFrame:
         VERSION_INFO: str = "version 1.7.2"
         def __init__(self, root, require_login: bool = True):
             self.root = root
             self.require_login = require_login
-            
+            self.current_user = User()  # 기본 사용자 설정
+
             self._setup_ui()
             
         def _setup_ui(self):
-            self.root.title("VisInsp")
+            self.root.title(f"VisInsp - (권한: {self.current_user.access_level} - {self.current_user.full_name})")
             self.root.geometry("1200x750")
             self.root.configure(bg="#1f2330")
 
@@ -39,7 +40,7 @@ class MainFrame:
 
             # 상단 좌측 패널 - 이미지 캔버스
             frame_left = tk.Frame(pw_horizontal, bg="#1f2330", relief=tk.SUNKEN, bd=1)
-            pw_horizontal.add(frame_left, weight=2)
+            pw_horizontal.add(frame_left, weight=3)
             self.create_left_panel(frame_left)
 
             # 상단 우측 패널 - 탭 패널
@@ -60,13 +61,13 @@ class MainFrame:
             self.notebook.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
             
             # Setting 탭
-            setting_frame = SettingFrame(self.notebook)
-            self.notebook.add(setting_frame, text="Setting")
+            recipe_frame = RecipeFrame(self.notebook, current_user=self.current_user)
+            self.notebook.add(recipe_frame, text="Recipe")
             
             # Recipe 탭
-            recipe_frame = tk.Frame(self.notebook, bg="#1f2330")
-            self.notebook.add(recipe_frame, text="Recipe")
-            tk.Label(recipe_frame, text="Recipe Area", bg="#1f2330", fg="#d4d4d4").pack(padx=10, pady=10)
+            setting_frame = tk.Frame(self.notebook, bg="#1f2330")
+            self.notebook.add(setting_frame, text="Setting")
+            tk.Label(setting_frame, text="Setting Area", bg="#1f2330", fg="#d4d4d4").pack(padx=10, pady=10)
 
         # bottom frame 생성
         def create_bottom_frame(self, bottom_frame: tk.Frame):
@@ -103,11 +104,10 @@ class MainFrame:
             self.license_button.pack(side=tk.RIGHT, padx=5, pady=3)
             self.license_button.config(command=self.show_license_info)
             
-            if self.require_login:
-                self.login_button = tk.Button(bottom_frame, text="Log In", bg="#0a84ff", fg="#ffffff",
-                                            font=("Arial", 8), padx=5, pady=2, relief=tk.FLAT)
-                self.login_button.pack(side=tk.RIGHT, padx=5, pady=3)
-                self.login_button.config(command=self._show_login_dialog)
+            self.login_button = tk.Button(bottom_frame, text="Log In", bg="#0a84ff", fg="#ffffff",
+                                        font=("Arial", 8), padx=5, pady=2, relief=tk.FLAT)
+            self.login_button.pack(side=tk.RIGHT, padx=5, pady=3)
+            self.login_button.config(command=self._show_login_dialog)
 
         def _show_login_dialog(self) -> None:
             """로그인 다이얼로그 표시"""
@@ -124,16 +124,16 @@ class MainFrame:
             
             ttk.Label(login_window, text="비밀번호:").pack(pady=5)
             password_var = tk.StringVar()
-            password_var.set("ekffur")  # 기본값 설정 (선택 사항)
+            password_var.set("admin")  # 기본값 설정 (선택 사항)
             password_entry = ttk.Entry(login_window, textvariable=password_var, width=25, show="*")
             password_entry.pack(pady=5)
             
             def on_login() -> None:
                 username = username_var.get()
                 password = password_var.get()
-                if self.manager.user_manager.authenticate(username, password):
-                    user = self.manager.user_manager.current_user
-                    self.master.title(f"파라미터 매니저 - (권한: {user.access_level} - {user.full_name})")
+                user_manager = UserManager.load_or_create_from_yaml("user_info.yaml")
+                if user_manager.authenticate(username, password):
+                    self.update_user(user_manager.current_user)
                     login_window.destroy()
                 else:
                     from tkinter import messagebox
@@ -142,9 +142,13 @@ class MainFrame:
             login_button = ttk.Button(login_window, text="로그인", command=on_login)
             login_button.pack(pady=10)
             
-            login_window.transient(self.master)
+            login_window.transient(self.root)
             login_window.grab_set()
-            self.master.wait_window(login_window)
+            self.root.wait_window(login_window)
+        
+        def update_user(self, user: User) -> None:
+            self.current_user = user
+            self.root.title(f"VisInsp - (권한: {user.access_level} - {user.full_name})")
 
         def show_license_info(self):
             # 라이선스 정보 메시지 박스 표시
@@ -228,9 +232,10 @@ class ViewFrame(tk.Frame):
             self.cameras = {}
             messagebox.showerror("오류", f"카메라 정보를 불러오는 중 오류가 발생했습니다: {e}")
 
-class SettingFrame(tk.Frame):
-    def __init__(self, parent, yaml_path: str = "params_example.yaml"):
+class RecipeFrame(tk.Frame):
+    def __init__(self, parent, current_user: User, yaml_path: str = "params_example.yaml"):
         super().__init__(parent, bg="#1f2330")
+        self.current_user = current_user
         self.yaml_path = yaml_path
         self.manager = None
         self.form = None
@@ -238,7 +243,7 @@ class SettingFrame(tk.Frame):
         self._build_ui()
 
     def _build_ui(self):
-        header = tk.Label(self, text="Settings", bg="#1f2330", fg="#d4d4d4", font=("Arial", 12, "bold"))
+        header = tk.Label(self, text="Recipe", bg="#1f2330", fg="#d4d4d4", font=("Arial", 12, "bold"))
         header.pack(anchor=tk.W, padx=10, pady=(10, 5))
 
         content_frame = tk.Frame(self, bg="#1f2330")
@@ -247,7 +252,7 @@ class SettingFrame(tk.Frame):
         try:
             yaml_path = Path(__file__).resolve().parent / self.yaml_path
             self.manager = ParameterManager.load_yaml(str(yaml_path))
-            self.form = ParameterForm(content_frame, self.manager, require_login=False)
+            self.form = ParameterForm(content_frame, self.manager, current_user=self.current_user)
             self.form.pack(fill=tk.BOTH, expand=True)
         except Exception as e:
             error_label = tk.Label(content_frame, text=f"설정 파일을 불러오는 중 오류가 발생했습니다:\n{e}",
