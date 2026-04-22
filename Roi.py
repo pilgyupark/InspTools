@@ -270,7 +270,7 @@ class Roi:
         if self.mode != self.MODE_EDIT:
             return
 
-        item = self.canvas.find_closest(event.x, event.y)[0]
+        item = self.canvas.find_closest(self.canvas.canvasx(event.x), self.canvas.canvasy(event.y))[0]
         tags = self.canvas.gettags(item)
         for tag in tags:
             if tag in ["nw", "n", "ne", "w", "e", "sw", "s", "se"]:
@@ -327,45 +327,118 @@ class Roi:
             self.canvas.delete(handle)
 
 
+
 if __name__ == "__main__":
-    root = tk.Tk()
-    root.title("Tkinter ROI Class Example")
+    import os
+    from tkinter import filedialog
+    from PIL import Image, ImageTk
 
-    canvas_width = 800
-    canvas_height = 600
-    canvas = tk.Canvas(root, width=canvas_width, height=canvas_height, bg="#f5f5f0")
-    canvas.pack(fill=tk.BOTH, expand=True)
+    scale: float = 1.0
+    canvas: tk.Canvas = None
+    img: Image = None
+    my_roi: Roi = None
 
-    grid_size = 20
-    for x in range(0, canvas_width, grid_size):
-        canvas.create_line(x, 0, x, canvas_height, fill="#e0e0e0", dash=(1, 5))
-    for y in range(0, canvas_height, grid_size):
-        canvas.create_line(0, y, canvas_width, y, fill="#e0e0e0", dash=(1, 5))
+    def open_image_file() -> Image:
+        try:
+            file_path = filedialog.askopenfilename( title="Select a image file", initialdir=os.getcwd(), filetypes=[("Image files", "*.bmp *.jpg *.png")])
+            if file_path:
+                return Image.open(file_path)
+        except Exception as e:
+            print(e)
+        return None
+    
+    def zoom(factor):
+        global scale
+        if my_roi:
+            [x1, y1, x2, y2] = my_roi.get_coords()
+            rx1, ry1, rx2, ry2 = (x1 / scale), (y1 / scale), (x2 / scale), (y2 / scale)
+        scale = factor
+        if my_roi:
+            my_roi.update_geometry(rx1*scale, ry1*scale, rx2*scale, ry2*scale)
+        show_image()
 
-    my_roi = Roi(canvas, x1=200, y1=150, x2=600, y2=450, mode=Roi.MODE_VIEW)
-
-    label = tk.Label(root, text="VIEW 모드: 클릭/드래그 불가, EDIT 모드로 전환하세요.", pady=10)
-    label.pack()
-
-    def print_coords():
-        if my_roi and my_roi.mode != Roi.MODE_DELETE:
-            print(f"현재 ROI 좌표: {my_roi.get_coords()}")
+    def show_image():
+        global canvas, img, my_roi
+        # 현재 배율에 맞춰 이미지 리사이즈
+        print(canvas.xview(), canvas.yview())
+        if my_roi:
+            [x1, y1, x2, y2], mode = my_roi.get_coords(), my_roi.mode
         else:
-            print("ROI가 없습니다.")
+            x1, y1, x2, y2, mode = 200, 150, 600, 450, Roi.MODE_VIEW
 
-    def create_new_roi():
+        width = int(img.width * scale)
+        height = int(img.height * scale)
+        resized = img.resize((width, height), Image.NEAREST)
+
+        tk_img = ImageTk.PhotoImage(resized) # tk 이미지 객체로 변환
+        canvas.image = tk_img # GC 방지
+        canvas.delete("all") # 기존 모든 canvas Objects 제거
+        canvas.create_image(0, 0, image=tk_img, anchor="nw")
+        canvas.config(scrollregion=(0, 0, width, height))
+        print(canvas.xview(), canvas.yview())
+        
+        my_roi = Roi(canvas, x1=x1, y1=y1, x2=x2, y2=y2, mode=mode)
+
+    def update_roi():
         global my_roi
-        if my_roi and my_roi.mode != Roi.MODE_DELETE:
-            my_roi.set_mode(Roi.MODE_DELETE)
-        my_roi = Roi(canvas, 0, 0, 0, 0, mode=Roi.MODE_CREATE)
-        my_roi._create_callback = lambda roi: print(f"New ROI created at {roi.get_coords()}")
+        x1, y1, x2, y2 = my_roi.get_coords()
+        my_roi.update_geometry(x1, y1, x2, y2)
 
-    btn_frame = tk.Frame(root)
-    btn_frame.pack(pady=5)
-    tk.Button(btn_frame, text="View", command=lambda: my_roi.set_mode(Roi.MODE_VIEW) if my_roi and my_roi.mode != Roi.MODE_DELETE else None).pack(side=tk.LEFT, padx=2)
-    tk.Button(btn_frame, text="Edit", command=lambda: my_roi.set_mode(Roi.MODE_EDIT) if my_roi and my_roi.mode != Roi.MODE_DELETE else None).pack(side=tk.LEFT, padx=2)
-    tk.Button(btn_frame, text="Create", command=create_new_roi).pack(side=tk.LEFT, padx=2)
-    tk.Button(btn_frame, text="Delete", command=lambda: my_roi.set_mode(Roi.MODE_DELETE) if my_roi and my_roi.mode != Roi.MODE_DELETE else None).pack(side=tk.LEFT, padx=2)
-    tk.Button(btn_frame, text="좌표 출력", command=print_coords).pack(side=tk.LEFT, padx=2)
 
-    root.mainloop()
+    def main():
+        global img, canvas, my_roi
+        root = tk.Tk()
+        root.title("Tkinter ROI Class Example")
+
+        frame = tk.Frame(root)
+        frame.pack(fill=tk.BOTH, expand=True)
+
+        canvas_width = 800
+        canvas_height = 600
+        canvas = tk.Canvas(frame, width=canvas_width, height=canvas_height, bg="#1f1f1b")
+        hbar = tk.Scrollbar(frame, orient=tk.HORIZONTAL)
+        vbar = tk.Scrollbar(frame, orient=tk.VERTICAL)
+        hbar.pack(side=tk.BOTTOM, fill=tk.X)
+        vbar.pack(side=tk.RIGHT, fill=tk.Y)
+        canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+
+        hbar.config(command=canvas.xview)
+        vbar.config(command=canvas.yview)
+        canvas.config(yscrollcommand=vbar.set, xscrollcommand=hbar.set)
+
+        img = open_image_file()
+        if img is None:
+            root.destroy()
+        show_image()
+
+        label = tk.Label(root, text="VIEW 모드: 클릭/드래그 불가, EDIT 모드로 전환하세요.", pady=10)
+        label.pack()
+
+        def print_coords():
+            if my_roi and my_roi.mode != Roi.MODE_DELETE:
+                print(f"현재 ROI 좌표: {my_roi.get_coords()}")
+            else:
+                print("ROI가 없습니다.")
+
+        def create_new_roi():
+            global my_roi
+            if my_roi and my_roi.mode != Roi.MODE_DELETE:
+                my_roi.set_mode(Roi.MODE_DELETE)
+            my_roi = Roi(canvas, 0, 0, 0, 0, mode=Roi.MODE_CREATE)
+            my_roi._create_callback = lambda roi: print(f"New ROI created at {roi.get_coords()}")
+
+        btn_frame = tk.Frame(root)
+        btn_frame.pack(pady=5)
+
+        tk.Button(btn_frame, text="View", command=lambda: my_roi.set_mode(Roi.MODE_VIEW) if my_roi and my_roi.mode != Roi.MODE_DELETE else None).pack(side=tk.LEFT, padx=2)
+        tk.Button(btn_frame, text="Edit", command=lambda: my_roi.set_mode(Roi.MODE_EDIT) if my_roi and my_roi.mode != Roi.MODE_DELETE else None).pack(side=tk.LEFT, padx=2)
+        tk.Button(btn_frame, text="Create", command=create_new_roi).pack(side=tk.LEFT, padx=2)
+        tk.Button(btn_frame, text="Delete", command=lambda: my_roi.set_mode(Roi.MODE_DELETE) if my_roi and my_roi.mode != Roi.MODE_DELETE else None).pack(side=tk.LEFT, padx=2)
+        tk.Button(btn_frame, text="좌표 출력", command=print_coords).pack(side=tk.LEFT, padx=2)
+        tk.Button(btn_frame, text="+", command=lambda: zoom(min(scale / 0.8, 5.0))).pack(side=tk.LEFT, padx=2)
+        tk.Button(btn_frame, text="-", command=lambda: zoom(max(1.0, scale * 0.8))).pack(side=tk.LEFT, padx=2)
+        tk.Button(btn_frame, text="[]", command=lambda: zoom(1.0)).pack(side=tk.LEFT, padx=2)
+
+        root.mainloop()
+
+    main()
