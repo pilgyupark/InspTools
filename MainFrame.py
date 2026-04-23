@@ -1,9 +1,12 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
+from PIL import Image, ImageTk
 from typing import Dict
 from pathlib import Path
+import os
 import yaml
 from ParameManager import ParameterForm, ParameterManager, User, UserManager
+from Roi import Roi
 
 class MainFrame:
         VERSION_INFO: str = "version 1.7.2"
@@ -164,6 +167,10 @@ class ViewFrame(tk.Frame):
     def __init__(self, parent, cameras: Dict[str, str] = None):
         super().__init__(parent, bg="#1f2330")
         self.pack(fill=tk.BOTH, expand=True)
+        self.baseimg: Image = None
+        self.dispimg: Image = None
+        self.cur_roi: Roi = None
+        self.scale: float = 1.0
 
         if cameras is not None:
             self.cameras = cameras
@@ -175,23 +182,54 @@ class ViewFrame(tk.Frame):
         # 2. roi_btn_frame 안에 ROI 추가, ROI 삭제 버튼 생성
         # 3. 이미지 캔버스 생성
 
+        # 이미지 열기 및 저장
         top_frame = tk.Frame(self, bg="#1f2330")
         top_frame.pack(fill=tk.X, padx=5, pady=0)
-        open_button = tk.Button(top_frame, text="Open Image", bg="#0a84ff", fg="#ffffff", font=("Arial", 9), padx=5, pady=0)
+        open_button = tk.Button(top_frame, text="Open Image", command=self.on_open_image, bg="#0a84ff", fg="#ffffff", font=("Arial", 9), padx=5, pady=0)
         open_button.pack(side=tk.LEFT, padx=5)
-        save_button = tk.Button(top_frame, text="Save Image", bg="#0a84ff", fg="#ffffff", font=("Arial", 9), padx=5, pady=0)
+        save_button = tk.Button(top_frame, text="Save Image", command=self.on_save_image, bg="#0a84ff", fg="#ffffff", font=("Arial", 9), padx=5, pady=0)
         save_button.pack(side=tk.LEFT, padx=5)
+
+        # 카메라 선택 및 Live
         cameras_combo = ttk.Combobox(top_frame, values=list(self.cameras.keys()), state="readonly", font=("Arial", 9))
         cameras_combo.pack(side=tk.LEFT, padx=5)
         cameras_combo.current(0)
-        live_button = tk.Button(top_frame, text="Live", bg="#0a84ff", fg="#ffffff", font=("Arial", 9), padx=5, pady=0)
+        live_button = tk.Button(top_frame, command=self.on_live, text="Live", bg="#0a84ff", fg="#ffffff", font=("Arial", 9), padx=5, pady=0)
         live_button.pack(side=tk.LEFT, padx=5)
+
+        # 확대 축소 
+        zoom_in_button = tk.Button(top_frame, command=lambda: self.on_zoom(min(self.scale/0.8, 5.0)), text="+", bg="#0a84ff", fg="#ffffff", font=("Arial", 9), padx=5, pady=0)
+        zoom_in_button.pack(side=tk.LEFT, padx=5)
+        zoom_out_button = tk.Button(top_frame, command=lambda: self.on_zoom(max(0.1, self.scale*0.8)), text="-", bg="#0a84ff", fg="#ffffff", font=("Arial", 9), padx=5, pady=0)
+        zoom_out_button.pack(side=tk.LEFT, padx=5)
+        zoom_reset_button = tk.Button(top_frame, command=self.on_reset_zoom, text="ㅁ", bg="#0a84ff", fg="#ffffff", font=("Arial", 9), padx=5, pady=0)
+        zoom_reset_button.pack(side=tk.LEFT, padx=5)
+
+        # ROI 버튼
         roi_btn_frame = tk.Frame(top_frame, bg="#1f2330")
         roi_btn_frame.pack(side=tk.LEFT, padx=20)
         self.create_roi_buttons(roi_btn_frame)
 
-        self.canvas = tk.Canvas(self, bg="#000000")
-        self.canvas.pack(fill=tk.BOTH, expand=True, padx=0, pady=0)
+        # 캔버스 및 스크롤
+        scroll_frame = tk.Frame(self, bg="#1f2330")
+        scroll_frame.pack(fill=tk.BOTH, expand=True, padx=0, pady=0)
+
+        self.canvas = tk.Canvas(scroll_frame, bg="#000000")
+        hbar = tk.Scrollbar(scroll_frame, orient=tk.HORIZONTAL)
+        vbar = tk.Scrollbar(scroll_frame, orient=tk.VERTICAL)
+        hbar.pack(side=tk.BOTTOM, fill=tk.X)
+        vbar.pack(side=tk.RIGHT, fill=tk.Y)
+        self.canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+
+        hbar.config(command=self.canvas.xview)
+        vbar.config(command=self.canvas.yview)
+        self.canvas.config(yscrollcommand=vbar.set, xscrollcommand=hbar.set)
+        
+        # 이벤트 바인딩
+        self.canvas.bind("<MouseWheel>", self.on_mouse_wheel)       # Windows
+        self.canvas.bind("<Button-4>", self.on_mouse_wheel)         # Linux (스크롤 업)
+        self.canvas.bind("<Button-5>", self.on_mouse_wheel)         # Linux (스크롤 다운)
+        self.bind("<Configure>", self.on_resize)  # 창 크기 변경 감지
 
     def create_roi_buttons(self, frame: tk.Frame):
         # 1. top frame 생성, 그 안에 size, ↑, move 버튼 생성
@@ -231,6 +269,94 @@ class ViewFrame(tk.Frame):
         except Exception as e:
             self.cameras = {}
             messagebox.showerror("오류", f"카메라 정보를 불러오는 중 오류가 발생했습니다: {e}")
+    
+    def on_open_image(self):
+        try:
+            file_path = filedialog.askopenfilename( title="Select a image file", initialdir=os.getcwd(), filetypes=[("Image files", "*.bmp *.jpg *.png")])
+            if file_path:
+                img = Image.open(file_path)
+                self.baseimg = img
+                self.update_canvas()
+        except Exception as e:
+            messagebox.showerror("오류", f"이미지 열기 중 오류 발생:\n{e}")
+    
+    def on_save_image(self):
+        try:
+            file_path = filedialog.asksaveasfilename(title="이미지 저장", defaultextension=".jpg", filetypes=[("JPEG 파일", "*.jpg;*.jpeg"), ("BMP 파일", "*.bmp"), ("PNG 파일", "*.png")],)
+            if file_path:
+                self.baseimg.save(file_path)
+                messagebox.showinfo("저장 완료", f"이미지가 저장되었습니다:\n{os.path.basename(file_path)}")
+        except Exception as e:
+            messagebox.showerror("오류", f"이미지 저장 중 오류 발생:\n{e}")
+
+    def on_live(self):
+        if self.islive: # Live 종료
+            self.islive = False
+        else: # Live 시작
+            self.islive = True
+            # Timmer 이벤트 시작
+
+    def on_mouse_wheel(self, event):
+        # 마우스 휠로 확대/축소
+        if event.num == 4 or event.delta > 0:
+            self.on_zoom(min(self.scale/0.8, 5.0))
+        elif event.num == 5 or event.delta < 0:
+            self.on_zoom(max(0.1, self.scale*0.8))
+
+    def on_resize(self, event):
+        if self.baseimg is None:
+            return
+        if event.widget == self:
+            # new scal 계산
+            ch, cw = event.height, event.width
+            ih, iw = self.baseimg.height, self.baseimg.width
+            new_scale = min(ch/ih, cw/iw)
+
+            if self.cur_roi:
+                self.cur_roi.update_scale(self.scale, new_scale)
+            self.scale = new_scale
+            self.update_canvas()
+
+    def on_zoom(self, new_scale:float):
+        if self.baseimg is None:
+            return
+        if self.cur_roi:
+            self.cur_roi.update_scale(self.scale, new_scale)
+        self.scale = new_scale
+        self.update_canvas()
+
+    def on_reset_zoom(self):
+        if self.baseimg is None:
+            return
+        # new scal 계산
+        ch, cw = self.canvas.winfo_height(), self.canvas.winfo_width()
+        ih, iw = self.baseimg.height, self.baseimg.width
+        new_scale = min(ch/ih, cw/iw)
+
+        if self.cur_roi:
+            self.cur_roi.update_scale(self.scale, new_scale)
+        self.scale = new_scale
+        self.update_canvas()
+
+    def update_canvas(self):
+        if self.baseimg is None:
+            return
+        
+        # 현재 배율에 맞춰 이미지 리사이즈
+        width = int(self.baseimg.width * self.scale)
+        height = int(self.baseimg.height * self.scale)
+        self.dispimg = self.baseimg.resize((width, height), Image.NEAREST)
+
+        tk_img = ImageTk.PhotoImage(self.dispimg) # tk 이미지 객체로 변환
+        self.canvas.image = tk_img # GC 방지
+
+        self.canvas.delete("all") # 기존 모든 canvas Objects 제거
+        self.canvas.create_image(0, 0, image=tk_img, anchor="nw")
+        if self.cur_roi:
+            x1, y1, x2, y2 = self.cur_roi.get_coords()
+            self.cur_roi = Roi(self.canvas, x1, y1, x2, y2, mode=self.cur_roi.mode)
+
+        self.canvas.config(scrollregion=(0, 0, width, height))
 
 class RecipeFrame(tk.Frame):
     def __init__(self, parent, current_user: User, yaml_path: str = "params_example.yaml"):

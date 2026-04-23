@@ -665,7 +665,7 @@ values:
           module_type: SCW_RIGHT
       Calibration:
         Position1:
-          ref_image_path: ./images/pos1.bmp
+          ref_image_path: C:/Users/admin/Pictures/$IMG_0803_1428534999762.jpg
           template_roi: [100, 100, 200, 200]
           search_roi: [0, 0, 400, 400]
           ref_position: [150, 150]

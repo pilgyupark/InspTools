@@ -8,25 +8,12 @@ class Roi:
     MODE_DELETE = "delete"
     VALID_MODES = {MODE_VIEW, MODE_EDIT, MODE_CREATE, MODE_DELETE}
 
-    def __init__(
-        self,
-        canvas: tk.Canvas,
-        x1,
-        y1,
-        x2,
-        y2,
-        *,
-        min_size=20,
-        cross_size = 6,
-        handle_radius=4,
-        width=1,
-        dash=(2, 2),
-        rect_color="goldenrod",
-        cross_color="hotpink",
-        handle_color="#00ff00",
-        mode=MODE_VIEW,
-    ):
+    def __init__(self, canvas: tk.Canvas, x1, y1, x2, y2, *, mode=MODE_VIEW,
+                 min_size=20, cross_size = 6, handle_radius=4, width=1, dash=(2, 2),
+                 rect_color="goldenrod", cross_color="hotpink", handle_color="#00ff00",):
+        
         self.canvas = canvas
+        self.coords = [x1, y1, x2, y2]
 
         # 기본 설정 값
         self.min_size = min_size
@@ -34,7 +21,7 @@ class Roi:
         self.handle_radius = handle_radius
         self.width = width
         self.dash = dash
-        self.rect_color = rect_color
+        self.canvas_rect_color = rect_color
         self.cross_color = cross_color
         self.handle_color = handle_color
 
@@ -46,47 +33,16 @@ class Roi:
         self._is_creating = False
 
         # ROI 개체 생성
-        self.rect = self.canvas.create_rectangle(
-            x1,
-            y1,
-            x2,
-            y2,
-            outline=self.rect_color,
-            width=self.width,
-            dash=self.dash,
-            tags=("roi_bound", "roi"),
-        )
+        self.canvas_rect = self.canvas.create_rectangle(0, 0, 0, 0, outline=self.canvas_rect_color, width=self.width, dash=self.dash, tags=("roi_bound", "roi"))
 
-        self.cross_h = self.canvas.create_line(
-            0, 0, 0, 0, fill=self.cross_color, width=self.width, tags=("roi_core", "roi")
-        )
-        self.cross_v = self.canvas.create_line(
-            0, 0, 0, 0, fill=self.cross_color, width=self.width, tags=("roi_core", "roi")
-        )
+        self.canvas_cross_h = self.canvas.create_line( 0, 0, 0, 0, fill=self.cross_color, width=self.width, tags=("roi_core", "roi"))
+        self.canvas_cross_v = self.canvas.create_line( 0, 0, 0, 0, fill=self.cross_color, width=self.width, tags=("roi_core", "roi"))
 
-        self.handles = []
-        handle_tags = [
-            "nw",
-            "n",
-            "ne",
-            "w",
-            "e",
-            "sw",
-            "s",
-            "se",
-        ]
+        self.canvas_handles = []
+        handle_tags = ["nw", "n", "ne", "w", "e", "sw", "s", "se",]
         for tag in handle_tags:
-            handle = self.canvas.create_oval(
-                0,
-                0,
-                0,
-                0,
-                fill=self.handle_color,
-                outline="black",
-                width=self.width,
-                tags=("roi_handle", tag, "roi"),
-            )
-            self.handles.append(handle)
+            handle = self.canvas.create_oval(0, 0, 0, 0, fill=self.handle_color, outline="black", width=self.width, tags=("roi_handle", tag, "roi"))
+            self.canvas_handles.append(handle)
 
         self.update_geometry(x1, y1, x2, y2)
         self._bind_interaction_handlers()
@@ -110,16 +66,8 @@ class Roi:
         self.canvas.tag_bind("roi_handle", "<B1-Motion>", self.on_handle_drag)
         self.canvas.tag_bind("roi_handle", "<ButtonRelease-1>", self.on_release)
 
-        cursors = {
-            "nw": "top_left_corner",
-            "n": "top_side",
-            "ne": "top_right_corner",
-            "w": "left_side",
-            "e": "right_side",
-            "sw": "bottom_left_corner",
-            "s": "bottom_side",
-            "se": "bottom_right_corner",
-        }
+        cursors = { "nw": "top_left_corner", "n": "top_side", "ne": "top_right_corner", "w": "left_side",
+                   "e": "right_side", "sw": "bottom_left_corner", "s": "bottom_side", "se": "bottom_right_corner", }
         for tag, cursor in cursors.items():
             self.canvas.tag_bind(tag, "<Enter>", lambda e, c=cursor: self.canvas.config(cursor=c))
 
@@ -129,25 +77,26 @@ class Roi:
         self.canvas.bind("<ButtonRelease-1>", self._on_canvas_release, add="+")
 
     def get_coords(self):
-        return self.canvas.coords(self.rect)
+        return self.coords
+    
+    def update_scale(self, old_scale, new_scale):
+        x1, y1, x2, y2 = (self.coords[0] / old_scale), (self.coords[1] / old_scale), (self.coords[2] / old_scale), (self.coords[3] / old_scale)
+        self.update_geometry(x1*new_scale, y1*new_scale, x2*new_scale, y2*new_scale)
 
     def update_geometry(self, x1, y1, x2, y2):
-        self.canvas.coords(self.rect, x1, y1, x2, y2)
+        self.coords = [x1, y1, x2, y2]
+        self.canvas.coords(self.canvas_rect, x1, y1, x2, y2)
 
         cx = (x1 + x2) / 2
         cy = (y1 + y2) / 2
         r = self.handle_radius
 
-        self.canvas.coords(self.cross_h, cx - self.cross_size, cy, cx + self.cross_size, cy)
-        self.canvas.coords(self.cross_v, cx, cy - self.cross_size, cx, cy + self.cross_size)
+        self.canvas.coords(self.canvas_cross_h, cx - self.cross_size, cy, cx + self.cross_size, cy)
+        self.canvas.coords(self.canvas_cross_v, cx, cy - self.cross_size, cx, cy + self.cross_size)
         
         # 3. 8개 핸들(현광 녹색 원) 위치 업데이트
-        positions = [
-            (x1, y1), (cx, y1), (x2, y1), # Top row
-            (x1, cy),           (x2, cy), # Middle row
-            (x1, y2), (cx, y2), (x2, y2)  # Bottom row
-        ]
-        for handle, (hx, hy) in zip(self.handles, positions):
+        positions = [ (x1, y1), (cx, y1), (x2, y1), (x1, cy), (x2, cy), (x1, y2), (cx, y2), (x2, y2) ]
+        for handle, (hx, hy) in zip(self.canvas_handles, positions):
             self.canvas.coords(handle, hx - r, hy - r, hx + r, hy + r)
 
     def set_mode(self, mode, *, suppress_callback=False):
@@ -170,38 +119,38 @@ class Roi:
         elif mode == self.MODE_EDIT:
             self._show_edit_handles(True)
             self._show_cross(True)
-            self._set_style(outline=self.rect_color, dash=self.dash)
+            self._set_style(outline=self.canvas_rect_color, dash=self.dash)
         elif mode == self.MODE_VIEW:
             self._show_edit_handles(False)
             self._show_cross(True)
-            self._set_style(outline=self.rect_color, dash=self.dash)
+            self._set_style(outline=self.canvas_rect_color, dash=self.dash)
 
         if not suppress_callback and mode == self.MODE_CREATE and self._create_callback:
             self._create_callback(self)
 
     def _set_active_state(self, mode):
         state = "normal" if mode != self.MODE_DELETE else "hidden"
-        self.canvas.itemconfigure(self.rect, state=state)
-        self.canvas.itemconfigure(self.cross_h, state=state)
-        self.canvas.itemconfigure(self.cross_v, state=state)
-        for handle in self.handles:
+        self.canvas.itemconfigure(self.canvas_rect, state=state)
+        self.canvas.itemconfigure(self.canvas_cross_h, state=state)
+        self.canvas.itemconfigure(self.canvas_cross_v, state=state)
+        for handle in self.canvas_handles:
             self.canvas.itemconfigure(handle, state=state)
 
     def _set_style(self, *, outline=None, dash=None):
         if outline is not None:
-            self.canvas.itemconfigure(self.rect, outline=outline)
+            self.canvas.itemconfigure(self.canvas_rect, outline=outline)
         if dash is not None:
-            self.canvas.itemconfigure(self.rect, dash=dash)
+            self.canvas.itemconfigure(self.canvas_rect, dash=dash)
 
     def _show_edit_handles(self, visible):
         state = "normal" if visible else "hidden"
-        for handle in self.handles:
+        for handle in self.canvas_handles:
             self.canvas.itemconfigure(handle, state=state)
 
     def _show_cross(self, visible):
         state = "normal" if visible else "hidden"
-        self.canvas.itemconfigure(self.cross_h, state=state)
-        self.canvas.itemconfigure(self.cross_v, state=state)
+        self.canvas.itemconfigure(self.canvas_cross_h, state=state)
+        self.canvas.itemconfigure(self.canvas_cross_v, state=state)
 
     def _prepare_for_creation(self):
         self._show_edit_handles(False)
@@ -311,19 +260,12 @@ class Roi:
         self.selected_handle = None
         self.canvas.config(cursor="")
 
-    def start_creation(self, on_complete=None):
-        """새로운 ROI 생성을 시작합니다. 기존 ROI는 삭제됩니다."""
-        if self.mode != self.MODE_DELETE:
-            self.delete()
-        # 새로운 ROI 생성은 외부에서 호출해야 합니다.
-        raise NotImplementedError("Use create_new_roi function instead")
-
     def delete(self):
         self.mode = self.MODE_DELETE
-        self.canvas.delete(self.rect)
-        self.canvas.delete(self.cross_h)
-        self.canvas.delete(self.cross_v)
-        for handle in self.handles:
+        self.canvas.delete(self.canvas_rect)
+        self.canvas.delete(self.canvas_cross_h)
+        self.canvas.delete(self.canvas_cross_v)
+        for handle in self.canvas_handles:
             self.canvas.delete(handle)
 
 
@@ -347,43 +289,30 @@ if __name__ == "__main__":
             print(e)
         return None
     
-    def zoom(factor):
+    def zoom(new_scale):
         global scale
         if my_roi:
-            [x1, y1, x2, y2] = my_roi.get_coords()
-            rx1, ry1, rx2, ry2 = (x1 / scale), (y1 / scale), (x2 / scale), (y2 / scale)
-        scale = factor
-        if my_roi:
-            my_roi.update_geometry(rx1*scale, ry1*scale, rx2*scale, ry2*scale)
+            my_roi.update_scale(scale, new_scale)
+        scale = new_scale
         show_image()
 
     def show_image():
         global canvas, img, my_roi
         # 현재 배율에 맞춰 이미지 리사이즈
-        print(canvas.xview(), canvas.yview())
-        if my_roi:
-            [x1, y1, x2, y2], mode = my_roi.get_coords(), my_roi.mode
-        else:
-            x1, y1, x2, y2, mode = 200, 150, 600, 450, Roi.MODE_VIEW
-
         width = int(img.width * scale)
         height = int(img.height * scale)
         resized = img.resize((width, height), Image.NEAREST)
 
         tk_img = ImageTk.PhotoImage(resized) # tk 이미지 객체로 변환
         canvas.image = tk_img # GC 방지
+
         canvas.delete("all") # 기존 모든 canvas Objects 제거
         canvas.create_image(0, 0, image=tk_img, anchor="nw")
+        if my_roi:
+            x1, y1, x2, y2 = my_roi.get_coords()
+            my_roi = Roi(canvas, x1, y1, x2, y2, mode=my_roi.mode)
+
         canvas.config(scrollregion=(0, 0, width, height))
-        print(canvas.xview(), canvas.yview())
-        
-        my_roi = Roi(canvas, x1=x1, y1=y1, x2=x2, y2=y2, mode=mode)
-
-    def update_roi():
-        global my_roi
-        x1, y1, x2, y2 = my_roi.get_coords()
-        my_roi.update_geometry(x1, y1, x2, y2)
-
 
     def main():
         global img, canvas, my_roi
