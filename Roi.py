@@ -2,13 +2,14 @@ import tkinter as tk
 
 
 class Roi:
+    MODE_IDLE = "idle"
     MODE_VIEW = "view"
     MODE_EDIT = "edit"
     MODE_CREATE = "create"
     MODE_DELETE = "delete"
-    VALID_MODES = {MODE_VIEW, MODE_EDIT, MODE_CREATE, MODE_DELETE}
+    VALID_MODES = {MODE_IDLE, MODE_VIEW, MODE_EDIT, MODE_CREATE, MODE_DELETE}
 
-    def __init__(self, canvas: tk.Canvas, x1, y1, x2, y2, *, mode=MODE_VIEW,
+    def __init__(self, canvas: tk.Canvas, x1, y1, x2, y2, *, mode=MODE_IDLE,
                  min_size=20, cross_size = 6, handle_radius=4, width=1, dash=(2, 2),
                  rect_color="goldenrod", cross_color="hotpink", handle_color="#00ff00",):
         
@@ -129,7 +130,7 @@ class Roi:
             self._create_callback(self)
 
     def _set_active_state(self, mode):
-        state = "normal" if mode != self.MODE_DELETE else "hidden"
+        state = "normal" if (mode != self.MODE_DELETE) and (mode != self.MODE_IDLE) else "hidden"
         self.canvas.itemconfigure(self.canvas_rect, state=state)
         self.canvas.itemconfigure(self.canvas_cross_h, state=state)
         self.canvas.itemconfigure(self.canvas_cross_v, state=state)
@@ -272,7 +273,7 @@ class Roi:
 
 if __name__ == "__main__":
     import os
-    from tkinter import filedialog
+    from tkinter import ttk, filedialog
     from PIL import Image, ImageTk
 
     scale: float = 1.0
@@ -319,14 +320,14 @@ if __name__ == "__main__":
         root = tk.Tk()
         root.title("Tkinter ROI Class Example")
 
-        frame = tk.Frame(root)
+        frame = ttk.Frame(root)
         frame.pack(fill=tk.BOTH, expand=True)
 
         canvas_width = 800
         canvas_height = 600
         canvas = tk.Canvas(frame, width=canvas_width, height=canvas_height, bg="#1f1f1b")
-        hbar = tk.Scrollbar(frame, orient=tk.HORIZONTAL)
-        vbar = tk.Scrollbar(frame, orient=tk.VERTICAL)
+        hbar = ttk.Scrollbar(frame, orient=tk.HORIZONTAL)
+        vbar = ttk.Scrollbar(frame, orient=tk.VERTICAL)
         hbar.pack(side=tk.BOTTOM, fill=tk.X)
         vbar.pack(side=tk.RIGHT, fill=tk.Y)
         canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
@@ -340,7 +341,7 @@ if __name__ == "__main__":
             root.destroy()
         show_image()
 
-        label = tk.Label(root, text="VIEW 모드: 클릭/드래그 불가, EDIT 모드로 전환하세요.", pady=10)
+        label = ttk.Label(root, text="VIEW 모드: 클릭/드래그 불가, EDIT 모드로 전환하세요.", pady=10)
         label.pack()
 
         def print_coords():
@@ -356,17 +357,17 @@ if __name__ == "__main__":
             my_roi = Roi(canvas, 0, 0, 0, 0, mode=Roi.MODE_CREATE)
             my_roi._create_callback = lambda roi: print(f"New ROI created at {roi.get_coords()}")
 
-        btn_frame = tk.Frame(root)
+        btn_frame = ttk.Frame(root)
         btn_frame.pack(pady=5)
 
-        tk.Button(btn_frame, text="View", command=lambda: my_roi.set_mode(Roi.MODE_VIEW) if my_roi and my_roi.mode != Roi.MODE_DELETE else None).pack(side=tk.LEFT, padx=2)
-        tk.Button(btn_frame, text="Edit", command=lambda: my_roi.set_mode(Roi.MODE_EDIT) if my_roi and my_roi.mode != Roi.MODE_DELETE else None).pack(side=tk.LEFT, padx=2)
-        tk.Button(btn_frame, text="Create", command=create_new_roi).pack(side=tk.LEFT, padx=2)
-        tk.Button(btn_frame, text="Delete", command=lambda: my_roi.set_mode(Roi.MODE_DELETE) if my_roi and my_roi.mode != Roi.MODE_DELETE else None).pack(side=tk.LEFT, padx=2)
-        tk.Button(btn_frame, text="좌표 출력", command=print_coords).pack(side=tk.LEFT, padx=2)
-        tk.Button(btn_frame, text="+", command=lambda: zoom(min(scale / 0.8, 5.0))).pack(side=tk.LEFT, padx=2)
-        tk.Button(btn_frame, text="-", command=lambda: zoom(max(1.0, scale * 0.8))).pack(side=tk.LEFT, padx=2)
-        tk.Button(btn_frame, text="[]", command=lambda: zoom(1.0)).pack(side=tk.LEFT, padx=2)
+        ttk.Button(btn_frame, text="View", command=lambda: my_roi.set_mode(Roi.MODE_VIEW) if my_roi and my_roi.mode != Roi.MODE_DELETE else None).pack(side=tk.LEFT, padx=2)
+        ttk.Button(btn_frame, text="Edit", command=lambda: my_roi.set_mode(Roi.MODE_EDIT) if my_roi and my_roi.mode != Roi.MODE_DELETE else None).pack(side=tk.LEFT, padx=2)
+        ttk.Button(btn_frame, text="Create", command=create_new_roi).pack(side=tk.LEFT, padx=2)
+        ttk.Button(btn_frame, text="Delete", command=lambda: my_roi.set_mode(Roi.MODE_DELETE) if my_roi and my_roi.mode != Roi.MODE_DELETE else None).pack(side=tk.LEFT, padx=2)
+        ttk.Button(btn_frame, text="좌표 출력", command=print_coords).pack(side=tk.LEFT, padx=2)
+        ttk.Button(btn_frame, text="+", command=lambda: zoom(min(scale / 0.8, 5.0))).pack(side=tk.LEFT, padx=2)
+        ttk.Button(btn_frame, text="-", command=lambda: zoom(max(1.0, scale * 0.8))).pack(side=tk.LEFT, padx=2)
+        ttk.Button(btn_frame, text="[]", command=lambda: zoom(1.0)).pack(side=tk.LEFT, padx=2)
 
         root.mainloop()
 

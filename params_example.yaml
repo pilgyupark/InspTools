@@ -2,7 +2,7 @@ parameters:
 - name: module_type
   label: 모듈 유형
   type: choice
-  default: SCW_RIGHT
+  value: SCW_RIGHT
   options: [SCW_RIGHT, SCW_LEFT, PTD_RIGHT]
   feature: PR_NZ_CENTER
   module: COMMON
@@ -10,8 +10,8 @@ parameters:
   access_level: engineer
 - name: ref_image_path
   label: 참조 이미지
-  type: path
-  default: ./images/pos1.bmp
+  type: img_path
+  value: ./images/pos1.bmp
   options: ['*.jpg', '*.png', '*.bmp', '*.*']
   group: Calibration
   section: Position1
@@ -22,7 +22,7 @@ parameters:
 - name: template_roi
   label: 템플릿 ROI
   type: roi
-  default: [100, 100, 200, 200]
+  value: [100, 100, 200, 200]
   group: Calibration
   section: Position1
   feature: PR_NZ_CENTER
@@ -32,7 +32,7 @@ parameters:
 - name: search_roi
   label: 검색 ROI
   type: roi
-  default: [0, 0, 400, 400]
+  value: [0, 0, 400, 400]
   group: Calibration
   section: Position1
   feature: PR_NZ_CENTER
@@ -42,7 +42,7 @@ parameters:
 - name: ref_position
   label: 참조 위치
   type: point
-  default: [150, 150]
+  value: [150, 150]
   group: Calibration
   section: Position1
   feature: PR_NZ_CENTER
@@ -51,8 +51,8 @@ parameters:
   access_level: user
 - name: ref_image_path
   label: 참조 이미지
-  type: path
-  default: ./images/pos2.bmp
+  type: img_path
+  value: ./images/pos2.bmp
   options: ['*.jpg', '*.png', '*.bmp', '*.*']
   group: Calibration
   section: Position2
@@ -63,7 +63,7 @@ parameters:
 - name: template_roi
   label: 템플릿 ROI
   type: roi
-  default: [100, 100, 200, 200]
+  value: [100, 100, 200, 200]
   group: Calibration
   section: Position2
   feature: PR_NZ_CENTER
@@ -73,7 +73,7 @@ parameters:
 - name: search_roi
   label: 검색 ROI
   type: roi
-  default: [0, 0, 400, 400]
+  value: [0, 0, 400, 400]
   group: Calibration
   section: Position2
   feature: PR_NZ_CENTER
@@ -83,7 +83,7 @@ parameters:
 - name: ref_position
   label: 참조 위치
   type: point
-  default: [150, 150]
+  value: [150, 150]
   group: Calibration
   section: Position2
   feature: PR_NZ_CENTER
@@ -92,8 +92,8 @@ parameters:
   access_level: user
 - name: ref_image_path
   label: 참조 이미지
-  type: path
-  default: ./images/pos3.bmp
+  type: img_path
+  value: ./images/pos3.bmp
   options: ['*.jpg', '*.png', '*.bmp', '*.*']
   group: Calibration
   section: Position3
@@ -104,7 +104,7 @@ parameters:
 - name: template_roi
   label: 템플릿 ROI
   type: roi
-  default: [100, 100, 200, 200]
+  value: [100, 100, 200, 200]
   group: Calibration
   section: Position3
   feature: PR_NZ_CENTER
@@ -114,7 +114,7 @@ parameters:
 - name: search_roi
   label: 검색 ROI
   type: roi
-  default: [0, 0, 400, 400]
+  value: [0, 0, 400, 400]
   group: Calibration
   section: Position3
   feature: PR_NZ_CENTER
@@ -124,7 +124,7 @@ parameters:
 - name: ref_position
   label: 참조 위치
   type: point
-  default: [150, 150]
+  value: [150, 150]
   group: Calibration
   section: Position3
   feature: PR_NZ_CENTER
@@ -133,8 +133,8 @@ parameters:
   access_level: user
 - name: ref_image_path
   label: 참조 이미지
-  type: path
-  default: ./images/pos4.bmp
+  type: img_path
+  value: ./images/pos4.bmp
   options: ['*.jpg', '*.png', '*.bmp', '*.*']
   group: Calibration
   section: Position4
@@ -145,7 +145,7 @@ parameters:
 - name: template_roi
   label: 템플릿 ROI
   type: roi
-  default: [100, 100, 200, 200]
+  value: [100, 100, 200, 200]
   group: Calibration
   section: Position4
   feature: PR_NZ_CENTER
@@ -155,7 +155,7 @@ parameters:
 - name: search_roi
   label: 검색 ROI
   type: roi
-  default: [0, 0, 400, 400]
+  value: [0, 0, 400, 400]
   group: Calibration
   section: Position4
   feature: PR_NZ_CENTER
@@ -165,7 +165,7 @@ parameters:
 - name: ref_position
   label: 참조 위치
   type: point
-  default: [150, 150]
+  value: [150, 150]
   group: Calibration
   section: Position4
   feature: PR_NZ_CENTER
@@ -175,7 +175,7 @@ parameters:
 - name: match_method
   label: 매칭 방법
   type: choice
-  default: SIFT
+  value: SIFT
   options: [SIFT, ORB, AKAZE]
   group: Calibration
   section: Matching
@@ -186,7 +186,7 @@ parameters:
 - name: score_threshold
   label: 매칭 점수 임계값
   type: float
-  default: 0.7
+  value: 0.7
   min: 0.0
   max: 1.0
   group: Calibration
@@ -198,7 +198,7 @@ parameters:
 - name: point_distance_threshold
   label: 특징점 거리 임계값
   type: float
-  default: 40.0
+  value: 40.0
   min: 0.0
   max: 100.0
   group: Calibration
@@ -210,7 +210,7 @@ parameters:
 - name: max_matching_points
   label: 최대 매칭 점 개수
   type: int
-  default: 1
+  value: 1
   min: 1
   max: 10
   group: Calibration
@@ -223,7 +223,7 @@ parameters:
 - name: input_pts
   label: 입력 좌표 (4점)
   type: list
-  default: [[150, 200], [300, 200], [300, 150], [150, 150]]
+  value: [[150, 200], [300, 200], [300, 150], [150, 150]]
   group: Calibration
   section: Matrix
   feature: PR_NZ_CENTER
@@ -233,7 +233,7 @@ parameters:
 - name: output_pts
   label: 출력 좌표 (4점)
   type: list
-  default: [[150, 200], [300, 200], [300, 150], [150, 150]]
+  value: [[150, 200], [300, 200], [300, 150], [150, 150]]
   group: Calibration
   section: Matrix
   feature: PR_NZ_CENTER
@@ -243,7 +243,7 @@ parameters:
 - name: matrix
   label: 변환 행렬
   type: list
-  default: &id001 [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
+  value: &id001 [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
   group: Calibration
   section: Matrix
   feature: PR_NZ_CENTER
@@ -252,8 +252,8 @@ parameters:
   access_level: developer
 - name: ref_image_path
   label: 참조 이미지
-  type: path
-  default: ./images/ref_image.bmp
+  type: img_path
+  value: ./images/ref_image.bmp
   group: Inspection
   section: Position
   feature: PR_NZ_CENTER
@@ -263,7 +263,7 @@ parameters:
 - name: template_roi
   label: 템플릿 ROI
   type: roi
-  default: [100, 100, 200, 200]
+  value: [100, 100, 200, 200]
   group: Inspection
   section: Position
   feature: PR_NZ_CENTER
@@ -273,7 +273,7 @@ parameters:
 - name: search_roi
   label: 검색 ROI
   type: roi
-  default: [0, 0, 400, 400]
+  value: [0, 0, 400, 400]
   group: Inspection
   section: Position
   feature: PR_NZ_CENTER
@@ -283,7 +283,7 @@ parameters:
 - name: match_method
   label: 매칭 방법
   type: choice
-  default: SIFT
+  value: SIFT
   options: [SIFT, ORB, AKAZE]
   group: Inspection
   section: Matching
@@ -294,7 +294,7 @@ parameters:
 - name: score_threshold
   label: 매칭 점수 임계값
   type: float
-  default: 0.7
+  value: 0.7
   min: 0.0
   max: 1.0
   group: Inspection
@@ -306,7 +306,7 @@ parameters:
 - name: point_distance_threshold
   label: 특징점 거리 임계값
   type: float
-  default: 40.0
+  value: 40.0
   min: 0.0
   max: 100.0
   group: Inspection
@@ -318,7 +318,7 @@ parameters:
 - name: max_matching_points
   label: 최대 매칭 점 개수
   type: int
-  default: 1
+  value: 1
   min: 1
   max: 10
   group: Inspection
@@ -331,7 +331,7 @@ parameters:
 - name: module_type
   label: 모듈 유형
   type: choice
-  default: SCW_RIGHT
+  value: SCW_RIGHT
   options: [SCW_RIGHT, SCW_LEFT, PTD_RIGHT]
   feature: PR_NZ_CENTER
   module: SCW1-13
@@ -339,8 +339,8 @@ parameters:
   access_level: engineer
 - name: ref_image_path
   label: 참조 이미지
-  type: path
-  default: ./images/pos1.bmp
+  type: img_path
+  value: ./images/pos1.bmp
   options: ['*.jpg', '*.png', '*.bmp', '*.*']
   group: Calibration
   section: Position 1
@@ -351,7 +351,7 @@ parameters:
 - name: template_roi
   label: 템플릿 ROI
   type: roi
-  default: [100, 100, 200, 200]
+  value: [100, 100, 200, 200]
   group: Calibration
   section: Position 1
   feature: PR_NZ_CENTER
@@ -361,7 +361,7 @@ parameters:
 - name: search_roi
   label: 검색 ROI
   type: roi
-  default: [0, 0, 400, 400]
+  value: [0, 0, 400, 400]
   group: Calibration
   section: Position 1
   feature: PR_NZ_CENTER
@@ -371,7 +371,7 @@ parameters:
 - name: ref_position
   label: 참조 위치
   type: point
-  default: [150, 150]
+  value: [150, 150]
   group: Calibration
   section: Position 1
   feature: PR_NZ_CENTER
@@ -380,8 +380,8 @@ parameters:
   access_level: user
 - name: ref_image_path
   label: 참조 이미지
-  type: path
-  default: ./images/pos2.bmp
+  type: img_path
+  value: ./images/pos2.bmp
   options: ['*.jpg', '*.png', '*.bmp', '*.*']
   group: Calibration
   section: Position 2
@@ -392,7 +392,7 @@ parameters:
 - name: template_roi
   label: 템플릿 ROI
   type: roi
-  default: [100, 100, 200, 200]
+  value: [100, 100, 200, 200]
   group: Calibration
   section: Position 2
   feature: PR_NZ_CENTER
@@ -402,7 +402,7 @@ parameters:
 - name: search_roi
   label: 검색 ROI
   type: roi
-  default: [0, 0, 400, 400]
+  value: [0, 0, 400, 400]
   group: Calibration
   section: Position 2
   feature: PR_NZ_CENTER
@@ -412,7 +412,7 @@ parameters:
 - name: ref_position
   label: 참조 위치
   type: point
-  default: [150, 150]
+  value: [150, 150]
   group: Calibration
   section: Position 2
   feature: PR_NZ_CENTER
@@ -421,8 +421,8 @@ parameters:
   access_level: user
 - name: ref_image_path
   label: 참조 이미지
-  type: path
-  default: ./images/pos3.bmp
+  type: img_path
+  value: ./images/pos3.bmp
   options: ['*.jpg', '*.png', '*.bmp', '*.*']
   group: Calibration
   section: Position 3
@@ -433,7 +433,7 @@ parameters:
 - name: template_roi
   label: 템플릿 ROI
   type: roi
-  default: [100, 100, 200, 200]
+  value: [100, 100, 200, 200]
   group: Calibration
   section: Position 3
   feature: PR_NZ_CENTER
@@ -443,7 +443,7 @@ parameters:
 - name: search_roi
   label: 검색 ROI
   type: roi
-  default: [0, 0, 400, 400]
+  value: [0, 0, 400, 400]
   group: Calibration
   section: Position 3
   feature: PR_NZ_CENTER
@@ -453,7 +453,7 @@ parameters:
 - name: ref_position
   label: 참조 위치
   type: point
-  default: [150, 150]
+  value: [150, 150]
   group: Calibration
   section: Position 3
   feature: PR_NZ_CENTER
@@ -462,8 +462,8 @@ parameters:
   access_level: user
 - name: ref_image_path
   label: 참조 이미지
-  type: path
-  default: ./images/pos4.bmp
+  type: img_path
+  value: ./images/pos4.bmp
   options: ['*.jpg', '*.png', '*.bmp', '*.*']
   group: Calibration
   section: Position 4
@@ -474,7 +474,7 @@ parameters:
 - name: template_roi
   label: 템플릿 ROI
   type: roi
-  default: [100, 100, 200, 200]
+  value: [100, 100, 200, 200]
   group: Calibration
   section: Position 4
   feature: PR_NZ_CENTER
@@ -484,7 +484,7 @@ parameters:
 - name: search_roi
   label: 검색 ROI
   type: roi
-  default: [0, 0, 400, 400]
+  value: [0, 0, 400, 400]
   group: Calibration
   section: Position 4
   feature: PR_NZ_CENTER
@@ -494,7 +494,7 @@ parameters:
 - name: ref_position
   label: 참조 위치
   type: point
-  default: [150, 150]
+  value: [150, 150]
   group: Calibration
   section: Position 4
   feature: PR_NZ_CENTER
@@ -504,7 +504,7 @@ parameters:
 - name: match_method
   label: 매칭 방법
   type: choice
-  default: SIFT
+  value: SIFT
   options: [SIFT, ORB, AKAZE]
   group: Calibration
   section: Matching
@@ -515,7 +515,7 @@ parameters:
 - name: score_threshold
   label: 매칭 점수 임계값
   type: float
-  default: 0.7
+  value: 0.7
   min: 0.0
   max: 1.0
   group: Calibration
@@ -527,7 +527,7 @@ parameters:
 - name: point_distance_threshold
   label: 특징점 거리 임계값
   type: float
-  default: 40.0
+  value: 40.0
   min: 0.0
   max: 100.0
   group: Calibration
@@ -539,7 +539,7 @@ parameters:
 - name: max_matching_points
   label: 최대 매칭 점 개수
   type: int
-  default: 1
+  value: 1
   min: 1
   max: 10
   group: Calibration
@@ -552,7 +552,7 @@ parameters:
 - name: input_pts
   label: 입력 좌표 (4점)
   type: list
-  default: [[150, 200], [300, 200], [300, 150], [150, 150]]
+  value: [[150, 200], [300, 200], [300, 150], [150, 150]]
   group: Calibration
   section: Matrix
   feature: PR_NZ_CENTER
@@ -562,7 +562,7 @@ parameters:
 - name: output_pts
   label: 출력 좌표 (4점)
   type: list
-  default: [[150, 200], [300, 200], [300, 150], [150, 150]]
+  value: [[150, 200], [300, 200], [300, 150], [150, 150]]
   group: Calibration
   section: Matrix
   feature: PR_NZ_CENTER
@@ -572,7 +572,7 @@ parameters:
 - name: matrix
   label: 변환 행렬
   type: list
-  default: &id002 [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
+  value: &id002 [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
   group: Calibration
   section: Matrix
   feature: PR_NZ_CENTER
@@ -581,8 +581,8 @@ parameters:
   access_level: developer
 - name: ref_image_path
   label: 참조 이미지
-  type: path
-  default: ./images/ref_image.bmp
+  type: img_path
+  value: ./images/ref_image.bmp
   group: Inspection
   section: Position
   feature: PR_NZ_CENTER
@@ -592,7 +592,7 @@ parameters:
 - name: template_roi
   label: 템플릿 ROI
   type: roi
-  default: [100, 100, 200, 200]
+  value: [100, 100, 200, 200]
   group: Inspection
   section: Position
   feature: PR_NZ_CENTER
@@ -602,7 +602,7 @@ parameters:
 - name: search_roi
   label: 검색 ROI
   type: roi
-  default: [0, 0, 400, 400]
+  value: [0, 0, 400, 400]
   group: Inspection
   section: Position
   feature: PR_NZ_CENTER
@@ -612,7 +612,7 @@ parameters:
 - name: match_method
   label: 매칭 방법
   type: choice
-  default: SIFT
+  value: SIFT
   options: [SIFT, ORB, AKAZE]
   group: Inspection
   section: Matching
@@ -623,7 +623,7 @@ parameters:
 - name: score_threshold
   label: 매칭 점수 임계값
   type: float
-  default: 0.7
+  value: 0.7
   min: 0.0
   max: 1.0
   group: Inspection
@@ -635,7 +635,7 @@ parameters:
 - name: point_distance_threshold
   label: 특징점 거리 임계값
   type: float
-  default: 40.0
+  value: 40.0
   min: 0.0
   max: 100.0
   group: Inspection
@@ -647,7 +647,7 @@ parameters:
 - name: max_matching_points
   label: 최대 매칭 점 개수
   type: int
-  default: 1
+  value: 1
   min: 1
   max: 10
   group: Inspection
@@ -665,24 +665,24 @@ values:
           module_type: SCW_RIGHT
       Calibration:
         Position1:
-          ref_image_path: C:/Users/admin/Pictures/$IMG_0803_1428534999762.jpg
-          template_roi: [100, 100, 200, 200]
-          search_roi: [0, 0, 400, 400]
+          ref_image_path: C:/Users/admin/Pictures/$IMG_0787_1460016714496.jpg
+          template_roi: [515, 351, 615, 451]
+          search_roi: [781, 113, 919, 234]
           ref_position: [150, 150]
         Position2:
-          ref_image_path: ./images/pos1.bmp
-          template_roi: [100, 100, 200, 200]
-          search_roi: [0, 0, 400, 400]
+          ref_image_path: C:/Users/admin/Pictures/$IMG_0787_1460016714496.jpg
+          template_roi: [515, 351, 615, 451]
+          search_roi: [781, 113, 919, 234]
           ref_position: [150, 150]
         Position3:
-          ref_image_path: ./images/pos1.bmp
-          template_roi: [100, 100, 200, 200]
-          search_roi: [0, 0, 400, 400]
+          ref_image_path: C:/Users/admin/Pictures/$IMG_0787_1460016714496.jpg
+          template_roi: [515, 351, 615, 451]
+          search_roi: [781, 113, 919, 234]
           ref_position: [150, 150]
         Position4:
-          ref_image_path: ./images/pos1.bmp
-          template_roi: [100, 100, 200, 200]
-          search_roi: [0, 0, 400, 400]
+          ref_image_path: C:/Users/admin/Pictures/$IMG_0787_1460016714496.jpg
+          template_roi: [515, 351, 615, 451]
+          search_roi: [781, 113, 919, 234]
           ref_position: [150, 150]
         Matching:
           match_method: SIFT
@@ -695,9 +695,9 @@ values:
           matrix: *id001
       Inspection:
         Position:
-          ref_image_path: ./images/pos1.bmp
-          template_roi: [100, 100, 200, 200]
-          search_roi: [0, 0, 400, 400]
+          ref_image_path: C:/Users/admin/Pictures/$IMG_0787_1460016714496.jpg
+          template_roi: [515, 351, 615, 451]
+          search_roi: [781, 113, 919, 234]
         Matching:
           match_method: SIFT
           score_threshold: 0.7
@@ -710,24 +710,24 @@ values:
           module_type: SCW_RIGHT
       Calibration:
         Position 1:
-          ref_image_path: ./images/pos1.bmp
-          template_roi: [100, 100, 200, 200]
-          search_roi: [0, 0, 400, 400]
+          ref_image_path: C:/Users/admin/Pictures/$IMG_0787_1460016714496.jpg
+          template_roi: [515, 351, 615, 451]
+          search_roi: [781, 113, 919, 234]
           ref_position: [150, 150]
         Position 2:
-          ref_image_path: ./images/pos1.bmp
-          template_roi: [100, 100, 200, 200]
-          search_roi: [0, 0, 400, 400]
+          ref_image_path: C:/Users/admin/Pictures/$IMG_0803_1428534999762.jpg
+          template_roi: [515, 351, 615, 451]
+          search_roi: [781, 113, 919, 234]
           ref_position: [150, 150]
         Position 3:
-          ref_image_path: ./images/pos1.bmp
-          template_roi: [100, 100, 200, 200]
-          search_roi: [0, 0, 400, 400]
+          ref_image_path: C:/Users/admin/Pictures/$IMG_0787_1460016714496.jpg
+          template_roi: [515, 351, 615, 451]
+          search_roi: [781, 113, 919, 234]
           ref_position: [150, 150]
         Position 4:
-          ref_image_path: ./images/pos1.bmp
-          template_roi: [100, 100, 200, 200]
-          search_roi: [0, 0, 400, 400]
+          ref_image_path: C:/Users/admin/Pictures/$IMG_0787_1460016714496.jpg
+          template_roi: [515, 351, 615, 451]
+          search_roi: [781, 113, 919, 234]
           ref_position: [150, 150]
         Matching:
           match_method: SIFT
@@ -740,9 +740,9 @@ values:
           matrix: *id002
       Inspection:
         Position:
-          ref_image_path: ./images/pos1.bmp
-          template_roi: [100, 100, 200, 200]
-          search_roi: [0, 0, 400, 400]
+          ref_image_path: C:/Users/admin/Pictures/$IMG_0787_1460016714496.jpg
+          template_roi: [515, 351, 615, 451]
+          search_roi: [781, 113, 919, 234]
         Matching:
           match_method: SIFT
           score_threshold: 0.7

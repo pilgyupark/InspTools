@@ -42,7 +42,7 @@ parameters:
   - name: threshold
     label: "임계값 (이미지 처리)"
     type: float
-    default: 0.5
+    value: 0.5
     module: "이미지 처리"
     feature: "전처리"
     group: "필터"
@@ -51,7 +51,7 @@ parameters:
   - name: threshold
     label: "임계값 (특징점 매칭)"
     type: float
-    default: 5.0
+    value: 5.0
     module: "특징점 매칭"
     feature: "알고리즘"
     group: "정확도"
