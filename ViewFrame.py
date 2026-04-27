@@ -19,6 +19,8 @@ class ViewFrame(ttk.Frame):
         self.cur_roi: Roi = None
         self.scale: float = 1.0
         self.islive: bool = False
+        self.roi_move: int = 0
+        self.roi_size: int = 0
 
         if cameras is not None:
             self.cameras = cameras
@@ -86,20 +88,20 @@ class ViewFrame(ttk.Frame):
         # 1. top frame 생성, 그 안에 size, ↑, move 버튼 생성
         top_frame = ttk.Frame(frame)
         top_frame.pack(fill=tk.X, pady=0)
-        size_button = ttk.Button(top_frame, text="Size", width=5)
-        size_button.pack(side=tk.LEFT, padx=0, pady=0)
-        up_button = ttk.Button(top_frame, text="↑", width=5)
+        self.size_button = ttk.Button(top_frame, text="Size", command=self.on_roi_size, width=5)
+        self.size_button.pack(side=tk.LEFT, padx=0, pady=0)
+        up_button = ttk.Button(top_frame, text="↑", command=self.on_roi_up, width=5)
         up_button.pack(side=tk.LEFT, padx=0, pady=0)
-        move_button = ttk.Button(top_frame, text="Move", width=5)
-        move_button.pack(side=tk.LEFT, padx=0, pady=0)
+        self.move_button = ttk.Button(top_frame, text="Move", command=self.on_roi_move, width=5)
+        self.move_button.pack(side=tk.LEFT, padx=0, pady=0)
         # 2. bottom frame 생성, 그 안에 ↓, ←, → 버튼, 픽셀 정보 라벨 생성
         bottom_frame = ttk.Frame(frame)
         bottom_frame.pack(fill=tk.X, pady=0)
-        left_button = ttk.Button(bottom_frame, text="←", width=5)
+        left_button = ttk.Button(bottom_frame, text="←", command=self.on_roi_left, width=5)
         left_button.pack(side=tk.LEFT, padx=0, pady=0)
-        down_button = ttk.Button(bottom_frame, text="↓", width=5)
+        down_button = ttk.Button(bottom_frame, text="↓", command=self.on_roi_down, width=5)
         down_button.pack(side=tk.LEFT, padx=0, pady=0)
-        right_button = ttk.Button(bottom_frame, text="→", width=5)
+        right_button = ttk.Button(bottom_frame, text="→", command=self.on_roi_right, width=5)
         right_button.pack(side=tk.LEFT, padx=0, pady=0)
         
         self.pixel_info_label = ttk.Label(bottom_frame, text="픽셀 위치: (x, y) | 픽셀값: (R, G, B)")
@@ -130,6 +132,7 @@ class ViewFrame(ttk.Frame):
             if file_path:
                 img = Image.open(file_path)
                 self.baseimg = img
+                self.scale = 1.0
                 self.update_canvas()
         except Exception as e:
             messagebox.showerror("오류", f"이미지 열기 중 오류 발생:\n{e}")
@@ -182,16 +185,14 @@ class ViewFrame(ttk.Frame):
             ih, iw = self.baseimg.height, self.baseimg.width
             new_scale = min(ch/ih, cw/iw)
 
-            if self.cur_roi:
-                self.cur_roi.update_scale(self.scale, new_scale)
+            self.cur_roi.update_scale(self.scale, new_scale)
             self.scale = new_scale
             self.update_canvas()
 
     def on_zoom(self, new_scale:float):
         if self.baseimg is None:
             return
-        if self.cur_roi:
-            self.cur_roi.update_scale(self.scale, new_scale)
+        self.cur_roi.update_scale(self.scale, new_scale)
         self.scale = new_scale
         self.update_canvas()
 
@@ -203,8 +204,7 @@ class ViewFrame(ttk.Frame):
         ih, iw = self.baseimg.height, self.baseimg.width
         new_scale = min(ch/ih, cw/iw)
 
-        if self.cur_roi:
-            self.cur_roi.update_scale(self.scale, new_scale)
+        self.cur_roi.update_scale(self.scale, new_scale)
         self.scale = new_scale
         self.update_canvas()
 
@@ -221,12 +221,90 @@ class ViewFrame(ttk.Frame):
         self.canvas.image = self.tk_img # GC 방지
 
         self.canvas.itemconfig(self.img_id, image=self.tk_img)
-        if self.cur_roi:
-            x1, y1, x2, y2 = self.cur_roi.get_coords()
-            self.cur_roi.update_geometry(x1, y1, x2, y2)
-            #self.cur_roi = Roi(self.canvas, x1, y1, x2, y2, mode=self.cur_roi.mode)
+        x1, y1, x2, y2 = self.cur_roi.get_coords()
+        self.cur_roi.update_geometry(x1, y1, x2, y2)
 
         self.canvas.config(scrollregion=(0, 0, width, height))
+
+    def update_roi_coords(self, img_coords) -> None:
+        if img_coords and len(img_coords) == 4:
+            coords = [(coord*self.scale) for coord in img_coords]
+            self.cur_roi.update_geometry(coords[0], coords[1], coords[2], coords[3])
+        else:
+            self.cur_roi.update_geometry(100, 100, 200, 200)
+        self.cur_roi.set_mode(Roi.MODE_EDIT)
+
+    def get_roi_coords(self) -> list[int]:
+        canvas_coords = self.cur_roi.get_coords()
+        coords = [int(coord/self.scale) for coord in canvas_coords]
+        self.cur_roi.set_mode(Roi.MODE_IDLE)
+        return coords
+    
+    def on_roi_size(self) -> None:
+        self.roi_move = 0
+        if self.roi_size == 0:
+            self.roi_size = 1
+        elif self.roi_size == 1:
+            self.roi_size = 10
+        elif self.roi_size == 10:
+            self.roi_size = 1
+
+        self.move_button.config(text='move')
+        self.size_button.config(text=f'size_{self.roi_size}')
+        self.cur_roi.set_mode(Roi.MODE_EDIT)
+    
+    def on_roi_move(self) -> None:
+        self.roi_size = 0
+        if self.roi_move == 0:
+            self.roi_move = 1
+        elif self.roi_move == 1:
+            self.roi_move = 10
+        elif self.roi_move == 10:
+            self.roi_move = 1
+
+        self.size_button.config(text='size')
+        self.move_button.config(text=f'move_{self.roi_size}')
+        self.cur_roi.set_mode(Roi.MODE_EDIT)
+
+    def on_roi_up(self) -> None:
+        x1, y1, x2, y2 = self.cur_roi.get_coords()
+        if self.roi_move:
+            x1, y1, x2, y2 = x1, max(0, y1-self.roi_move), x2, max(self.cur_roi.min_size, y2-self.roi_move)
+        if self.roi_size:
+            x1, y1, x2, y2 = x1, max(0, y1-self.roi_size), x2, min(y2+self.roi_size, self.canvas.winfo_height())
+            
+        self.cur_roi.update_geometry(x1, y1, x2, y2)
+        self.cur_roi.set_mode(Roi.MODE_EDIT)
+
+    def on_roi_down(self) -> None:
+        x1, y1, x2, y2 = self.cur_roi.get_coords()
+        if self.roi_move:
+            x1, y1, x2, y2 = x1, min(y1+self.roi_move, self.canvas.winfo_height()-self.cur_roi.min_size), x2, min(y2+self.roi_move, self.canvas.winfo_height())
+        if self.roi_size:
+            x1, y1, x2, y2 = x1, min(y1+self.roi_size, self.canvas.winfo_height()-self.cur_roi.min_size), x2, max(self.cur_roi.min_size, y2-self.roi_size)
+            
+        self.cur_roi.update_geometry(x1, y1, x2, y2)
+        self.cur_roi.set_mode(Roi.MODE_EDIT)
+
+    def on_roi_left(self) -> None:
+        x1, y1, x2, y2 = self.cur_roi.get_coords()
+        if self.roi_move:
+            x1, y1, x2, y2 = max(0, x1-self.roi_move), y1, max(self.cur_roi.min_size, x2-self.roi_move), y2
+        if self.roi_size:
+            x1, y1, x2, y2 = min(x1+self.roi_size, self.canvas.winfo_width()), y1, max(self.cur_roi.min_size, x2-self.roi_size), y2
+            
+        self.cur_roi.update_geometry(x1, y1, x2, y2)
+        self.cur_roi.set_mode(Roi.MODE_EDIT)
+
+    def on_roi_right(self) -> None:
+        x1, y1, x2, y2 = self.cur_roi.get_coords()
+        if self.roi_move:
+            x1, y1, x2, y2 = min(x1+self.roi_move, self.canvas.winfo_width()-self.cur_roi.min_size), y1, min(x2+self.roi_move, self.canvas.winfo_width()), y2
+        if self.roi_size:
+            x1, y1, x2, y2 = max(0, x1-self.roi_size), y1, min(x2+self.roi_size, self.canvas.winfo_width()), y2
+            
+        self.cur_roi.update_geometry(x1, y1, x2, y2)
+        self.cur_roi.set_mode(Roi.MODE_EDIT)
     
     def __delete__(self):
         self.islive = False

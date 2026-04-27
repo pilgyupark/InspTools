@@ -6,18 +6,13 @@ from enum import Enum
 from typing import Any, Dict, List, Optional
 import yaml
 
-
-
-_ACCESS_LEVELS = ["developer", "engineer", "power_user", "user"]
-_ACCESS_LEVEL_PRIORITY = {"developer": 4, "engineer": 3, "power_user": 2, "user": 1}
-
-
+_ACCESS_LEVEL = ["developer", "engineer", "power_user", "user"]
 class AccessLevel(Enum):
     """접근 권한 레벨"""
-    DEVELOPER = "developer"
-    ENGINEER = "engineer"
-    POWER_USER = "power_user"
-    USER = "user"
+    DEVELOPER = _ACCESS_LEVEL[0]
+    ENGINEER = _ACCESS_LEVEL[1]
+    POWER_USER = _ACCESS_LEVEL[2]
+    USER = _ACCESS_LEVEL[3]
 
     @classmethod
     def from_string(cls, value: str) -> "AccessLevel":
@@ -28,7 +23,7 @@ class AccessLevel(Enum):
         raise ValueError(f"Unknown access level: {value}")
 
     def has_access(self, required_level: Optional[str]) -> bool:
-        """현재 레벨이 필요한 레벨 이상인지 확인"""
+        _ACCESS_LEVEL_PRIORITY = {_ACCESS_LEVEL[0]: 4, _ACCESS_LEVEL[1]: 3, _ACCESS_LEVEL[2]: 2, _ACCESS_LEVEL[3]: 1}
         if not required_level:
             return True
         try:
@@ -42,12 +37,12 @@ class User:
     """사용자 정보"""
     username: str = "user1"
     password_hash: str = hashlib.sha256("user1".encode()).hexdigest()
-    access_level: str = "user"
+    access_level: str = _ACCESS_LEVEL[-1]
     full_name: str = "User1"
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> "User":
-        return cls(username=data["username"], password_hash=data["password_hash"], access_level=data.get("access_level", "user"), full_name=data.get("full_name", ""),)
+        return cls(username=data["username"], password_hash=data["password_hash"], access_level=data.get("access_level", _ACCESS_LEVEL[-1]), full_name=data.get("full_name", ""),)
 
     def to_dict(self) -> Dict[str, Any]:
         return {"username": self.username, "password_hash": self.password_hash, "access_level": self.access_level, "full_name": self.full_name,}
@@ -62,7 +57,7 @@ class User:
         return hashlib.sha256(password.encode()).hexdigest()
 
     @classmethod
-    def create(cls, username: str, password: str, access_level: str = "user", full_name: str = "") -> "User":
+    def create(cls, username: str, password: str, access_level: str = _ACCESS_LEVEL[-1], full_name: str = "") -> "User":
         """새 사용자 생성"""
         return cls(username=username, password_hash=cls._hash_password(password), access_level=access_level, full_name=full_name,)
 
@@ -119,7 +114,7 @@ class UserManager:
             default_user = User.create(
                 username="admin",
                 password="admin",
-                access_level="developer",
+                access_level=_ACCESS_LEVEL[0],
                 full_name="Administrator"
             )
             manager.add_user(default_user)

@@ -1,9 +1,7 @@
 from __future__ import annotations
 
 import os
-import hashlib
 from dataclasses import dataclass
-from enum import Enum
 from typing import Any, Dict, Iterable, List, Optional
 import yaml
 
@@ -416,7 +414,7 @@ class ParameterForm:
 
         self.tree.bind("<<TreeviewSelect>>", self._on_tree_select)
 
-        self.detail_canvas = tk.Canvas(detail_frame, borderwidth=0, highlightthickness=0)
+        self.detail_canvas = tk.Canvas(detail_frame, borderwidth=0, highlightthickness=0, bg="#282c34")
         detail_hscrollbar = ttk.Scrollbar(detail_frame, orient="horizontal")
         detail_vscrollbar = ttk.Scrollbar(detail_frame, orient="vertical")
         detail_hscrollbar.pack(side="bottom", fill="x")
@@ -521,14 +519,14 @@ class ParameterForm:
         return AccessLevel.from_string(self.current_user.access_level)
 
     def _create_variable(self, param: ParameterDefinition) -> tk.Variable:
-        default_value = self.manager.get(param.name, param.value)
+        value = self.manager.get(param.get_unique_id(), param.value)
         if param.type == "bool":
-            return tk.BooleanVar(value=bool(default_value))
+            return tk.BooleanVar(value=bool(value))
         if param.type == "int":
-            return tk.IntVar(value=int(default_value) if default_value is not None else 0)
+            return tk.IntVar(value=int(value) if value is not None else 0)
         if param.type == "float":
-            return tk.DoubleVar(value=float(default_value) if default_value is not None else 0.0)
-        return tk.StringVar(value="" if default_value is None else str(default_value))
+            return tk.DoubleVar(value=float(value) if value is not None else 0.0)
+        return tk.StringVar(value="" if value is None else str(value))
 
     def _create_widget(self, parent: ttk.Widget, param: ParameterDefinition, variable: tk.Variable,) -> ttk.Widget:
         if param.type == "bool":
@@ -597,30 +595,33 @@ class ParameterForm:
         
         def FocusIn(event=None) -> None:
             try:
-                # 문자열 [100, 100, 200, 200]을 리스트로 변환
-                new_roi = eval(variable.get())
-                if isinstance(new_roi, list) and len(new_roi) == 4:
-                    x1, y1, x2, y2 = new_roi
-                    self.view_frame.cur_roi.set_mode(Roi.MODE_EDIT)
-                    self.view_frame.cur_roi.update_geometry(x1, y1, x2, y2)
-            except:
-                pass # 에러 시 이전 값으로 복구
+                coords = eval(variable.get())
+                self.view_frame.update_roi_coords(coords)
+            except Exception as e:
+                print(e)
 
         def FocusOut(event=None) -> None:
             try:
-                cur_roi = self.view_frame.cur_roi.get_coords()
-                variable.set(str(cur_roi))
-                self.view_frame.cur_roi._set_active_state(Roi.MODE_IDLE)
-            except:
-                pass # 에러 시 이전 값으로 복구
+                self.view_frame.cur_roi.set_mode(Roi.MODE_IDLE)
+            except Exception as e:
+                print(e)
 
         def Return(event=None) -> None:
             try:
-                cur_roi = self.view_frame.cur_roi.get_coords()
-                variable.set(str(cur_roi))
-                self.view_frame.cur_roi._set_active_state(Roi.MODE_IDLE)
-            except:
-                pass # 에러 시 이전 값으로 복구
+                coords = eval(variable.get())
+                self.view_frame.update_roi_coords(coords)
+            except Exception as e:
+                print(e)
+
+        def on_enter() -> None:
+            try:
+                coords = self.view_frame.get_roi_coords()
+                variable.set(str(coords))
+            except Exception as e:
+                print(e)
+
+        button = ttk.Button(container, text="입력", command=on_enter, width=8)
+        button.pack(side="right")
 
         entry.bind("<FocusIn>", FocusIn)
         entry.bind("<FocusOut>", FocusOut)
