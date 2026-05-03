@@ -38,14 +38,15 @@ class User:
     username: str = "user1"
     password_hash: str = hashlib.sha256("user1".encode()).hexdigest()
     access_level: str = _ACCESS_LEVEL[-1]
+    auth_level: int = 1
     full_name: str = "User1"
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> "User":
-        return cls(username=data["username"], password_hash=data["password_hash"], access_level=data.get("access_level", _ACCESS_LEVEL[-1]), full_name=data.get("full_name", ""),)
+        return cls(username=data["username"], password_hash=data["password_hash"], access_level=data.get("access_level", _ACCESS_LEVEL[-1]), auth_level=data.get("auth_level", 1), full_name=data.get("full_name", ""),)
 
     def to_dict(self) -> Dict[str, Any]:
-        return {"username": self.username, "password_hash": self.password_hash, "access_level": self.access_level, "full_name": self.full_name,}
+        return {"username": self.username, "password_hash": self.password_hash, "access_level": self.access_level, "auth_level": self.auth_level, "full_name": self.full_name,}
 
     def verify_password(self, password: str) -> bool:
         """비밀번호 확인"""
@@ -57,9 +58,9 @@ class User:
         return hashlib.sha256(password.encode()).hexdigest()
 
     @classmethod
-    def create(cls, username: str, password: str, access_level: str = _ACCESS_LEVEL[-1], full_name: str = "") -> "User":
+    def create(cls, username: str, password: str, access_level: str = _ACCESS_LEVEL[-1], auth_level: int = 1, full_name: str = "") -> "User":
         """새 사용자 생성"""
-        return cls(username=username, password_hash=cls._hash_password(password), access_level=access_level, full_name=full_name,)
+        return cls(username=username, password_hash=cls._hash_password(password), access_level=access_level, auth_level=auth_level, full_name=full_name,)
 
 
 class UserManager:
@@ -115,6 +116,7 @@ class UserManager:
                 username="admin",
                 password="admin",
                 access_level=_ACCESS_LEVEL[0],
+                auth_level=4,
                 full_name="Administrator"
             )
             manager.add_user(default_user)

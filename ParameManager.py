@@ -28,7 +28,7 @@ class ParameterDefinition:
     feature: Optional[str] = None
     module: Optional[str] = None
     help_text: Optional[str] = None
-    access_level: Optional[str] = None
+    auth_level: int = 1
     visibility: str = "visible"
 
     def __post_init__(self) -> None:
@@ -54,7 +54,7 @@ class ParameterDefinition:
             return value
 
         if self.type == "choice":
-            if value not in self.options:
+            if value not in str(self.options):
                 raise ValueError(f"Value for '{self.name}' must be one of {self.options}. Got {value}.")
             return value
 
@@ -138,8 +138,8 @@ class ParameterDefinition:
             output["module"] = self.module
         if self.help_text is not None:
             output["help_text"] = self.help_text
-        if self.access_level is not None:
-            output["access_level"] = self.access_level
+        if self.auth_level is not None:
+            output["auth_level"] = self.auth_level
         if self.visibility != "visible":
             output["visibility"] = self.visibility
         return output
@@ -159,7 +159,7 @@ class ParameterDefinition:
             feature=data.get("feature"),
             module=data.get("module"),
             help_text=data.get("help_text"),
-            access_level=data.get("access_level"),
+            auth_level=data.get("auth_level", 1),
             visibility=data.get("visibility", "visible"),
         )
 
@@ -355,7 +355,7 @@ class ParameterManager:
 
 class ParameterForm:
     def __init__(self, master: tk.Misc, view_frame:ViewFrame, manager: ParameterManager, on_apply: Optional[callable] = None,
-        use_hierarchy: bool = True, current_user: Optional["User"] = None, ) -> None:
+        use_hierarchy: bool = True, auth_level: int = 1, ) -> None:
         self.master = master
         self.view_frame = view_frame
         self.manager = manager
@@ -364,7 +364,7 @@ class ParameterForm:
         self.use_hierarchy = use_hierarchy
         self.frame = ttk.Frame(self.master)
         self.widgets_info: Dict[str, Dict[str, Any]] = {}
-        self.current_user = current_user
+        self.current_auth_level: int = auth_level
         
         self._build_form()
 
@@ -463,11 +463,11 @@ class ParameterForm:
         self._show_frames_for_path(path)
 
     def _add_parameter_row(self, parent: ttk.Widget, param: ParameterDefinition) -> None:
-        current_level = self._get_current_access_level()
+        current_level = self.current_auth_level
         unique_id = param.get_unique_id()
         
         if param.visibility == "hidden":
-            if not current_level or not current_level.has_access(param.access_level):
+            if not current_level >= param.auth_level:
                 return
         
         row = ttk.Frame(parent)
@@ -482,7 +482,7 @@ class ParameterForm:
 
         self.variables[unique_id] = variable
         
-        has_access = current_level and current_level.has_access(param.access_level)
+        has_access = current_level >= param.auth_level
         
         if not has_access:
             if isinstance(widget, ttk.Frame):
@@ -495,7 +495,7 @@ class ParameterForm:
             help_label = ttk.Label(row, text=param.help_text, font=("", 8))
             help_label.pack(side="left", padx=(10, 0))
 
-        self.widgets_info[unique_id] = {"widget": widget, "variable": variable, "has_access": has_access, "access_level": param.access_level,}
+        self.widgets_info[unique_id] = {"widget": widget, "variable": variable, "has_access": has_access, "auth_level": param.auth_level,}
 
     def _show_frames_for_path(self, path: List[str]) -> None:
         for section_key in self.section_frame_keys:
@@ -514,9 +514,6 @@ class ParameterForm:
         if matched:
             self.detail_canvas.update_idletasks()
             self.detail_canvas.yview_moveto(0)
-
-    def _get_current_access_level(self) -> Optional[AccessLevel]:
-        return AccessLevel.from_string(self.current_user.access_level)
 
     def _create_variable(self, param: ParameterDefinition) -> tk.Variable:
         value = self.manager.get(param.get_unique_id(), param.value)
@@ -628,16 +625,16 @@ class ParameterForm:
         entry.bind("<Return>", Return)
         return container
 
-    def update_user(self, user: User) -> None:
-        self.current_user = user
-        current_level = self._get_current_access_level()
+    def update_auth_level(self, auth_level: int) -> None:
+        self.current_auth_level = auth_level
+        current_level = self.current_auth_level
         
         for unique_id, info in self.widgets_info.items():
             param = self.manager.parameters.get(unique_id)
             if not param:
                 continue
             
-            has_access = current_level and current_level.has_access(param.access_level)
+            has_access = current_level >= param.auth_level
             widget = info["widget"]
             
             if not has_access:
@@ -664,11 +661,11 @@ class ParameterForm:
         return file_types
 
     def apply(self) -> None:
-        current_level = self._get_current_access_level()
+        current_level = self.current_auth_level
         for unique_id, variable in self.variables.items():
             param = self.manager.parameters.get(unique_id)
             if param and current_level:
-                has_access = current_level.has_access(param.access_level)
+                has_access = current_level >= param.auth_level
                 if has_access:
                     value = variable.get()
                     self.manager.values[unique_id] = param.validate(value)

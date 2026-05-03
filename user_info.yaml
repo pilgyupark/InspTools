@@ -5,16 +5,20 @@ users:
   - username: admin
     password_hash: 8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
     access_level: developer
+    auth_level: 4
     full_name: "Administrator"
   - username: engineer1
     password_hash: b4b73d4bab61d1ffd4d3d2c38245f66d109dfc46920b7b047c0a0f448ac92d96
     access_level: engineer
+    auth_level: 3
     full_name: "Engineer1"
   - username: power_user1
     password_hash: 052d9cabb0146dbf1c6b07142caab041cd04672ddf34d6ecc990f79710166a0b
     access_level: power_user
+    auth_level: 2
     full_name: "Power_User1"
   - username: user1
     password_hash: 0a041b9462caa4a31bac3567e0b6e6fd9100787db2ab433d96f6d178cabfce90
     access_level: user
+    auth_level: 1
     full_name: "User1"

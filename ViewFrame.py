@@ -18,6 +18,7 @@ class ViewFrame(ttk.Frame):
         self.img_id: int = None
         self.cur_roi: Roi = None
         self.scale: float = 1.0
+        self.min_scale: float = 0.1
         self.islive: bool = False
         self.roi_move: int = 0
         self.roi_size: int = 0
@@ -25,7 +26,7 @@ class ViewFrame(ttk.Frame):
         if cameras is not None:
             self.cameras = cameras
         else:
-            self.load_cameras("cameras.yaml")  # cameras.yaml 파일에서 카메라 정보 로드
+            self.load_cameras("Setting/camera_setting_params.yaml")  # cameras.yaml 파일에서 카메라 정보 로드
 
         # 1. top frame 생성 하고
         # 그 안에 Open Image, Save Image 버튼과 카메라 선택 콤보박스, Live 버튼 그리고 roi_btn_frame 생성, 이미지상에 마우스 픽셀 위치 및 픽셀값 표시하는 label 추가
@@ -41,16 +42,19 @@ class ViewFrame(ttk.Frame):
         save_button.pack(side=tk.LEFT, padx=5, pady=0)
 
         # 카메라 선택 및 Live
-        self.cameras_combo = ttk.Combobox(top_frame, values=list(self.cameras.keys()), state="readonly")
-        self.cameras_combo.pack(side=tk.LEFT, padx=5)
-        self.cameras_combo.current(0)
-        self.live_button = ttk.Button(top_frame, style="Stop.TButton", text="▶ Live On", command=self.on_live, width=12)
-        self.live_button.pack(side=tk.LEFT, padx=5)
+        if self.cameras:
+            self.cameras_combo = ttk.Combobox(top_frame, values=list(self.cameras.keys()), state="readonly")
+            self.cameras_combo.pack(side=tk.LEFT, padx=5)
+            self.cameras_combo.current(0)
+            self.live_button = ttk.Button(top_frame, style="Stop.TButton", text="▶ Live On", command=self.on_live, width=12)
+            self.live_button.pack(side=tk.LEFT, padx=5)
 
         # 확대 축소 
         zoom_in_button = ttk.Button(top_frame, command=lambda: self.on_zoom(min(self.scale/0.8, 5.0)), text="+")
         zoom_in_button.pack(side=tk.LEFT, padx=5, pady=0)
         zoom_out_button = ttk.Button(top_frame, command=lambda: self.on_zoom(max(0.1, self.scale*0.8)), text="-")
+        zoom_out_button.pack(side=tk.LEFT, padx=5, pady=0)
+        zoom_out_button = ttk.Button(top_frame, command=lambda: self.on_zoom(1.0), text="1:1")
         zoom_out_button.pack(side=tk.LEFT, padx=5, pady=0)
         zoom_reset_button = ttk.Button(top_frame, command=self.on_reset_zoom, text="ㅁ")
         zoom_reset_button.pack(side=tk.LEFT, padx=5, pady=0)
@@ -79,9 +83,10 @@ class ViewFrame(ttk.Frame):
         self.cur_roi = Roi(self.canvas, 100, 100, 200, 200, mode=Roi.MODE_IDLE)
         
         # 이벤트 바인딩
-        self.canvas.bind("<MouseWheel>", self.on_mouse_wheel)       # Windows
-        self.canvas.bind("<Button-4>", self.on_mouse_wheel)         # Linux (스크롤 업)
-        self.canvas.bind("<Button-5>", self.on_mouse_wheel)         # Linux (스크롤 다운)
+        self.canvas.bind("<MouseWheel>", self.on_mouse_wheel)
+        self.canvas.bind("<Button-4>", self.on_mouse_wheel)
+        self.canvas.bind("<Button-5>", self.on_mouse_wheel)
+        self.canvas.bind("<Motion>", self.on_mouse_move)
         self.bind("<Configure>", self.on_resize)  # 창 크기 변경 감지
 
     def create_roi_buttons(self, frame: ttk.Frame):
@@ -132,8 +137,7 @@ class ViewFrame(ttk.Frame):
             if file_path:
                 img = Image.open(file_path)
                 self.baseimg = img
-                self.scale = 1.0
-                self.update_canvas()
+                self.on_reset_zoom()
         except Exception as e:
             messagebox.showerror("오류", f"이미지 열기 중 오류 발생:\n{e}")
     
@@ -176,6 +180,20 @@ class ViewFrame(ttk.Frame):
         elif event.num == 5 or event.delta < 0:
             self.on_zoom(max(0.1, self.scale*0.8))
 
+    def canvase_to_image(self, x, y):
+        x, y = (x/self.scale), (y/self.scale)
+        return x, y
+
+    def on_mouse_move(self, event):
+        if self.baseimg == None:
+            return
+        
+        img_x, img_y = self.canvase_to_image(self.canvas.canvasx(event.x), self.canvas.canvasy(event.y))
+        width, height = self.baseimg.size
+        img_x, img_y = round(max(0, min(img_x, width-1))), round(max(0, min(img_y, height-1)))
+        b, g, r = self.baseimg.getpixel([img_x, img_y])
+        self.pixel_info_label.config(text=f"픽셀 위치: ({img_x}, {img_y}) | 픽셀값: ({r}, {g}, {b})")
+
     def on_resize(self, event):
         if self.baseimg is None:
             return
@@ -183,15 +201,16 @@ class ViewFrame(ttk.Frame):
             # new scal 계산
             ch, cw = event.height, event.width
             ih, iw = self.baseimg.height, self.baseimg.width
-            new_scale = min(ch/ih, cw/iw)
+            self.min_scale = min(ch/ih, cw/iw)
 
-            self.cur_roi.update_scale(self.scale, new_scale)
-            self.scale = new_scale
+            self.cur_roi.update_scale(self.scale, self.min_scale)
+            self.scale = self.min_scale
             self.update_canvas()
 
     def on_zoom(self, new_scale:float):
         if self.baseimg is None:
             return
+        new_scale = max(self.min_scale, min(new_scale, 5.0))
         self.cur_roi.update_scale(self.scale, new_scale)
         self.scale = new_scale
         self.update_canvas()
@@ -202,10 +221,10 @@ class ViewFrame(ttk.Frame):
         # new scal 계산
         ch, cw = self.canvas.winfo_height(), self.canvas.winfo_width()
         ih, iw = self.baseimg.height, self.baseimg.width
-        new_scale = min(ch/ih, cw/iw)
+        self.min_scale = min(ch/ih, cw/iw)
 
-        self.cur_roi.update_scale(self.scale, new_scale)
-        self.scale = new_scale
+        self.cur_roi.update_scale(self.scale, self.min_scale)
+        self.scale = self.min_scale
         self.update_canvas()
 
     def update_canvas(self):

@@ -2,8 +2,9 @@ import tkinter as tk
 from tkinter import messagebox, ttk
 
 from ViewFrame import ViewFrame
-from RecipeFrame import RecipeFrame
 from UserManager import User, UserManager
+from RecipeFrame import CameraSettingFrame, NozzleCenterFrame
+from TreeConfigEditor import TreeConfigEditor
 
 class MainFrame:
     VERSION_INFO: str = "version 1.7.2"
@@ -92,11 +93,11 @@ class MainFrame:
 
         # 2. 상단 패널 (좌우 분할) - 마우스 드래그로 크기 조절 가능
         pw_horizontal = ttk.PanedWindow(pw_vertical, orient=tk.HORIZONTAL)
-        pw_vertical.add(pw_horizontal, weight=3)
+        pw_vertical.add(pw_horizontal, weight=4)
 
         # 상단 좌측 패널 - 이미지 캔버스
         frame_left = ttk.Frame(pw_horizontal, relief=tk.SUNKEN)
-        pw_horizontal.add(frame_left, weight=3)
+        pw_horizontal.add(frame_left, weight=4)
         self.create_left_panel(frame_left)
 
         # 상단 우측 패널 - 탭 패널
@@ -117,13 +118,14 @@ class MainFrame:
         self.notebook.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
         
         # Setting 탭
-        recipe_frame = RecipeFrame(self.notebook, view_frame=self.view_frame, current_user=self.current_user)
-        self.notebook.add(recipe_frame, text="Recipe")
-        
+        self.CameraSetting_frame = CameraSettingFrame(self.notebook, view_frame=self.view_frame, auth_level=self.current_user.auth_level)
+        self.notebook.add(self.CameraSetting_frame, text="Camera Setting")
         # Recipe 탭
-        setting_frame = ttk.Frame(self.notebook)
-        self.notebook.add(setting_frame, text="Setting")
-        ttk.Label(setting_frame, text="Setting Area").pack(padx=10, pady=10)
+        self.NozzleCenter_frame = NozzleCenterFrame(self.notebook, view_frame=self.view_frame, auth_level=self.current_user.auth_level)
+        self.notebook.add(self.NozzleCenter_frame, text="Nozzle Center")
+        # System Config 탭
+        self.SystemConfig_frame = TreeConfigEditor(self.notebook, auth_level=self.current_user.auth_level)
+        self.notebook.add(self.SystemConfig_frame, text="System Config")
 
     # bottom frame 생성
     def create_bottom_frame(self, bottom_frame: ttk.Frame):
@@ -186,7 +188,7 @@ class MainFrame:
             password = password_var.get()
             user_manager = UserManager.load_or_create_from_yaml("user_info.yaml")
             if user_manager.authenticate(username, password):
-                self.update_user(user_manager.current_user)
+                self.update_auth_level(user_manager.current_user.auth_level)
                 login_window.destroy()
             else:
                 messagebox.showerror("로그인 실패", "사용자 ID 또는 비밀번호를 다시 확인하세요.")
@@ -198,9 +200,12 @@ class MainFrame:
         login_window.grab_set()
         self.root.wait_window(login_window)
     
-    def update_user(self, user: User) -> None:
-        self.current_user = user
-        self.root.title(f"VisInsp - (권한: {user.access_level} - {user.full_name})")
+    def update_auth_level(self, auth_level: int) -> None:
+        self.current_auth_level = auth_level
+        self.CameraSetting_frame.update_auth_level(auth_level)
+        self.NozzleCenter_frame.update_auth_level(auth_level)
+        self.SystemConfig_frame.update_auth_level(auth_level)
+        self.root.title(f"VisInsp - (권한: {auth_level})")
 
     def show_license_info(self):
         # 라이선스 정보 메시지 박스 표시

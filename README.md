@@ -34,7 +34,7 @@
 users:
   - username: admin
     password_hash: 8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
-    access_level: developer
+    auth_level: 1
     full_name: "관리자"
 
 parameters:
@@ -46,7 +46,7 @@ parameters:
     module: "이미지 처리"
     feature: "전처리"
     group: "필터"
-    access_level: user
+    auth_level: 1
     
   - name: threshold
     label: "임계값 (특징점 매칭)"
@@ -55,7 +55,7 @@ parameters:
     module: "특징점 매칭"
     feature: "알고리즘"
     group: "정확도"
-    access_level: engineer
+    auth_level: 1
     
   # 고유 ID는 자동으로 생성: 모듈:기능:그룹:이름
   # "이미지 처리:전처리:필터:threshold"

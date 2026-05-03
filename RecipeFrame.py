@@ -7,9 +7,9 @@ from ParameManager import ParameterForm, ParameterManager
 from UserManager import User
 
 class RecipeFrame(ttk.Frame):
-    def __init__(self, parent, view_frame: ViewFrame, current_user: User, yaml_path: str = "params_example.yaml"):
+    def __init__(self, parent, view_frame: ViewFrame, auth_level: int, yaml_path: str = "params_example.yaml"):
         super().__init__(parent)
-        self.current_user = current_user
+        self.current_auth_level = auth_level
         self.yaml_path = yaml_path
         self.manager = None
         self.form = None
@@ -27,7 +27,7 @@ class RecipeFrame(ttk.Frame):
         try:
             yaml_path = Path(__file__).resolve().parent / self.yaml_path
             self.manager = ParameterManager.load_yaml(str(yaml_path))
-            self.form = ParameterForm(content_frame, self.view_frame, self.manager, current_user=self.current_user)
+            self.form = ParameterForm(content_frame, self.view_frame, self.manager, auth_level=self.current_auth_level)
             self.form.pack(fill=tk.BOTH, expand=True)
         except Exception as e:
             error_label = ttk.Label(content_frame, text=f"설정 파일을 불러오는 중 오류가 발생했습니다:\n{e}",
@@ -63,3 +63,16 @@ class RecipeFrame(ttk.Frame):
             messagebox.showinfo("저장 완료", f"설정이 {self.yaml_path}에 저장되었습니다.")
         except Exception as e:
             messagebox.showerror("오류", f"설정을 저장하는 중 오류가 발생했습니다: {e}")
+
+    def update_auth_level(self, auth_level: int) -> None:
+        self.current_auth_level = auth_level
+        if self.form:
+            self.form.update_auth_level(auth_level)
+
+class NozzleCenterFrame(RecipeFrame):
+    def __init__(self, parent, view_frame: ViewFrame, auth_level: int, yaml_path: str = "Setting/nozzle_center_params.yaml"):
+        super().__init__(parent, view_frame, auth_level, yaml_path)
+
+class CameraSettingFrame(RecipeFrame):
+    def __init__(self, parent, view_frame: ViewFrame, auth_level: int, yaml_path: str = "Setting/camera_setting_params.yaml"):
+        super().__init__(parent, view_frame, auth_level, yaml_path)

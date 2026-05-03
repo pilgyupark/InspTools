@@ -1,0 +1,1799 @@
+parameters:
+- name: pos1_img_path
+  label: pos1 image path
+  type: img_path
+  value: Setting\\COMMON\\PR_NZ_CENTER\\SCW_RIGHT\\Calibration\\pos1.bmp
+  min: false
+  max: true
+  options: ['*.bmp *.jpg *.png', '*.*']
+  group: SCW_RIGHT
+  section: Position
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 위치 별 이미지 경로 설정
+  auth_level: 1
+- name: temp1_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [100, 100, 200, 200]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: SCW_RIGHT
+  section: Position
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정
+  auth_level: 1
+- name: search1_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [50, 50, 250, 250]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: SCW_RIGHT
+  section: Position
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 검색 영역(ROI)을 지정
+  auth_level: 1
+- name: pos2_img_path
+  label: pos2 image path
+  type: img_path
+  value: Setting\\COMMON\\PR_NZ_CENTER\\SCW_RIGHT\\Calibration\\pos2.bmp
+  min: false
+  max: true
+  options: ['*.bmp *.jpg *.png', '*.*']
+  group: SCW_RIGHT
+  section: Position
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 위치 별 이미지 경로 설정
+  auth_level: 1
+- name: temp2_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [100, 100, 200, 200]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: SCW_RIGHT
+  section: Position
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정
+  auth_level: 1
+- name: search2_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [50, 50, 250, 250]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: SCW_RIGHT
+  section: Position
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 검색 영역(ROI)을 지정
+  auth_level: 1
+- name: pos3_img_path
+  label: pos3 image path
+  type: img_path
+  value: Setting\\COMMON\\PR_NZ_CENTER\\SCW_RIGHT\\Calibration\\pos3.bmp
+  min: false
+  max: true
+  options: ['*.bmp *.jpg *.png', '*.*']
+  group: SCW_RIGHT
+  section: Position
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 위치 별 이미지 경로 설정
+  auth_level: 1
+- name: temp3_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [100, 100, 200, 200]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: SCW_RIGHT
+  section: Position
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정
+  auth_level: 1
+- name: search3_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [50, 50, 250, 250]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: SCW_RIGHT
+  section: Position
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 검색 영역(ROI)을 지정
+  auth_level: 1
+- name: method
+  label: method
+  type: choice
+  value: '1'
+  min: false
+  max: true
+  options: [0, 1, 2, 3]
+  group: SCW_RIGHT
+  section: Calibration
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 켈리브레이션 방법 설정 0:고정, 1:src_pts검색, 2:dst_pts계산, 3:square계산
+  auth_level: 1
+- name: src_pts
+  label: src 좌표
+  type: list
+  value: [[600.0, 300.0], [700.0, 280.0], [701.0, 200.0], [601.0, 210.0]]
+  min: 0.0
+  max: 1920.0
+  options: [0, 1, 2, 3]
+  group: SCW_RIGHT
+  section: Calibration
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 소스 좌표를 설정
+  auth_level: 1
+- name: dst_pts
+  label: dst 좌표
+  type: list
+  value: [[600.0, 300.0], [700.0, 280.0], [701.0, 200.0], [601.0, 210.0]]
+  min: 0.0
+  max: 1920.0
+  options: [0, 1, 2, 3]
+  group: SCW_RIGHT
+  section: Calibration
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 목표 좌표를 설정
+  auth_level: 1
+- name: matrix
+  label: 변환 행렬
+  type: list
+  value: [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
+  min: 0.0
+  max: 1920.0
+  options: [0, 1, 2, 3]
+  group: SCW_RIGHT
+  section: Calibration
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 변환 행렬 설정
+  auth_level: 1
+- name: err_pts
+  label: src 오차
+  type: list
+  value: [[0.0, 0.0], [0.0, 0.0], [0.0, 0.0], [0.0, 0.0]]
+  min: 0.0
+  max: 1920.0
+  options: [0, 1, 2, 3]
+  group: SCW_RIGHT
+  section: Calibration
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 소스 검색 오차
+  auth_level: 1
+- name: offset
+  label: offset
+  type: point
+  value: [0.0, 0.0]
+  min: 0.0
+  max: 1920.0
+  options: [0, 1, 2, 3]
+  group: SCW_RIGHT
+  section: Calibration
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: offset 설정 ((src_pts+err_pts+offset)*matrix = dst_pts)
+  auth_level: 1
+- name: kernel_size
+  label: kernel size
+  type: point
+  value: [10, 10]
+  min: 1
+  max: 20
+  options: [0, 1, 2, 3]
+  group: SCW_RIGHT
+  section: Calibration
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 모폴로지 커널 크기 설정
+  auth_level: 1
+- name: ref_img_path
+  label: ref image path
+  type: img_path
+  value: Setting\\COMMON\\PR_NZ_CENTER\\SCW_RIGHT\\ref.bmp
+  min: 1
+  max: 20
+  options: [0, 1, 2, 3]
+  group: SCW_RIGHT
+  section: Inspection
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 기준 위치
+  auth_level: 1
+- name: temp_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [100, 100, 200, 200]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: SCW_RIGHT
+  section: Inspection
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정
+  auth_level: 1
+- name: search_roi
+  label: 검색 ROI
+  type: roi
+  value: [50, 50, 250, 250]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: SCW_RIGHT
+  section: Inspection
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에 사용할 템플릿의 검색 영역(ROI)을 지정
+  auth_level: 1
+- name: score
+  label: score limite
+  type: float
+  value: 0.6
+  min: 0.5
+  max: 0.8
+  options: [0, 1, 2, 3]
+  group: SCW_RIGHT
+  section: Inspection
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 기준 위치
+  auth_level: 1
+- name: dsp_mode
+  label: display mode
+  type: int
+  value: 16777215
+  min: 0
+  max: 16777215
+  options: [0, 1, 2, 3]
+  group: SCW_RIGHT
+  section: Inspection
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: display 할 모드를 설정
+  auth_level: 1
+- name: pos1_img_path
+  label: pos1 image path
+  type: img_path
+  value: Setting\\COMMON\\PR_NZ_CENTER\\SCW_LEFT\\Calibration\\pos1.bmp
+  min: false
+  max: true
+  options: ['*.bmp *.jpg *.png', '*.*']
+  group: SCW_LEFT
+  section: Position
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 위치 별 이미지 경로 설정
+  auth_level: 1
+- name: temp1_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [100, 100, 200, 200]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: SCW_LEFT
+  section: Position
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정
+  auth_level: 1
+- name: search1_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [50, 50, 250, 250]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: SCW_LEFT
+  section: Position
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 검색 영역(ROI)을 지정
+  auth_level: 1
+- name: pos2_img_path
+  label: pos2 image path
+  type: img_path
+  value: Setting\\COMMON\\PR_NZ_CENTER\\SCW_LEFT\\Calibration\\pos2.bmp
+  min: false
+  max: true
+  options: ['*.bmp *.jpg *.png', '*.*']
+  group: SCW_LEFT
+  section: Position
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 위치 별 이미지 경로 설정
+  auth_level: 1
+- name: temp2_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [100, 100, 200, 200]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: SCW_LEFT
+  section: Position
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정
+  auth_level: 1
+- name: search2_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [50, 50, 250, 250]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: SCW_LEFT
+  section: Position
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 검색 영역(ROI)을 지정
+  auth_level: 1
+- name: pos3_img_path
+  label: pos3 image path
+  type: img_path
+  value: Setting\\COMMON\\PR_NZ_CENTER\\SCW_LEFT\\Calibration\\pos3.bmp
+  min: false
+  max: true
+  options: ['*.bmp *.jpg *.png', '*.*']
+  group: SCW_LEFT
+  section: Position
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 위치 별 이미지 경로 설정
+  auth_level: 1
+- name: temp3_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [100, 100, 200, 200]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: SCW_LEFT
+  section: Position
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정
+  auth_level: 1
+- name: search3_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [50, 50, 250, 250]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: SCW_LEFT
+  section: Position
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 검색 영역(ROI)을 지정
+  auth_level: 1
+- name: method
+  label: method
+  type: choice
+  value: '1'
+  min: false
+  max: true
+  options: [0, 1, 2, 3]
+  group: SCW_LEFT
+  section: Calibration
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 켈리브레이션 방법 설정 0:고정, 1:src_pts검색, 2:dst_pts계산, 3:square계산
+  auth_level: 1
+- name: src_pts
+  label: src 좌표
+  type: list
+  value: [[600.0, 300.0], [700.0, 280.0], [701.0, 200.0], [601.0, 210.0]]
+  min: 0.0
+  max: 1920.0
+  options: [0, 1, 2, 3]
+  group: SCW_LEFT
+  section: Calibration
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 소스 좌표를 설정
+  auth_level: 1
+- name: dst_pts
+  label: dst 좌표
+  type: list
+  value: [[600.0, 300.0], [700.0, 280.0], [701.0, 200.0], [601.0, 210.0]]
+  min: 0.0
+  max: 1920.0
+  options: [0, 1, 2, 3]
+  group: SCW_LEFT
+  section: Calibration
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 목표 좌표를 설정
+  auth_level: 1
+- name: matrix
+  label: 변환 행렬
+  type: list
+  value: [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
+  min: 0.0
+  max: 1920.0
+  options: [0, 1, 2, 3]
+  group: SCW_LEFT
+  section: Calibration
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 변환 행렬 설정
+  auth_level: 1
+- name: err_pts
+  label: src 오차
+  type: list
+  value: [[0.0, 0.0], [0.0, 0.0], [0.0, 0.0], [0.0, 0.0]]
+  min: 0.0
+  max: 1920.0
+  options: [0, 1, 2, 3]
+  group: SCW_LEFT
+  section: Calibration
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 소스 검색 오차
+  auth_level: 1
+- name: offset
+  label: offset
+  type: point
+  value: [0.0, 0.0]
+  min: 0.0
+  max: 1920.0
+  options: [0, 1, 2, 3]
+  group: SCW_LEFT
+  section: Calibration
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: offset 설정 ((src_pts+err_pts+offset)*matrix = dst_pts)
+  auth_level: 1
+- name: kernel_size
+  label: kernel size
+  type: point
+  value: [10, 10]
+  min: 1
+  max: 20
+  options: [0, 1, 2, 3]
+  group: SCW_LEFT
+  section: Calibration
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 모폴로지 커널 크기 설정
+  auth_level: 1
+- name: ref_img_path
+  label: ref image path
+  type: img_path
+  value: Setting\\COMMON\\PR_NZ_CENTER\\SCW_LEFT\\ref.bmp
+  min: 1
+  max: 20
+  options: [0, 1, 2, 3]
+  group: SCW_LEFT
+  section: Inspection
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 기준 위치
+  auth_level: 1
+- name: temp_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [100, 100, 200, 200]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: SCW_LEFT
+  section: Inspection
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정
+  auth_level: 1
+- name: search_roi
+  label: 검색 ROI
+  type: roi
+  value: [50, 50, 250, 250]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: SCW_LEFT
+  section: Inspection
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에 사용할 템플릿의 검색 영역(ROI)을 지정
+  auth_level: 1
+- name: score
+  label: score limite
+  type: float
+  value: 0.6
+  min: 0.5
+  max: 0.8
+  options: [0, 1, 2, 3]
+  group: SCW_LEFT
+  section: Inspection
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: 기준 위치
+  auth_level: 1
+- name: dsp_mode
+  label: display mode
+  type: int
+  value: 16777215
+  min: 0
+  max: 16777215
+  options: [0, 1, 2, 3]
+  group: SCW_LEFT
+  section: Inspection
+  feature: PR_NZ_CENTER
+  module: COMMON
+  help_text: display 할 모드를 설정
+  auth_level: 1
+- name: pos1_img_path
+  label: pos1 image path
+  type: img_path
+  value: Setting\\COMMON\\DI_NZ_CENTER\\PTD_RIGHT\\Calibration\\pos1.bmp
+  min: false
+  max: true
+  options: ['*.bmp *.jpg *.png', '*.*']
+  group: PTD_RIGHT
+  section: Position
+  feature: DI_NZ_CENTER
+  module: COMMON
+  help_text: 위치 별 이미지 경로 설정
+  auth_level: 1
+- name: temp1_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [100, 100, 200, 200]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: PTD_RIGHT
+  section: Position
+  feature: DI_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정
+  auth_level: 1
+- name: search1_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [50, 50, 250, 250]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: PTD_RIGHT
+  section: Position
+  feature: DI_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 검색 영역(ROI)을 지정
+  auth_level: 1
+- name: pos2_img_path
+  label: pos2 image path
+  type: img_path
+  value: Setting\\COMMON\\DI_NZ_CENTER\\PTD_RIGHT\\Calibration\\pos2.bmp
+  min: false
+  max: true
+  options: ['*.bmp *.jpg *.png', '*.*']
+  group: PTD_RIGHT
+  section: Position
+  feature: DI_NZ_CENTER
+  module: COMMON
+  help_text: 위치 별 이미지 경로 설정
+  auth_level: 1
+- name: temp2_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [100, 100, 200, 200]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: PTD_RIGHT
+  section: Position
+  feature: DI_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정
+  auth_level: 1
+- name: search2_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [50, 50, 250, 250]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: PTD_RIGHT
+  section: Position
+  feature: DI_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 검색 영역(ROI)을 지정
+  auth_level: 1
+- name: pos3_img_path
+  label: pos3 image path
+  type: img_path
+  value: Setting\\COMMON\\DI_NZ_CENTER\\PTD_RIGHT\\Calibration\\pos3.bmp
+  min: false
+  max: true
+  options: ['*.bmp *.jpg *.png', '*.*']
+  group: PTD_RIGHT
+  section: Position
+  feature: DI_NZ_CENTER
+  module: COMMON
+  help_text: 위치 별 이미지 경로 설정
+  auth_level: 1
+- name: temp3_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [100, 100, 200, 200]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: PTD_RIGHT
+  section: Position
+  feature: DI_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정
+  auth_level: 1
+- name: search3_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [50, 50, 250, 250]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: PTD_RIGHT
+  section: Position
+  feature: DI_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 검색 영역(ROI)을 지정
+  auth_level: 1
+- name: method
+  label: method
+  type: choice
+  value: '1'
+  min: false
+  max: true
+  options: [0, 1, 2, 3]
+  group: PTD_RIGHT
+  section: Calibration
+  feature: DI_NZ_CENTER
+  module: COMMON
+  help_text: 켈리브레이션 방법 설정 0:고정, 1:src_pts검색, 2:dst_pts계산, 3:square계산
+  auth_level: 1
+- name: src_pts
+  label: src 좌표
+  type: list
+  value: [[600.0, 300.0], [700.0, 280.0], [701.0, 200.0], [601.0, 210.0]]
+  min: 0.0
+  max: 1920.0
+  options: [0, 1, 2, 3]
+  group: PTD_RIGHT
+  section: Calibration
+  feature: DI_NZ_CENTER
+  module: COMMON
+  help_text: 소스 좌표를 설정
+  auth_level: 1
+- name: dst_pts
+  label: dst 좌표
+  type: list
+  value: [[600.0, 300.0], [700.0, 280.0], [701.0, 200.0], [601.0, 210.0]]
+  min: 0.0
+  max: 1920.0
+  options: [0, 1, 2, 3]
+  group: PTD_RIGHT
+  section: Calibration
+  feature: DI_NZ_CENTER
+  module: COMMON
+  help_text: 목표 좌표를 설정
+  auth_level: 1
+- name: matrix
+  label: 변환 행렬
+  type: list
+  value: [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
+  min: 0.0
+  max: 1920.0
+  options: [0, 1, 2, 3]
+  group: PTD_RIGHT
+  section: Calibration
+  feature: DI_NZ_CENTER
+  module: COMMON
+  help_text: 변환 행렬 설정
+  auth_level: 1
+- name: err_pts
+  label: src 오차
+  type: list
+  value: [[0.0, 0.0], [0.0, 0.0], [0.0, 0.0], [0.0, 0.0]]
+  min: 0.0
+  max: 1920.0
+  options: [0, 1, 2, 3]
+  group: PTD_RIGHT
+  section: Calibration
+  feature: DI_NZ_CENTER
+  module: COMMON
+  help_text: 소스 검색 오차
+  auth_level: 1
+- name: offset
+  label: offset
+  type: point
+  value: [0.0, 0.0]
+  min: 0.0
+  max: 1920.0
+  options: [0, 1, 2, 3]
+  group: PTD_RIGHT
+  section: Calibration
+  feature: DI_NZ_CENTER
+  module: COMMON
+  help_text: offset 설정 ((src_pts+err_pts+offset)*matrix = dst_pts)
+  auth_level: 1
+- name: kernel_size
+  label: kernel size
+  type: point
+  value: [10, 10]
+  min: 1
+  max: 20
+  options: [0, 1, 2, 3]
+  group: PTD_RIGHT
+  section: Calibration
+  feature: DI_NZ_CENTER
+  module: COMMON
+  help_text: 모폴로지 커널 크기 설정
+  auth_level: 1
+- name: ref_img_path
+  label: ref image path
+  type: img_path
+  value: Setting\\COMMON\\DI_NZ_CENTER\\PTD_RIGHT\\ref.bmp
+  min: 1
+  max: 20
+  options: [0, 1, 2, 3]
+  group: PTD_RIGHT
+  section: Inspection
+  feature: DI_NZ_CENTER
+  module: COMMON
+  help_text: 기준 위치
+  auth_level: 1
+- name: temp_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [100, 100, 200, 200]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: PTD_RIGHT
+  section: Inspection
+  feature: DI_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정
+  auth_level: 1
+- name: search_roi
+  label: 검색 ROI
+  type: roi
+  value: [50, 50, 250, 250]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: PTD_RIGHT
+  section: Inspection
+  feature: DI_NZ_CENTER
+  module: COMMON
+  help_text: 특징점 매칭에 사용할 템플릿의 검색 영역(ROI)을 지정
+  auth_level: 1
+- name: score
+  label: score limite
+  type: float
+  value: 0.6
+  min: 0.5
+  max: 0.8
+  options: [0, 1, 2, 3]
+  group: PTD_RIGHT
+  section: Inspection
+  feature: DI_NZ_CENTER
+  module: COMMON
+  help_text: 기준 위치
+  auth_level: 1
+- name: dsp_mode
+  label: display mode
+  type: int
+  value: 16777215
+  min: 0
+  max: 16777215
+  options: [0, 1, 2, 3]
+  group: PTD_RIGHT
+  section: Inspection
+  feature: DI_NZ_CENTER
+  module: COMMON
+  help_text: display 할 모드를 설정
+  auth_level: 1
+- name: pos1_img_path
+  label: pos1 image path
+  type: img_path
+  value: Setting\\SCW1-13\\PR_NZ_CENTER\\SCW_RIGHT\\Calibration\\pos1.bmp
+  min: false
+  max: true
+  options: ['*.bmp *.jpg *.png', '*.*']
+  group: SCW_RIGHT
+  section: Position
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 위치 별 이미지 경로 설정
+  auth_level: 1
+- name: temp1_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [100, 100, 200, 200]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: SCW_RIGHT
+  section: Position
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정
+  auth_level: 1
+- name: search1_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [50, 50, 250, 250]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: SCW_RIGHT
+  section: Position
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 검색 영역(ROI)을 지정
+  auth_level: 1
+- name: pos2_img_path
+  label: pos2 image path
+  type: img_path
+  value: Setting\\SCW1-13\\PR_NZ_CENTER\\SCW_RIGHT\\Calibration\\pos2.bmp
+  min: false
+  max: true
+  options: ['*.bmp *.jpg *.png', '*.*']
+  group: SCW_RIGHT
+  section: Position
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 위치 별 이미지 경로 설정
+  auth_level: 1
+- name: temp2_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [100, 100, 200, 200]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: SCW_RIGHT
+  section: Position
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정
+  auth_level: 1
+- name: search2_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [50, 50, 250, 250]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: SCW_RIGHT
+  section: Position
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 검색 영역(ROI)을 지정
+  auth_level: 1
+- name: pos3_img_path
+  label: pos3 image path
+  type: img_path
+  value: Setting\\SCW1-13\\PR_NZ_CENTER\\SCW_RIGHT\\Calibration\\pos3.bmp
+  min: false
+  max: true
+  options: ['*.bmp *.jpg *.png', '*.*']
+  group: SCW_RIGHT
+  section: Position
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 위치 별 이미지 경로 설정
+  auth_level: 1
+- name: temp3_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [100, 100, 200, 200]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: SCW_RIGHT
+  section: Position
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정
+  auth_level: 1
+- name: search3_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [50, 50, 250, 250]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: SCW_RIGHT
+  section: Position
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 검색 영역(ROI)을 지정
+  auth_level: 1
+- name: method
+  label: method
+  type: choice
+  value: '1'
+  min: false
+  max: true
+  options: [0, 1, 2, 3]
+  group: SCW_RIGHT
+  section: Calibration
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 켈리브레이션 방법 설정 0:고정, 1:src_pts검색, 2:dst_pts계산, 3:square계산
+  auth_level: 1
+- name: src_pts
+  label: src 좌표
+  type: list
+  value: [[600.0, 300.0], [700.0, 280.0], [701.0, 200.0], [601.0, 210.0]]
+  min: 0.0
+  max: 1920.0
+  options: [0, 1, 2, 3]
+  group: SCW_RIGHT
+  section: Calibration
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 소스 좌표를 설정
+  auth_level: 1
+- name: dst_pts
+  label: dst 좌표
+  type: list
+  value: [[600.0, 300.0], [700.0, 280.0], [701.0, 200.0], [601.0, 210.0]]
+  min: 0.0
+  max: 1920.0
+  options: [0, 1, 2, 3]
+  group: SCW_RIGHT
+  section: Calibration
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 목표 좌표를 설정
+  auth_level: 1
+- name: matrix
+  label: 변환 행렬
+  type: list
+  value: [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
+  min: 0.0
+  max: 1920.0
+  options: [0, 1, 2, 3]
+  group: SCW_RIGHT
+  section: Calibration
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 변환 행렬 설정
+  auth_level: 1
+- name: err_pts
+  label: src 오차
+  type: list
+  value: [[0.0, 0.0], [0.0, 0.0], [0.0, 0.0], [0.0, 0.0]]
+  min: 0.0
+  max: 1920.0
+  options: [0, 1, 2, 3]
+  group: SCW_RIGHT
+  section: Calibration
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 소스 검색 오차
+  auth_level: 1
+- name: offset
+  label: offset
+  type: point
+  value: [0.0, 0.0]
+  min: 0.0
+  max: 1920.0
+  options: [0, 1, 2, 3]
+  group: SCW_RIGHT
+  section: Calibration
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: offset 설정 ((src_pts+err_pts+offset)*matrix = dst_pts)
+  auth_level: 1
+- name: kernel_size
+  label: kernel size
+  type: point
+  value: [10, 10]
+  min: 1
+  max: 20
+  options: [0, 1, 2, 3]
+  group: SCW_RIGHT
+  section: Calibration
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 모폴로지 커널 크기 설정
+  auth_level: 1
+- name: ref_img_path
+  label: ref image path
+  type: img_path
+  value: Setting\\SCW1-13\\PR_NZ_CENTER\\SCW_RIGHT\\ref.bmp
+  min: 1
+  max: 20
+  options: [0, 1, 2, 3]
+  group: SCW_RIGHT
+  section: Inspection
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 기준 위치
+  auth_level: 1
+- name: temp_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [100, 100, 200, 200]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: SCW_RIGHT
+  section: Inspection
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정
+  auth_level: 1
+- name: search_roi
+  label: 검색 ROI
+  type: roi
+  value: [50, 50, 250, 250]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: SCW_RIGHT
+  section: Inspection
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 특징점 매칭에 사용할 템플릿의 검색 영역(ROI)을 지정
+  auth_level: 1
+- name: score
+  label: score limite
+  type: float
+  value: 0.6
+  min: 0.5
+  max: 0.8
+  options: [0, 1, 2, 3]
+  group: SCW_RIGHT
+  section: Inspection
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: 기준 위치
+  auth_level: 1
+- name: dsp_mode
+  label: display mode
+  type: int
+  value: 16777215
+  min: 0
+  max: 16777215
+  options: [0, 1, 2, 3]
+  group: SCW_RIGHT
+  section: Inspection
+  feature: PR_NZ_CENTER
+  module: SCW1-13
+  help_text: display 할 모드를 설정
+  auth_level: 1
+- name: pos1_img_path
+  label: pos1 image path
+  type: img_path
+  value: Setting\\SCW1-14\\PR_NZ_CENTER\\SCW_LEFT\\Calibration\\pos1.bmp
+  min: false
+  max: true
+  options: ['*.bmp *.jpg *.png', '*.*']
+  group: SCW_LEFT
+  section: Position
+  feature: PR_NZ_CENTER
+  module: SCW1-14
+  help_text: 위치 별 이미지 경로 설정
+  auth_level: 1
+- name: temp1_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [100, 100, 200, 200]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: SCW_LEFT
+  section: Position
+  feature: PR_NZ_CENTER
+  module: SCW1-14
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정
+  auth_level: 1
+- name: search1_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [50, 50, 250, 250]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: SCW_LEFT
+  section: Position
+  feature: PR_NZ_CENTER
+  module: SCW1-14
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 검색 영역(ROI)을 지정
+  auth_level: 1
+- name: pos2_img_path
+  label: pos2 image path
+  type: img_path
+  value: Setting\\SCW1-14\\PR_NZ_CENTER\\SCW_LEFT\\Calibration\\pos2.bmp
+  min: false
+  max: true
+  options: ['*.bmp *.jpg *.png', '*.*']
+  group: SCW_LEFT
+  section: Position
+  feature: PR_NZ_CENTER
+  module: SCW1-14
+  help_text: 위치 별 이미지 경로 설정
+  auth_level: 1
+- name: temp2_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [100, 100, 200, 200]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: SCW_LEFT
+  section: Position
+  feature: PR_NZ_CENTER
+  module: SCW1-14
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정
+  auth_level: 1
+- name: search2_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [50, 50, 250, 250]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: SCW_LEFT
+  section: Position
+  feature: PR_NZ_CENTER
+  module: SCW1-14
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 검색 영역(ROI)을 지정
+  auth_level: 1
+- name: pos3_img_path
+  label: pos3 image path
+  type: img_path
+  value: Setting\\SCW1-14\\PR_NZ_CENTER\\SCW_LEFT\\Calibration\\pos3.bmp
+  min: false
+  max: true
+  options: ['*.bmp *.jpg *.png', '*.*']
+  group: SCW_LEFT
+  section: Position
+  feature: PR_NZ_CENTER
+  module: SCW1-14
+  help_text: 위치 별 이미지 경로 설정
+  auth_level: 1
+- name: temp3_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [100, 100, 200, 200]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: SCW_LEFT
+  section: Position
+  feature: PR_NZ_CENTER
+  module: SCW1-14
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정
+  auth_level: 1
+- name: search3_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [50, 50, 250, 250]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: SCW_LEFT
+  section: Position
+  feature: PR_NZ_CENTER
+  module: SCW1-14
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 검색 영역(ROI)을 지정
+  auth_level: 1
+- name: method
+  label: method
+  type: choice
+  value: '1'
+  min: false
+  max: true
+  options: [0, 1, 2, 3]
+  group: SCW_LEFT
+  section: Calibration
+  feature: PR_NZ_CENTER
+  module: SCW1-14
+  help_text: 켈리브레이션 방법 설정 0:고정, 1:src_pts검색, 2:dst_pts계산, 3:square계산
+  auth_level: 1
+- name: src_pts
+  label: src 좌표
+  type: list
+  value: [[600.0, 300.0], [700.0, 280.0], [701.0, 200.0], [601.0, 210.0]]
+  min: 0.0
+  max: 1920.0
+  options: [0, 1, 2, 3]
+  group: SCW_LEFT
+  section: Calibration
+  feature: PR_NZ_CENTER
+  module: SCW1-14
+  help_text: 소스 좌표를 설정
+  auth_level: 1
+- name: dst_pts
+  label: dst 좌표
+  type: list
+  value: [[600.0, 300.0], [700.0, 280.0], [701.0, 200.0], [601.0, 210.0]]
+  min: 0.0
+  max: 1920.0
+  options: [0, 1, 2, 3]
+  group: SCW_LEFT
+  section: Calibration
+  feature: PR_NZ_CENTER
+  module: SCW1-14
+  help_text: 목표 좌표를 설정
+  auth_level: 1
+- name: matrix
+  label: 변환 행렬
+  type: list
+  value: [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
+  min: 0.0
+  max: 1920.0
+  options: [0, 1, 2, 3]
+  group: SCW_LEFT
+  section: Calibration
+  feature: PR_NZ_CENTER
+  module: SCW1-14
+  help_text: 변환 행렬 설정
+  auth_level: 1
+- name: err_pts
+  label: src 오차
+  type: list
+  value: [[0.0, 0.0], [0.0, 0.0], [0.0, 0.0], [0.0, 0.0]]
+  min: 0.0
+  max: 1920.0
+  options: [0, 1, 2, 3]
+  group: SCW_LEFT
+  section: Calibration
+  feature: PR_NZ_CENTER
+  module: SCW1-14
+  help_text: 소스 검색 오차
+  auth_level: 1
+- name: offset
+  label: offset
+  type: point
+  value: [0.0, 0.0]
+  min: 0.0
+  max: 1920.0
+  options: [0, 1, 2, 3]
+  group: SCW_LEFT
+  section: Calibration
+  feature: PR_NZ_CENTER
+  module: SCW1-14
+  help_text: offset 설정 ((src_pts+err_pts+offset)*matrix = dst_pts)
+  auth_level: 1
+- name: kernel_size
+  label: kernel size
+  type: point
+  value: [10, 10]
+  min: 1
+  max: 20
+  options: [0, 1, 2, 3]
+  group: SCW_LEFT
+  section: Calibration
+  feature: PR_NZ_CENTER
+  module: SCW1-14
+  help_text: 모폴로지 커널 크기 설정
+  auth_level: 1
+- name: ref_img_path
+  label: ref image path
+  type: img_path
+  value: Setting\\SCW1-14\\PR_NZ_CENTER\\SCW_LEFT\\ref.bmp
+  min: 1
+  max: 20
+  options: [0, 1, 2, 3]
+  group: SCW_LEFT
+  section: Inspection
+  feature: PR_NZ_CENTER
+  module: SCW1-14
+  help_text: 기준 위치
+  auth_level: 1
+- name: temp_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [100, 100, 200, 200]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: SCW_LEFT
+  section: Inspection
+  feature: PR_NZ_CENTER
+  module: SCW1-14
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정
+  auth_level: 1
+- name: search_roi
+  label: 검색 ROI
+  type: roi
+  value: [50, 50, 250, 250]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: SCW_LEFT
+  section: Inspection
+  feature: PR_NZ_CENTER
+  module: SCW1-14
+  help_text: 특징점 매칭에 사용할 템플릿의 검색 영역(ROI)을 지정
+  auth_level: 1
+- name: score
+  label: score limite
+  type: float
+  value: 0.6
+  min: 0.5
+  max: 0.8
+  options: [0, 1, 2, 3]
+  group: SCW_LEFT
+  section: Inspection
+  feature: PR_NZ_CENTER
+  module: SCW1-14
+  help_text: 기준 위치
+  auth_level: 1
+- name: dsp_mode
+  label: display mode
+  type: int
+  value: 16777215
+  min: 0
+  max: 16777215
+  options: [0, 1, 2, 3]
+  group: SCW_LEFT
+  section: Inspection
+  feature: PR_NZ_CENTER
+  module: SCW1-14
+  help_text: display 할 모드를 설정
+  auth_level: 1
+- name: pos1_img_path
+  label: pos1 image path
+  type: img_path
+  value: Setting\\PTD3-11\\DI_NZ_CENTER\\PTD_RIGHT\\Calibration\\pos1.bmp
+  min: false
+  max: true
+  options: ['*.bmp *.jpg *.png', '*.*']
+  group: PTD_RIGHT
+  section: Position
+  feature: DI_NZ_CENTER
+  module: PTD3-11
+  help_text: 위치 별 이미지 경로 설정
+  auth_level: 1
+- name: temp1_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [100, 100, 200, 200]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: PTD_RIGHT
+  section: Position
+  feature: DI_NZ_CENTER
+  module: PTD3-11
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정
+  auth_level: 1
+- name: search1_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [50, 50, 250, 250]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: PTD_RIGHT
+  section: Position
+  feature: DI_NZ_CENTER
+  module: PTD3-11
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 검색 영역(ROI)을 지정
+  auth_level: 1
+- name: pos2_img_path
+  label: pos2 image path
+  type: img_path
+  value: Setting\\PTD3-11\\DI_NZ_CENTER\\PTD_RIGHT\\Calibration\\pos2.bmp
+  min: false
+  max: true
+  options: ['*.bmp *.jpg *.png', '*.*']
+  group: PTD_RIGHT
+  section: Position
+  feature: DI_NZ_CENTER
+  module: PTD3-11
+  help_text: 위치 별 이미지 경로 설정
+  auth_level: 1
+- name: temp2_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [100, 100, 200, 200]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: PTD_RIGHT
+  section: Position
+  feature: DI_NZ_CENTER
+  module: PTD3-11
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정
+  auth_level: 1
+- name: search2_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [50, 50, 250, 250]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: PTD_RIGHT
+  section: Position
+  feature: DI_NZ_CENTER
+  module: PTD3-11
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 검색 영역(ROI)을 지정
+  auth_level: 1
+- name: pos3_img_path
+  label: pos3 image path
+  type: img_path
+  value: Setting\\PTD3-11\\DI_NZ_CENTER\\PTD_RIGHT\\Calibration\\pos3.bmp
+  min: false
+  max: true
+  options: ['*.bmp *.jpg *.png', '*.*']
+  group: PTD_RIGHT
+  section: Position
+  feature: DI_NZ_CENTER
+  module: PTD3-11
+  help_text: 위치 별 이미지 경로 설정
+  auth_level: 1
+- name: temp3_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [100, 100, 200, 200]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: PTD_RIGHT
+  section: Position
+  feature: DI_NZ_CENTER
+  module: PTD3-11
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정
+  auth_level: 1
+- name: search3_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [50, 50, 250, 250]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: PTD_RIGHT
+  section: Position
+  feature: DI_NZ_CENTER
+  module: PTD3-11
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 검색 영역(ROI)을 지정
+  auth_level: 1
+- name: method
+  label: method
+  type: choice
+  value: '1'
+  min: false
+  max: true
+  options: [0, 1, 2, 3]
+  group: PTD_RIGHT
+  section: Calibration
+  feature: DI_NZ_CENTER
+  module: PTD3-11
+  help_text: 켈리브레이션 방법 설정 0:고정, 1:src_pts검색, 2:dst_pts계산, 3:square계산
+  auth_level: 1
+- name: src_pts
+  label: src 좌표
+  type: list
+  value: [[600.0, 300.0], [700.0, 280.0], [701.0, 200.0], [601.0, 210.0]]
+  min: 0.0
+  max: 1920.0
+  options: [0, 1, 2, 3]
+  group: PTD_RIGHT
+  section: Calibration
+  feature: DI_NZ_CENTER
+  module: PTD3-11
+  help_text: 소스 좌표를 설정
+  auth_level: 1
+- name: dst_pts
+  label: dst 좌표
+  type: list
+  value: [[600.0, 300.0], [700.0, 280.0], [701.0, 200.0], [601.0, 210.0]]
+  min: 0.0
+  max: 1920.0
+  options: [0, 1, 2, 3]
+  group: PTD_RIGHT
+  section: Calibration
+  feature: DI_NZ_CENTER
+  module: PTD3-11
+  help_text: 목표 좌표를 설정
+  auth_level: 1
+- name: matrix
+  label: 변환 행렬
+  type: list
+  value: [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
+  min: 0.0
+  max: 1920.0
+  options: [0, 1, 2, 3]
+  group: PTD_RIGHT
+  section: Calibration
+  feature: DI_NZ_CENTER
+  module: PTD3-11
+  help_text: 변환 행렬 설정
+  auth_level: 1
+- name: err_pts
+  label: src 오차
+  type: list
+  value: [[0.0, 0.0], [0.0, 0.0], [0.0, 0.0], [0.0, 0.0]]
+  min: 0.0
+  max: 1920.0
+  options: [0, 1, 2, 3]
+  group: PTD_RIGHT
+  section: Calibration
+  feature: DI_NZ_CENTER
+  module: PTD3-11
+  help_text: 소스 검색 오차
+  auth_level: 1
+- name: offset
+  label: offset
+  type: point
+  value: [0.0, 0.0]
+  min: 0.0
+  max: 1920.0
+  options: [0, 1, 2, 3]
+  group: PTD_RIGHT
+  section: Calibration
+  feature: DI_NZ_CENTER
+  module: PTD3-11
+  help_text: offset 설정 ((src_pts+err_pts+offset)*matrix = dst_pts)
+  auth_level: 1
+- name: kernel_size
+  label: kernel size
+  type: point
+  value: [10, 10]
+  min: 1
+  max: 20
+  options: [0, 1, 2, 3]
+  group: PTD_RIGHT
+  section: Calibration
+  feature: DI_NZ_CENTER
+  module: PTD3-11
+  help_text: 모폴로지 커널 크기 설정
+  auth_level: 1
+- name: ref_img_path
+  label: ref image path
+  type: img_path
+  value: Setting\\PTD3-11\\DI_NZ_CENTER\\PTD_RIGHT\\ref.bmp
+  min: 1
+  max: 20
+  options: [0, 1, 2, 3]
+  group: PTD_RIGHT
+  section: Inspection
+  feature: DI_NZ_CENTER
+  module: PTD3-11
+  help_text: 기준 위치
+  auth_level: 1
+- name: temp_roi
+  label: 템플릿 ROI
+  type: roi
+  value: [100, 100, 200, 200]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: PTD_RIGHT
+  section: Inspection
+  feature: DI_NZ_CENTER
+  module: PTD3-11
+  help_text: 특징점 매칭에 사용할 템플릿 이미지 관심 영역(ROI)을 지정
+  auth_level: 1
+- name: search_roi
+  label: 검색 ROI
+  type: roi
+  value: [50, 50, 250, 250]
+  min: false
+  max: true
+  options: [1, 2, 3, 4]
+  group: PTD_RIGHT
+  section: Inspection
+  feature: DI_NZ_CENTER
+  module: PTD3-11
+  help_text: 특징점 매칭에 사용할 템플릿의 검색 영역(ROI)을 지정
+  auth_level: 1
+- name: score
+  label: score limite
+  type: float
+  value: 0.6
+  min: 0.5
+  max: 0.8
+  options: [0, 1, 2, 3]
+  group: PTD_RIGHT
+  section: Inspection
+  feature: DI_NZ_CENTER
+  module: PTD3-11
+  help_text: 기준 위치
+  auth_level: 1
+- name: dsp_mode
+  label: display mode
+  type: int
+  value: 16777215
+  min: 0
+  max: 16777215
+  options: [0, 1, 2, 3]
+  group: PTD_RIGHT
+  section: Inspection
+  feature: DI_NZ_CENTER
+  module: PTD3-11
+  help_text: display 할 모드를 설정
+  auth_level: 1
+values:
+  COMMON:
+    PR_NZ_CENTER:
+      SCW_RIGHT:
+        Position:
+          pos1_img_path: Setting\\COMMON\\PR_NZ_CENTER\\SCW_RIGHT\\Calibration\\pos1.bmp
+          temp1_roi: [100, 100, 200, 200]
+          search1_roi: [50, 50, 250, 250]
+          pos2_img_path: Setting\\COMMON\\PR_NZ_CENTER\\SCW_RIGHT\\Calibration\\pos2.bmp
+          temp2_roi: [100, 100, 200, 200]
+          search2_roi: [50, 50, 250, 250]
+          pos3_img_path: Setting\\COMMON\\PR_NZ_CENTER\\SCW_RIGHT\\Calibration\\pos3.bmp
+          temp3_roi: [100, 100, 200, 200]
+          search3_roi: [50, 50, 250, 250]
+        Calibration:
+          method: '0'
+          src_pts: [[600.0, 300.0], [700.0, 280.0], [701.0, 200.0], [601.0, 210.0]]
+          dst_pts: [[600.0, 300.0], [700.0, 280.0], [701.0, 200.0], [601.0, 210.0]]
+          matrix: [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
+          err_pts: [[0.0, 0.0], [0.0, 0.0], [0.0, 0.0], [0.0, 0.0]]
+          offset: [0.0, 0.0]
+          kernel_size: [10, 10]
+        Inspection:
+          ref_img_path: Setting\\COMMON\\PR_NZ_CENTER\\SCW_RIGHT\\ref.bmp
+          temp_roi: [100, 100, 200, 200]
+          search_roi: [50, 50, 250, 250]
+          score: 0.6
+          dsp_mode: 16777215
+      SCW_LEFT:
+        Position:
+          pos1_img_path: Setting\\COMMON\\PR_NZ_CENTER\\SCW_LEFT\\Calibration\\pos1.bmp
+          temp1_roi: [100, 100, 200, 200]
+          search1_roi: [50, 50, 250, 250]
+          pos2_img_path: Setting\\COMMON\\PR_NZ_CENTER\\SCW_LEFT\\Calibration\\pos2.bmp
+          temp2_roi: [100, 100, 200, 200]
+          search2_roi: [50, 50, 250, 250]
+          pos3_img_path: Setting\\COMMON\\PR_NZ_CENTER\\SCW_LEFT\\Calibration\\pos3.bmp
+          temp3_roi: [100, 100, 200, 200]
+          search3_roi: [50, 50, 250, 250]
+        Calibration:
+          method: '1'
+          src_pts: [[600.0, 300.0], [700.0, 280.0], [701.0, 200.0], [601.0, 210.0]]
+          dst_pts: [[600.0, 300.0], [700.0, 280.0], [701.0, 200.0], [601.0, 210.0]]
+          matrix: [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
+          err_pts: [[0.0, 0.0], [0.0, 0.0], [0.0, 0.0], [0.0, 0.0]]
+          offset: [0.0, 0.0]
+          kernel_size: [10, 10]
+        Inspection:
+          ref_img_path: Setting\\COMMON\\PR_NZ_CENTER\\SCW_LEFT\\ref.bmp
+          temp_roi: [100, 100, 200, 200]
+          search_roi: [50, 50, 250, 250]
+          score: 0.6
+          dsp_mode: 16777215
+    DI_NZ_CENTER:
+      PTD_RIGHT:
+        Position:
+          pos1_img_path: Setting\\COMMON\\DI_NZ_CENTER\\PTD_RIGHT\\Calibration\\pos1.bmp
+          temp1_roi: [100, 100, 200, 200]
+          search1_roi: [50, 50, 250, 250]
+          pos2_img_path: Setting\\COMMON\\DI_NZ_CENTER\\PTD_RIGHT\\Calibration\\pos2.bmp
+          temp2_roi: [100, 100, 200, 200]
+          search2_roi: [50, 50, 250, 250]
+          pos3_img_path: Setting\\COMMON\\DI_NZ_CENTER\\PTD_RIGHT\\Calibration\\pos3.bmp
+          temp3_roi: [100, 100, 200, 200]
+          search3_roi: [50, 50, 250, 250]
+        Calibration:
+          method: '1'
+          src_pts: [[600.0, 300.0], [700.0, 280.0], [701.0, 200.0], [601.0, 210.0]]
+          dst_pts: [[600.0, 300.0], [700.0, 280.0], [701.0, 200.0], [601.0, 210.0]]
+          matrix: [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
+          err_pts: [[0.0, 0.0], [0.0, 0.0], [0.0, 0.0], [0.0, 0.0]]
+          offset: [0.0, 0.0]
+          kernel_size: [10, 10]
+        Inspection:
+          ref_img_path: Setting\\COMMON\\DI_NZ_CENTER\\PTD_RIGHT\\ref.bmp
+          temp_roi: [100, 100, 200, 200]
+          search_roi: [50, 50, 250, 250]
+          score: 0.6
+          dsp_mode: 16777215
+  SCW1-13:
+    PR_NZ_CENTER:
+      SCW_RIGHT:
+        Position:
+          pos1_img_path: Setting\\SCW1-13\\PR_NZ_CENTER\\SCW_RIGHT\\Calibration\\pos1.bmp
+          temp1_roi: [100, 100, 200, 200]
+          search1_roi: [50, 50, 250, 250]
+          pos2_img_path: Setting\\SCW1-13\\PR_NZ_CENTER\\SCW_RIGHT\\Calibration\\pos2.bmp
+          temp2_roi: [100, 100, 200, 200]
+          search2_roi: [50, 50, 250, 250]
+          pos3_img_path: Setting\\SCW1-13\\PR_NZ_CENTER\\SCW_RIGHT\\Calibration\\pos3.bmp
+          temp3_roi: [100, 100, 200, 200]
+          search3_roi: [50, 50, 250, 250]
+        Calibration:
+          method: '1'
+          src_pts: [[600.0, 300.0], [700.0, 280.0], [701.0, 200.0], [601.0, 210.0]]
+          dst_pts: [[600.0, 300.0], [700.0, 280.0], [701.0, 200.0], [601.0, 210.0]]
+          matrix: [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
+          err_pts: [[0.0, 0.0], [0.0, 0.0], [0.0, 0.0], [0.0, 0.0]]
+          offset: [0.0, 0.0]
+          kernel_size: [10, 10]
+        Inspection:
+          ref_img_path: Setting\\SCW1-13\\PR_NZ_CENTER\\SCW_RIGHT\\ref.bmp
+          temp_roi: [100, 100, 200, 200]
+          search_roi: [50, 50, 250, 250]
+          score: 0.6
+          dsp_mode: 16777215
+  SCW1-14:
+    PR_NZ_CENTER:
+      SCW_LEFT:
+        Position:
+          pos1_img_path: Setting\\SCW1-14\\PR_NZ_CENTER\\SCW_LEFT\\Calibration\\pos1.bmp
+          temp1_roi: [100, 100, 200, 200]
+          search1_roi: [50, 50, 250, 250]
+          pos2_img_path: Setting\\SCW1-14\\PR_NZ_CENTER\\SCW_LEFT\\Calibration\\pos2.bmp
+          temp2_roi: [100, 100, 200, 200]
+          search2_roi: [50, 50, 250, 250]
+          pos3_img_path: Setting\\SCW1-14\\PR_NZ_CENTER\\SCW_LEFT\\Calibration\\pos3.bmp
+          temp3_roi: [100, 100, 200, 200]
+          search3_roi: [50, 50, 250, 250]
+        Calibration:
+          method: '1'
+          src_pts: [[600.0, 300.0], [700.0, 280.0], [701.0, 200.0], [601.0, 210.0]]
+          dst_pts: [[600.0, 300.0], [700.0, 280.0], [701.0, 200.0], [601.0, 210.0]]
+          matrix: [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
+          err_pts: [[0.0, 0.0], [0.0, 0.0], [0.0, 0.0], [0.0, 0.0]]
+          offset: [0.0, 0.0]
+          kernel_size: [10, 10]
+        Inspection:
+          ref_img_path: Setting\\SCW1-14\\PR_NZ_CENTER\\SCW_LEFT\\ref.bmp
+          temp_roi: [100, 100, 200, 200]
+          search_roi: [50, 50, 250, 250]
+          score: 0.6
+          dsp_mode: 16777215
+  PTD3-11:
+    DI_NZ_CENTER:
+      PTD_RIGHT:
+        Position:
+          pos1_img_path: Setting\\PTD3-11\\DI_NZ_CENTER\\PTD_RIGHT\\Calibration\\pos1.bmp
+          temp1_roi: [100, 100, 200, 200]
+          search1_roi: [50, 50, 250, 250]
+          pos2_img_path: Setting\\PTD3-11\\DI_NZ_CENTER\\PTD_RIGHT\\Calibration\\pos2.bmp
+          temp2_roi: [100, 100, 200, 200]
+          search2_roi: [50, 50, 250, 250]
+          pos3_img_path: Setting\\PTD3-11\\DI_NZ_CENTER\\PTD_RIGHT\\Calibration\\pos3.bmp
+          temp3_roi: [100, 100, 200, 200]
+          search3_roi: [50, 50, 250, 250]
+        Calibration:
+          method: '1'
+          src_pts: [[600.0, 300.0], [700.0, 280.0], [701.0, 200.0], [601.0, 210.0]]
+          dst_pts: [[600.0, 300.0], [700.0, 280.0], [701.0, 200.0], [601.0, 210.0]]
+          matrix: [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
+          err_pts: [[0.0, 0.0], [0.0, 0.0], [0.0, 0.0], [0.0, 0.0]]
+          offset: [0.0, 0.0]
+          kernel_size: [10, 10]
+        Inspection:
+          ref_img_path: Setting\\PTD3-11\\DI_NZ_CENTER\\PTD_RIGHT\\ref.bmp
+          temp_roi: [100, 100, 200, 200]
+          search_roi: [50, 50, 250, 250]
+          score: 0.6
+          dsp_mode: 16777215

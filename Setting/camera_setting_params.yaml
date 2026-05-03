@@ -1,0 +1,2200 @@
+parameters:
+- name: used_cam
+  label: used camera
+  type: bool
+  value: true
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: SCW2-13
+  feature: OMEGA
+  help_text: 카메라를 사용 여부를 설정
+  auth_level: 1
+- name: spec_type
+  label: unit type
+  type: choice
+  value: SCW_RIGHT
+  min: false
+  max: true
+  options: [SCW_RIGHT, SCW_LEFT, PTD_RIGHT, SCW_NOZZLE]
+  group: OMEGA_A_JEP
+  section: SCW1-13
+  feature: OMEGA
+  help_text: 유닛 종류를 설정
+  auth_level: 1
+- name: url
+  label: rtsp 주소
+  type: string
+  value: rtsp://user:userpassword@192.168.2.34:554/stream0
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: SCW1-13
+  feature: OMEGA
+  help_text: IP 카메라 주소를 설정
+  auth_level: 1
+- name: frame_sync_delay
+  label: sync delay
+  type: float
+  value: 0.1
+  min: 0.0
+  max: 0.2
+  options: []
+  group: OMEGA_A_JEP
+  section: SCW1-13
+  feature: OMEGA
+  help_text: RTSP 서비스 동기 조절 시간 설정
+  auth_level: 1
+- name: min_frame_count
+  label: 최소 획득 프레임 수
+  type: int
+  value: 1
+  min: 1
+  max: 2
+  options: []
+  group: OMEGA_A_JEP
+  section: SCW1-13
+  feature: OMEGA
+  help_text: Read 명령 한번에 획득되는 최소 프레임 수를 설정
+  auth_level: 1
+- name: frame_interval
+  label: 프레임 간격
+  type: float
+  value: 0.034
+  min: 0.017
+  max: 0.068
+  options: []
+  group: OMEGA_A_JEP
+  section: SCW1-13
+  feature: OMEGA
+  help_text: RTSP 서비스의 프레임 갱신 간격
+  auth_level: 1
+- name: used_save
+  label: used save
+  type: bool
+  value: false
+  min: false
+  max: true
+  options: [false, true]
+  group: OMEGA_A_JEP
+  section: SCW1-13
+  feature: OMEGA
+  help_text: 획득 프레임 저장 여부 설정
+  auth_level: 1
+- name: used_cam
+  label: used camera
+  type: bool
+  value: true
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: SCW1-14
+  feature: OMEGA
+  help_text: 카메라를 사용 여부를 설정
+  auth_level: 1
+- name: spec_type
+  label: unit type
+  type: choice
+  value: SCW_LEFT
+  min: false
+  max: true
+  options: [SCW_RIGHT, SCW_LEFT, PTD_RIGHT, SCW_NOZZLE]
+  group: OMEGA_A_JEP
+  section: SCW1-14
+  feature: OMEGA
+  help_text: 유닛 종류를 설정
+  auth_level: 1
+- name: url
+  label: rtsp 주소
+  type: string
+  value: rtsp://user:userpassword@192.168.2.35:554/stream0
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: SCW1-14
+  feature: OMEGA
+  help_text: IP 카메라 주소를 설정
+  auth_level: 1
+- name: frame_sync_delay
+  label: sync delay
+  type: float
+  value: 0.1
+  min: 0.0
+  max: 0.2
+  options: []
+  group: OMEGA_A_JEP
+  section: SCW1-14
+  feature: OMEGA
+  help_text: RTSP 서비스 동기 조절 시간 설정
+  auth_level: 1
+- name: min_frame_count
+  label: 최소 획득 프레임 수
+  type: int
+  value: 1
+  min: 1
+  max: 2
+  options: []
+  group: OMEGA_A_JEP
+  section: SCW1-14
+  feature: OMEGA
+  help_text: Read 명령 한번에 획득되는 최소 프레임 수를 설정
+  auth_level: 1
+- name: frame_interval
+  label: 프레임 간격
+  type: float
+  value: 0.034
+  min: 0.017
+  max: 0.068
+  options: []
+  group: OMEGA_A_JEP
+  section: SCW1-14
+  feature: OMEGA
+  help_text: RTSP 서비스의 프레임 갱신 간격
+  auth_level: 1
+- name: used_save
+  label: used save
+  type: bool
+  value: false
+  min: false
+  max: true
+  options: [false, true]
+  group: OMEGA_A_JEP
+  section: SCW1-14
+  feature: OMEGA
+  help_text: 획득 프레임 저장 여부 설정
+  auth_level: 1
+- name: used_cam
+  label: used camera
+  type: bool
+  value: true
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: SCW1-23
+  feature: OMEGA
+  help_text: 카메라를 사용 여부를 설정
+  auth_level: 1
+- name: spec_type
+  label: unit type
+  type: choice
+  value: SCW_RIGHT
+  min: false
+  max: true
+  options: [SCW_RIGHT, SCW_LEFT, PTD_RIGHT, SCW_NOZZLE]
+  group: OMEGA_A_JEP
+  section: SCW1-23
+  feature: OMEGA
+  help_text: 유닛 종류를 설정
+  auth_level: 1
+- name: url
+  label: rtsp 주소
+  type: string
+  value: rtsp://user:userpassword@192.168.2.38:554/stream0
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: SCW1-23
+  feature: OMEGA
+  help_text: IP 카메라 주소를 설정
+  auth_level: 1
+- name: frame_sync_delay
+  label: sync delay
+  type: float
+  value: 0.1
+  min: 0.0
+  max: 0.2
+  options: []
+  group: OMEGA_A_JEP
+  section: SCW1-23
+  feature: OMEGA
+  help_text: RTSP 서비스 동기 조절 시간 설정
+  auth_level: 1
+- name: min_frame_count
+  label: 최소 획득 프레임 수
+  type: int
+  value: 1
+  min: 1
+  max: 2
+  options: []
+  group: OMEGA_A_JEP
+  section: SCW1-23
+  feature: OMEGA
+  help_text: Read 명령 한번에 획득되는 최소 프레임 수를 설정
+  auth_level: 1
+- name: frame_interval
+  label: 프레임 간격
+  type: float
+  value: 0.034
+  min: 0.017
+  max: 0.068
+  options: []
+  group: OMEGA_A_JEP
+  section: SCW1-23
+  feature: OMEGA
+  help_text: RTSP 서비스의 프레임 갱신 간격
+  auth_level: 1
+- name: used_save
+  label: used save
+  type: bool
+  value: false
+  min: false
+  max: true
+  options: [false, true]
+  group: OMEGA_A_JEP
+  section: SCW1-23
+  feature: OMEGA
+  help_text: 획득 프레임 저장 여부 설정
+  auth_level: 1
+- name: used_cam
+  label: used camera
+  type: bool
+  value: true
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: SCW1-24
+  feature: OMEGA
+  help_text: 카메라를 사용 여부를 설정
+  auth_level: 1
+- name: spec_type
+  label: unit type
+  type: choice
+  value: SCW_LEFT
+  min: false
+  max: true
+  options: [SCW_RIGHT, SCW_LEFT, PTD_RIGHT, SCW_NOZZLE]
+  group: OMEGA_A_JEP
+  section: SCW1-24
+  feature: OMEGA
+  help_text: 유닛 종류를 설정
+  auth_level: 1
+- name: url
+  label: rtsp 주소
+  type: string
+  value: rtsp://user:userpassword@192.168.2.39:554/stream0
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: SCW1-24
+  feature: OMEGA
+  help_text: IP 카메라 주소를 설정
+  auth_level: 1
+- name: frame_sync_delay
+  label: sync delay
+  type: float
+  value: 0.1
+  min: 0.0
+  max: 0.2
+  options: []
+  group: OMEGA_A_JEP
+  section: SCW1-24
+  feature: OMEGA
+  help_text: RTSP 서비스 동기 조절 시간 설정
+  auth_level: 1
+- name: min_frame_count
+  label: 최소 획득 프레임 수
+  type: int
+  value: 1
+  min: 1
+  max: 2
+  options: []
+  group: OMEGA_A_JEP
+  section: SCW1-24
+  feature: OMEGA
+  help_text: Read 명령 한번에 획득되는 최소 프레임 수를 설정
+  auth_level: 1
+- name: frame_interval
+  label: 프레임 간격
+  type: float
+  value: 0.034
+  min: 0.017
+  max: 0.068
+  options: []
+  group: OMEGA_A_JEP
+  section: SCW1-24
+  feature: OMEGA
+  help_text: RTSP 서비스의 프레임 갱신 간격
+  auth_level: 1
+- name: used_save
+  label: used save
+  type: bool
+  value: false
+  min: false
+  max: true
+  options: [false, true]
+  group: OMEGA_A_JEP
+  section: SCW1-24
+  feature: OMEGA
+  help_text: 획득 프레임 저장 여부 설정
+  auth_level: 1
+- name: spec_type
+  label: unit type
+  type: choice
+  value: SCW_RIGHT
+  min: false
+  max: true
+  options: [SCW_RIGHT, SCW_LEFT, PTD_RIGHT, SCW_NOZZLE]
+  group: OMEGA_A_JEP
+  section: SCW2-13
+  feature: OMEGA
+  help_text: 유닛 종류를 설정
+  auth_level: 1
+- name: url
+  label: rtsp 주소
+  type: string
+  value: rtsp://user:userpassword@192.168.2.42:554/stream0
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: SCW2-13
+  feature: OMEGA
+  help_text: IP 카메라 주소를 설정
+  auth_level: 1
+- name: frame_sync_delay
+  label: sync delay
+  type: float
+  value: 0.1
+  min: 0.0
+  max: 0.2
+  options: []
+  group: OMEGA_A_JEP
+  section: SCW2-13
+  feature: OMEGA
+  help_text: RTSP 서비스 동기 조절 시간 설정
+  auth_level: 1
+- name: min_frame_count
+  label: 최소 획득 프레임 수
+  type: int
+  value: 1
+  min: 1
+  max: 2
+  options: []
+  group: OMEGA_A_JEP
+  section: SCW2-13
+  feature: OMEGA
+  help_text: Read 명령 한번에 획득되는 최소 프레임 수를 설정
+  auth_level: 1
+- name: frame_interval
+  label: 프레임 간격
+  type: float
+  value: 0.034
+  min: 0.017
+  max: 0.068
+  options: []
+  group: OMEGA_A_JEP
+  section: SCW2-13
+  feature: OMEGA
+  help_text: RTSP 서비스의 프레임 갱신 간격
+  auth_level: 1
+- name: used_save
+  label: used save
+  type: bool
+  value: false
+  min: false
+  max: true
+  options: [false, true]
+  group: OMEGA_A_JEP
+  section: SCW2-13
+  feature: OMEGA
+  help_text: 획득 프레임 저장 여부 설정
+  auth_level: 1
+- name: used_cam
+  label: used camera
+  type: bool
+  value: true
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: SCW2-14
+  feature: OMEGA
+  help_text: 카메라를 사용 여부를 설정
+  auth_level: 1
+- name: spec_type
+  label: unit type
+  type: choice
+  value: SCW_LEFT
+  min: false
+  max: true
+  options: [SCW_RIGHT, SCW_LEFT, PTD_RIGHT, SCW_NOZZLE]
+  group: OMEGA_A_JEP
+  section: SCW2-14
+  feature: OMEGA
+  help_text: 유닛 종류를 설정
+  auth_level: 1
+- name: url
+  label: rtsp 주소
+  type: string
+  value: rtsp://user:userpassword@192.168.2.43:554/stream0
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: SCW2-14
+  feature: OMEGA
+  help_text: IP 카메라 주소를 설정
+  auth_level: 1
+- name: frame_sync_delay
+  label: sync delay
+  type: float
+  value: 0.1
+  min: 0.0
+  max: 0.2
+  options: []
+  group: OMEGA_A_JEP
+  section: SCW2-14
+  feature: OMEGA
+  help_text: RTSP 서비스 동기 조절 시간 설정
+  auth_level: 1
+- name: min_frame_count
+  label: 최소 획득 프레임 수
+  type: int
+  value: 1
+  min: 1
+  max: 2
+  options: []
+  group: OMEGA_A_JEP
+  section: SCW2-14
+  feature: OMEGA
+  help_text: Read 명령 한번에 획득되는 최소 프레임 수를 설정
+  auth_level: 1
+- name: frame_interval
+  label: 프레임 간격
+  type: float
+  value: 0.034
+  min: 0.017
+  max: 0.068
+  options: []
+  group: OMEGA_A_JEP
+  section: SCW2-14
+  feature: OMEGA
+  help_text: RTSP 서비스의 프레임 갱신 간격
+  auth_level: 1
+- name: used_save
+  label: used save
+  type: bool
+  value: false
+  min: false
+  max: true
+  options: [false, true]
+  group: OMEGA_A_JEP
+  section: SCW2-14
+  feature: OMEGA
+  help_text: 획득 프레임 저장 여부 설정
+  auth_level: 1
+- name: used_cam
+  label: used camera
+  type: bool
+  value: true
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: SCW2-23
+  feature: OMEGA
+  help_text: 카메라를 사용 여부를 설정
+  auth_level: 1
+- name: spec_type
+  label: unit type
+  type: choice
+  value: SCW_RIGHT
+  min: false
+  max: true
+  options: [SCW_RIGHT, SCW_LEFT, PTD_RIGHT, SCW_NOZZLE]
+  group: OMEGA_A_JEP
+  section: SCW2-23
+  feature: OMEGA
+  help_text: 유닛 종류를 설정
+  auth_level: 1
+- name: url
+  label: rtsp 주소
+  type: string
+  value: rtsp://user:userpassword@192.168.2.46:554/stream0
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: SCW2-23
+  feature: OMEGA
+  help_text: IP 카메라 주소를 설정
+  auth_level: 1
+- name: frame_sync_delay
+  label: sync delay
+  type: float
+  value: 0.1
+  min: 0.0
+  max: 0.2
+  options: []
+  group: OMEGA_A_JEP
+  section: SCW2-23
+  feature: OMEGA
+  help_text: RTSP 서비스 동기 조절 시간 설정
+  auth_level: 1
+- name: min_frame_count
+  label: 최소 획득 프레임 수
+  type: int
+  value: 1
+  min: 1
+  max: 2
+  options: []
+  group: OMEGA_A_JEP
+  section: SCW2-23
+  feature: OMEGA
+  help_text: Read 명령 한번에 획득되는 최소 프레임 수를 설정
+  auth_level: 1
+- name: frame_interval
+  label: 프레임 간격
+  type: float
+  value: 0.034
+  min: 0.017
+  max: 0.068
+  options: []
+  group: OMEGA_A_JEP
+  section: SCW2-23
+  feature: OMEGA
+  help_text: RTSP 서비스의 프레임 갱신 간격
+  auth_level: 1
+- name: used_save
+  label: used save
+  type: bool
+  value: false
+  min: false
+  max: true
+  options: [false, true]
+  group: OMEGA_A_JEP
+  section: SCW2-23
+  feature: OMEGA
+  help_text: 획득 프레임 저장 여부 설정
+  auth_level: 1
+- name: used_cam
+  label: used camera
+  type: bool
+  value: true
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: SCW2-24
+  feature: OMEGA
+  help_text: 카메라를 사용 여부를 설정
+  auth_level: 1
+- name: spec_type
+  label: unit type
+  type: choice
+  value: SCW_LEFT
+  min: false
+  max: true
+  options: [SCW_RIGHT, SCW_LEFT, PTD_RIGHT, SCW_NOZZLE]
+  group: OMEGA_A_JEP
+  section: SCW2-24
+  feature: OMEGA
+  help_text: 유닛 종류를 설정
+  auth_level: 1
+- name: url
+  label: rtsp 주소
+  type: string
+  value: rtsp://user:userpassword@192.168.2.47:554/stream0
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: SCW2-24
+  feature: OMEGA
+  help_text: IP 카메라 주소를 설정
+  auth_level: 1
+- name: frame_sync_delay
+  label: sync delay
+  type: float
+  value: 0.1
+  min: 0.0
+  max: 0.2
+  options: []
+  group: OMEGA_A_JEP
+  section: SCW2-24
+  feature: OMEGA
+  help_text: RTSP 서비스 동기 조절 시간 설정
+  auth_level: 1
+- name: min_frame_count
+  label: 최소 획득 프레임 수
+  type: int
+  value: 1
+  min: 1
+  max: 2
+  options: []
+  group: OMEGA_A_JEP
+  section: SCW2-24
+  feature: OMEGA
+  help_text: Read 명령 한번에 획득되는 최소 프레임 수를 설정
+  auth_level: 1
+- name: frame_interval
+  label: 프레임 간격
+  type: float
+  value: 0.034
+  min: 0.017
+  max: 0.068
+  options: []
+  group: OMEGA_A_JEP
+  section: SCW2-24
+  feature: OMEGA
+  help_text: RTSP 서비스의 프레임 갱신 간격
+  auth_level: 1
+- name: used_save
+  label: used save
+  type: bool
+  value: false
+  min: false
+  max: true
+  options: [false, true]
+  group: OMEGA_A_JEP
+  section: SCW2-24
+  feature: OMEGA
+  help_text: 획득 프레임 저장 여부 설정
+  auth_level: 1
+- name: used_cam
+  label: used camera
+  type: bool
+  value: true
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD3-11
+  feature: OMEGA
+  help_text: 카메라를 사용 여부를 설정
+  auth_level: 1
+- name: spec_type
+  label: unit type
+  type: choice
+  value: PTD_RIGHT
+  min: false
+  max: true
+  options: [SCW_RIGHT, SCW_LEFT, PTD_RIGHT, SCW_NOZZLE]
+  group: OMEGA_A_JEP
+  section: PTD3-11
+  feature: OMEGA
+  help_text: 유닛 종류를 설정
+  auth_level: 1
+- name: url
+  label: rtsp 주소
+  type: string
+  value: rtsp://user:userpassword@192.168.2.48:554/stream0
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD3-11
+  feature: OMEGA
+  help_text: IP 카메라 주소를 설정
+  auth_level: 1
+- name: frame_sync_delay
+  label: sync delay
+  type: float
+  value: 0.1
+  min: 0.0
+  max: 0.2
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD3-11
+  feature: OMEGA
+  help_text: RTSP 서비스 동기 조절 시간 설정
+  auth_level: 1
+- name: min_frame_count
+  label: 최소 획득 프레임 수
+  type: int
+  value: 1
+  min: 1
+  max: 2
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD3-11
+  feature: OMEGA
+  help_text: Read 명령 한번에 획득되는 최소 프레임 수를 설정
+  auth_level: 1
+- name: frame_interval
+  label: 프레임 간격
+  type: float
+  value: 0.034
+  min: 0.017
+  max: 0.068
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD3-11
+  feature: OMEGA
+  help_text: RTSP 서비스의 프레임 갱신 간격
+  auth_level: 1
+- name: used_save
+  label: used save
+  type: bool
+  value: false
+  min: false
+  max: true
+  options: [false, true]
+  group: OMEGA_A_JEP
+  section: PTD3-11
+  feature: OMEGA
+  help_text: 획득 프레임 저장 여부 설정
+  auth_level: 1
+- name: used_cam
+  label: used camera
+  type: bool
+  value: true
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD3-12
+  feature: OMEGA
+  help_text: 카메라를 사용 여부를 설정
+  auth_level: 1
+- name: spec_type
+  label: unit type
+  type: choice
+  value: PTD_RIGHT
+  min: false
+  max: true
+  options: [SCW_RIGHT, SCW_LEFT, PTD_RIGHT, SCW_NOZZLE]
+  group: OMEGA_A_JEP
+  section: PTD3-12
+  feature: OMEGA
+  help_text: 유닛 종류를 설정
+  auth_level: 1
+- name: url
+  label: rtsp 주소
+  type: string
+  value: rtsp://user:userpassword@192.168.2.49:554/stream0
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD3-12
+  feature: OMEGA
+  help_text: IP 카메라 주소를 설정
+  auth_level: 1
+- name: frame_sync_delay
+  label: sync delay
+  type: float
+  value: 0.1
+  min: 0.0
+  max: 0.2
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD3-12
+  feature: OMEGA
+  help_text: RTSP 서비스 동기 조절 시간 설정
+  auth_level: 1
+- name: min_frame_count
+  label: 최소 획득 프레임 수
+  type: int
+  value: 1
+  min: 1
+  max: 2
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD3-12
+  feature: OMEGA
+  help_text: Read 명령 한번에 획득되는 최소 프레임 수를 설정
+  auth_level: 1
+- name: frame_interval
+  label: 프레임 간격
+  type: float
+  value: 0.034
+  min: 0.017
+  max: 0.068
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD3-12
+  feature: OMEGA
+  help_text: RTSP 서비스의 프레임 갱신 간격
+  auth_level: 1
+- name: used_save
+  label: used save
+  type: bool
+  value: false
+  min: false
+  max: true
+  options: [false, true]
+  group: OMEGA_A_JEP
+  section: PTD3-12
+  feature: OMEGA
+  help_text: 획득 프레임 저장 여부 설정
+  auth_level: 1
+- name: used_cam
+  label: used camera
+  type: bool
+  value: true
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD3-13
+  feature: OMEGA
+  help_text: 카메라를 사용 여부를 설정
+  auth_level: 1
+- name: spec_type
+  label: unit type
+  type: choice
+  value: PTD_RIGHT
+  min: false
+  max: true
+  options: [SCW_RIGHT, SCW_LEFT, PTD_RIGHT, SCW_NOZZLE]
+  group: OMEGA_A_JEP
+  section: PTD3-13
+  feature: OMEGA
+  help_text: 유닛 종류를 설정
+  auth_level: 1
+- name: url
+  label: rtsp 주소
+  type: string
+  value: rtsp://user:userpassword@192.168.2.50:554/stream0
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD3-13
+  feature: OMEGA
+  help_text: IP 카메라 주소를 설정
+  auth_level: 1
+- name: frame_sync_delay
+  label: sync delay
+  type: float
+  value: 0.1
+  min: 0.0
+  max: 0.2
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD3-13
+  feature: OMEGA
+  help_text: RTSP 서비스 동기 조절 시간 설정
+  auth_level: 1
+- name: min_frame_count
+  label: 최소 획득 프레임 수
+  type: int
+  value: 1
+  min: 1
+  max: 2
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD3-13
+  feature: OMEGA
+  help_text: Read 명령 한번에 획득되는 최소 프레임 수를 설정
+  auth_level: 1
+- name: frame_interval
+  label: 프레임 간격
+  type: float
+  value: 0.034
+  min: 0.017
+  max: 0.068
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD3-13
+  feature: OMEGA
+  help_text: RTSP 서비스의 프레임 갱신 간격
+  auth_level: 1
+- name: used_save
+  label: used save
+  type: bool
+  value: false
+  min: false
+  max: true
+  options: [false, true]
+  group: OMEGA_A_JEP
+  section: PTD3-13
+  feature: OMEGA
+  help_text: 획득 프레임 저장 여부 설정
+  auth_level: 1
+- name: used_cam
+  label: used camera
+  type: bool
+  value: true
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD3-14
+  feature: OMEGA
+  help_text: 카메라를 사용 여부를 설정
+  auth_level: 1
+- name: spec_type
+  label: unit type
+  type: choice
+  value: PTD_RIGHT
+  min: false
+  max: true
+  options: [SCW_RIGHT, SCW_LEFT, PTD_RIGHT, SCW_NOZZLE]
+  group: OMEGA_A_JEP
+  section: PTD3-14
+  feature: OMEGA
+  help_text: 유닛 종류를 설정
+  auth_level: 1
+- name: url
+  label: rtsp 주소
+  type: string
+  value: rtsp://user:userpassword@192.168.2.51:554/stream0
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD3-14
+  feature: OMEGA
+  help_text: IP 카메라 주소를 설정
+  auth_level: 1
+- name: frame_sync_delay
+  label: sync delay
+  type: float
+  value: 0.1
+  min: 0.0
+  max: 0.2
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD3-14
+  feature: OMEGA
+  help_text: RTSP 서비스 동기 조절 시간 설정
+  auth_level: 1
+- name: min_frame_count
+  label: 최소 획득 프레임 수
+  type: int
+  value: 1
+  min: 1
+  max: 2
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD3-14
+  feature: OMEGA
+  help_text: Read 명령 한번에 획득되는 최소 프레임 수를 설정
+  auth_level: 1
+- name: frame_interval
+  label: 프레임 간격
+  type: float
+  value: 0.034
+  min: 0.017
+  max: 0.068
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD3-14
+  feature: OMEGA
+  help_text: RTSP 서비스의 프레임 갱신 간격
+  auth_level: 1
+- name: used_save
+  label: used save
+  type: bool
+  value: false
+  min: false
+  max: true
+  options: [false, true]
+  group: OMEGA_A_JEP
+  section: PTD3-14
+  feature: OMEGA
+  help_text: 획득 프레임 저장 여부 설정
+  auth_level: 1
+- name: used_cam
+  label: used camera
+  type: bool
+  value: true
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD3-21
+  feature: OMEGA
+  help_text: 카메라를 사용 여부를 설정
+  auth_level: 1
+- name: spec_type
+  label: unit type
+  type: choice
+  value: PTD_RIGHT
+  min: false
+  max: true
+  options: [SCW_RIGHT, SCW_LEFT, PTD_RIGHT, SCW_NOZZLE]
+  group: OMEGA_A_JEP
+  section: PTD3-21
+  feature: OMEGA
+  help_text: 유닛 종류를 설정
+  auth_level: 1
+- name: url
+  label: rtsp 주소
+  type: string
+  value: rtsp://user:userpassword@192.168.2.52:554/stream0
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD3-21
+  feature: OMEGA
+  help_text: IP 카메라 주소를 설정
+  auth_level: 1
+- name: frame_sync_delay
+  label: sync delay
+  type: float
+  value: 0.1
+  min: 0.0
+  max: 0.2
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD3-21
+  feature: OMEGA
+  help_text: RTSP 서비스 동기 조절 시간 설정
+  auth_level: 1
+- name: min_frame_count
+  label: 최소 획득 프레임 수
+  type: int
+  value: 1
+  min: 1
+  max: 2
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD3-21
+  feature: OMEGA
+  help_text: Read 명령 한번에 획득되는 최소 프레임 수를 설정
+  auth_level: 1
+- name: frame_interval
+  label: 프레임 간격
+  type: float
+  value: 0.034
+  min: 0.017
+  max: 0.068
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD3-21
+  feature: OMEGA
+  help_text: RTSP 서비스의 프레임 갱신 간격
+  auth_level: 1
+- name: used_save
+  label: used save
+  type: bool
+  value: false
+  min: false
+  max: true
+  options: [false, true]
+  group: OMEGA_A_JEP
+  section: PTD3-21
+  feature: OMEGA
+  help_text: 획득 프레임 저장 여부 설정
+  auth_level: 1
+- name: used_cam
+  label: used camera
+  type: bool
+  value: true
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD3-22
+  feature: OMEGA
+  help_text: 카메라를 사용 여부를 설정
+  auth_level: 1
+- name: spec_type
+  label: unit type
+  type: choice
+  value: PTD_RIGHT
+  min: false
+  max: true
+  options: [SCW_RIGHT, SCW_LEFT, PTD_RIGHT, SCW_NOZZLE]
+  group: OMEGA_A_JEP
+  section: PTD3-22
+  feature: OMEGA
+  help_text: 유닛 종류를 설정
+  auth_level: 1
+- name: url
+  label: rtsp 주소
+  type: string
+  value: rtsp://user:userpassword@192.168.2.53:554/stream0
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD3-22
+  feature: OMEGA
+  help_text: IP 카메라 주소를 설정
+  auth_level: 1
+- name: frame_sync_delay
+  label: sync delay
+  type: float
+  value: 0.1
+  min: 0.0
+  max: 0.2
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD3-22
+  feature: OMEGA
+  help_text: RTSP 서비스 동기 조절 시간 설정
+  auth_level: 1
+- name: min_frame_count
+  label: 최소 획득 프레임 수
+  type: int
+  value: 1
+  min: 1
+  max: 2
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD3-22
+  feature: OMEGA
+  help_text: Read 명령 한번에 획득되는 최소 프레임 수를 설정
+  auth_level: 1
+- name: frame_interval
+  label: 프레임 간격
+  type: float
+  value: 0.034
+  min: 0.017
+  max: 0.068
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD3-22
+  feature: OMEGA
+  help_text: RTSP 서비스의 프레임 갱신 간격
+  auth_level: 1
+- name: used_save
+  label: used save
+  type: bool
+  value: false
+  min: false
+  max: true
+  options: [false, true]
+  group: OMEGA_A_JEP
+  section: PTD3-22
+  feature: OMEGA
+  help_text: 획득 프레임 저장 여부 설정
+  auth_level: 1
+- name: used_cam
+  label: used camera
+  type: bool
+  value: true
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD3-23
+  feature: OMEGA
+  help_text: 카메라를 사용 여부를 설정
+  auth_level: 1
+- name: spec_type
+  label: unit type
+  type: choice
+  value: PTD_RIGHT
+  min: false
+  max: true
+  options: [SCW_RIGHT, SCW_LEFT, PTD_RIGHT, SCW_NOZZLE]
+  group: OMEGA_A_JEP
+  section: PTD3-23
+  feature: OMEGA
+  help_text: 유닛 종류를 설정
+  auth_level: 1
+- name: url
+  label: rtsp 주소
+  type: string
+  value: rtsp://user:userpassword@192.168.2.54:554/stream0
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD3-23
+  feature: OMEGA
+  help_text: IP 카메라 주소를 설정
+  auth_level: 1
+- name: frame_sync_delay
+  label: sync delay
+  type: float
+  value: 0.1
+  min: 0.0
+  max: 0.2
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD3-23
+  feature: OMEGA
+  help_text: RTSP 서비스 동기 조절 시간 설정
+  auth_level: 1
+- name: min_frame_count
+  label: 최소 획득 프레임 수
+  type: int
+  value: 1
+  min: 1
+  max: 2
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD3-23
+  feature: OMEGA
+  help_text: Read 명령 한번에 획득되는 최소 프레임 수를 설정
+  auth_level: 1
+- name: frame_interval
+  label: 프레임 간격
+  type: float
+  value: 0.034
+  min: 0.017
+  max: 0.068
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD3-23
+  feature: OMEGA
+  help_text: RTSP 서비스의 프레임 갱신 간격
+  auth_level: 1
+- name: used_save
+  label: used save
+  type: bool
+  value: false
+  min: false
+  max: true
+  options: [false, true]
+  group: OMEGA_A_JEP
+  section: PTD3-23
+  feature: OMEGA
+  help_text: 획득 프레임 저장 여부 설정
+  auth_level: 1
+- name: used_cam
+  label: used camera
+  type: bool
+  value: true
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD3-24
+  feature: OMEGA
+  help_text: 카메라를 사용 여부를 설정
+  auth_level: 1
+- name: spec_type
+  label: unit type
+  type: choice
+  value: PTD_RIGHT
+  min: false
+  max: true
+  options: [SCW_RIGHT, SCW_LEFT, PTD_RIGHT, SCW_NOZZLE]
+  group: OMEGA_A_JEP
+  section: PTD3-24
+  feature: OMEGA
+  help_text: 유닛 종류를 설정
+  auth_level: 1
+- name: url
+  label: rtsp 주소
+  type: string
+  value: rtsp://user:userpassword@192.168.2.55:554/stream0
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD3-24
+  feature: OMEGA
+  help_text: IP 카메라 주소를 설정
+  auth_level: 1
+- name: frame_sync_delay
+  label: sync delay
+  type: float
+  value: 0.1
+  min: 0.0
+  max: 0.2
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD3-24
+  feature: OMEGA
+  help_text: RTSP 서비스 동기 조절 시간 설정
+  auth_level: 1
+- name: min_frame_count
+  label: 최소 획득 프레임 수
+  type: int
+  value: 1
+  min: 1
+  max: 2
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD3-24
+  feature: OMEGA
+  help_text: Read 명령 한번에 획득되는 최소 프레임 수를 설정
+  auth_level: 1
+- name: frame_interval
+  label: 프레임 간격
+  type: float
+  value: 0.034
+  min: 0.017
+  max: 0.068
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD3-24
+  feature: OMEGA
+  help_text: RTSP 서비스의 프레임 갱신 간격
+  auth_level: 1
+- name: used_save
+  label: used save
+  type: bool
+  value: false
+  min: false
+  max: true
+  options: [false, true]
+  group: OMEGA_A_JEP
+  section: PTD3-24
+  feature: OMEGA
+  help_text: 획득 프레임 저장 여부 설정
+  auth_level: 1
+- name: used_cam
+  label: used camera
+  type: bool
+  value: true
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD4-11
+  feature: OMEGA
+  help_text: 카메라를 사용 여부를 설정
+  auth_level: 1
+- name: spec_type
+  label: unit type
+  type: choice
+  value: PTD_RIGHT
+  min: false
+  max: true
+  options: [SCW_RIGHT, SCW_LEFT, PTD_RIGHT, SCW_NOZZLE]
+  group: OMEGA_A_JEP
+  section: PTD4-11
+  feature: OMEGA
+  help_text: 유닛 종류를 설정
+  auth_level: 1
+- name: url
+  label: rtsp 주소
+  type: string
+  value: rtsp://user:userpassword@192.168.2.56:554/stream0
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD4-11
+  feature: OMEGA
+  help_text: IP 카메라 주소를 설정
+  auth_level: 1
+- name: frame_sync_delay
+  label: sync delay
+  type: float
+  value: 0.1
+  min: 0.0
+  max: 0.2
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD4-11
+  feature: OMEGA
+  help_text: RTSP 서비스 동기 조절 시간 설정
+  auth_level: 1
+- name: min_frame_count
+  label: 최소 획득 프레임 수
+  type: int
+  value: 1
+  min: 1
+  max: 2
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD4-11
+  feature: OMEGA
+  help_text: Read 명령 한번에 획득되는 최소 프레임 수를 설정
+  auth_level: 1
+- name: frame_interval
+  label: 프레임 간격
+  type: float
+  value: 0.034
+  min: 0.017
+  max: 0.068
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD4-11
+  feature: OMEGA
+  help_text: RTSP 서비스의 프레임 갱신 간격
+  auth_level: 1
+- name: used_save
+  label: used save
+  type: bool
+  value: false
+  min: false
+  max: true
+  options: [false, true]
+  group: OMEGA_A_JEP
+  section: PTD4-11
+  feature: OMEGA
+  help_text: 획득 프레임 저장 여부 설정
+  auth_level: 1
+- name: used_cam
+  label: used camera
+  type: bool
+  value: true
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD4-12
+  feature: OMEGA
+  help_text: 카메라를 사용 여부를 설정
+  auth_level: 1
+- name: spec_type
+  label: unit type
+  type: choice
+  value: PTD_RIGHT
+  min: false
+  max: true
+  options: [SCW_RIGHT, SCW_LEFT, PTD_RIGHT, SCW_NOZZLE]
+  group: OMEGA_A_JEP
+  section: PTD4-12
+  feature: OMEGA
+  help_text: 유닛 종류를 설정
+  auth_level: 1
+- name: url
+  label: rtsp 주소
+  type: string
+  value: rtsp://user:userpassword@192.168.2.57:554/stream0
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD4-12
+  feature: OMEGA
+  help_text: IP 카메라 주소를 설정
+  auth_level: 1
+- name: frame_sync_delay
+  label: sync delay
+  type: float
+  value: 0.1
+  min: 0.0
+  max: 0.2
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD4-12
+  feature: OMEGA
+  help_text: RTSP 서비스 동기 조절 시간 설정
+  auth_level: 1
+- name: min_frame_count
+  label: 최소 획득 프레임 수
+  type: int
+  value: 1
+  min: 1
+  max: 2
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD4-12
+  feature: OMEGA
+  help_text: Read 명령 한번에 획득되는 최소 프레임 수를 설정
+  auth_level: 1
+- name: frame_interval
+  label: 프레임 간격
+  type: float
+  value: 0.034
+  min: 0.017
+  max: 0.068
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD4-12
+  feature: OMEGA
+  help_text: RTSP 서비스의 프레임 갱신 간격
+  auth_level: 1
+- name: used_save
+  label: used save
+  type: bool
+  value: false
+  min: false
+  max: true
+  options: [false, true]
+  group: OMEGA_A_JEP
+  section: PTD4-12
+  feature: OMEGA
+  help_text: 획득 프레임 저장 여부 설정
+  auth_level: 1
+- name: used_cam
+  label: used camera
+  type: bool
+  value: true
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD4-13
+  feature: OMEGA
+  help_text: 카메라를 사용 여부를 설정
+  auth_level: 1
+- name: spec_type
+  label: unit type
+  type: choice
+  value: PTD_RIGHT
+  min: false
+  max: true
+  options: [SCW_RIGHT, SCW_LEFT, PTD_RIGHT, SCW_NOZZLE]
+  group: OMEGA_A_JEP
+  section: PTD4-13
+  feature: OMEGA
+  help_text: 유닛 종류를 설정
+  auth_level: 1
+- name: url
+  label: rtsp 주소
+  type: string
+  value: rtsp://user:userpassword@192.168.2.58:554/stream0
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD4-13
+  feature: OMEGA
+  help_text: IP 카메라 주소를 설정
+  auth_level: 1
+- name: frame_sync_delay
+  label: sync delay
+  type: float
+  value: 0.1
+  min: 0.0
+  max: 0.2
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD4-13
+  feature: OMEGA
+  help_text: RTSP 서비스 동기 조절 시간 설정
+  auth_level: 1
+- name: min_frame_count
+  label: 최소 획득 프레임 수
+  type: int
+  value: 1
+  min: 1
+  max: 2
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD4-13
+  feature: OMEGA
+  help_text: Read 명령 한번에 획득되는 최소 프레임 수를 설정
+  auth_level: 1
+- name: frame_interval
+  label: 프레임 간격
+  type: float
+  value: 0.034
+  min: 0.017
+  max: 0.068
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD4-13
+  feature: OMEGA
+  help_text: RTSP 서비스의 프레임 갱신 간격
+  auth_level: 1
+- name: used_save
+  label: used save
+  type: bool
+  value: false
+  min: false
+  max: true
+  options: [false, true]
+  group: OMEGA_A_JEP
+  section: PTD4-13
+  feature: OMEGA
+  help_text: 획득 프레임 저장 여부 설정
+  auth_level: 1
+- name: used_cam
+  label: used camera
+  type: bool
+  value: true
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD4-14
+  feature: OMEGA
+  help_text: 카메라를 사용 여부를 설정
+  auth_level: 1
+- name: spec_type
+  label: unit type
+  type: choice
+  value: PTD_RIGHT
+  min: false
+  max: true
+  options: [SCW_RIGHT, SCW_LEFT, PTD_RIGHT, SCW_NOZZLE]
+  group: OMEGA_A_JEP
+  section: PTD4-14
+  feature: OMEGA
+  help_text: 유닛 종류를 설정
+  auth_level: 1
+- name: url
+  label: rtsp 주소
+  type: string
+  value: rtsp://user:userpassword@192.168.2.59:554/stream0
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD4-14
+  feature: OMEGA
+  help_text: IP 카메라 주소를 설정
+  auth_level: 1
+- name: frame_sync_delay
+  label: sync delay
+  type: float
+  value: 0.1
+  min: 0.0
+  max: 0.2
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD4-14
+  feature: OMEGA
+  help_text: RTSP 서비스 동기 조절 시간 설정
+  auth_level: 1
+- name: min_frame_count
+  label: 최소 획득 프레임 수
+  type: int
+  value: 1
+  min: 1
+  max: 2
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD4-14
+  feature: OMEGA
+  help_text: Read 명령 한번에 획득되는 최소 프레임 수를 설정
+  auth_level: 1
+- name: frame_interval
+  label: 프레임 간격
+  type: float
+  value: 0.034
+  min: 0.017
+  max: 0.068
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD4-14
+  feature: OMEGA
+  help_text: RTSP 서비스의 프레임 갱신 간격
+  auth_level: 1
+- name: used_save
+  label: used save
+  type: bool
+  value: false
+  min: false
+  max: true
+  options: [false, true]
+  group: OMEGA_A_JEP
+  section: PTD4-14
+  feature: OMEGA
+  help_text: 획득 프레임 저장 여부 설정
+  auth_level: 1
+- name: used_cam
+  label: used camera
+  type: bool
+  value: true
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD4-21
+  feature: OMEGA
+  help_text: 카메라를 사용 여부를 설정
+  auth_level: 1
+- name: spec_type
+  label: unit type
+  type: choice
+  value: PTD_RIGHT
+  min: false
+  max: true
+  options: [SCW_RIGHT, SCW_LEFT, PTD_RIGHT, SCW_NOZZLE]
+  group: OMEGA_A_JEP
+  section: PTD4-21
+  feature: OMEGA
+  help_text: 유닛 종류를 설정
+  auth_level: 1
+- name: url
+  label: rtsp 주소
+  type: string
+  value: rtsp://user:userpassword@192.168.2.60:554/stream0
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD4-21
+  feature: OMEGA
+  help_text: IP 카메라 주소를 설정
+  auth_level: 1
+- name: frame_sync_delay
+  label: sync delay
+  type: float
+  value: 0.1
+  min: 0.0
+  max: 0.2
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD4-21
+  feature: OMEGA
+  help_text: RTSP 서비스 동기 조절 시간 설정
+  auth_level: 1
+- name: min_frame_count
+  label: 최소 획득 프레임 수
+  type: int
+  value: 1
+  min: 1
+  max: 2
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD4-21
+  feature: OMEGA
+  help_text: Read 명령 한번에 획득되는 최소 프레임 수를 설정
+  auth_level: 1
+- name: frame_interval
+  label: 프레임 간격
+  type: float
+  value: 0.034
+  min: 0.017
+  max: 0.068
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD4-21
+  feature: OMEGA
+  help_text: RTSP 서비스의 프레임 갱신 간격
+  auth_level: 1
+- name: used_save
+  label: used save
+  type: bool
+  value: false
+  min: false
+  max: true
+  options: [false, true]
+  group: OMEGA_A_JEP
+  section: PTD4-21
+  feature: OMEGA
+  help_text: 획득 프레임 저장 여부 설정
+  auth_level: 1
+- name: used_cam
+  label: used camera
+  type: bool
+  value: true
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD4-22
+  feature: OMEGA
+  help_text: 카메라를 사용 여부를 설정
+  auth_level: 1
+- name: spec_type
+  label: unit type
+  type: choice
+  value: PTD_RIGHT
+  min: false
+  max: true
+  options: [SCW_RIGHT, SCW_LEFT, PTD_RIGHT, SCW_NOZZLE]
+  group: OMEGA_A_JEP
+  section: PTD4-22
+  feature: OMEGA
+  help_text: 유닛 종류를 설정
+  auth_level: 1
+- name: url
+  label: rtsp 주소
+  type: string
+  value: rtsp://user:userpassword@192.168.2.61:554/stream0
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD4-22
+  feature: OMEGA
+  help_text: IP 카메라 주소를 설정
+  auth_level: 1
+- name: frame_sync_delay
+  label: sync delay
+  type: float
+  value: 0.1
+  min: 0.0
+  max: 0.2
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD4-22
+  feature: OMEGA
+  help_text: RTSP 서비스 동기 조절 시간 설정
+  auth_level: 1
+- name: min_frame_count
+  label: 최소 획득 프레임 수
+  type: int
+  value: 1
+  min: 1
+  max: 2
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD4-22
+  feature: OMEGA
+  help_text: Read 명령 한번에 획득되는 최소 프레임 수를 설정
+  auth_level: 1
+- name: frame_interval
+  label: 프레임 간격
+  type: float
+  value: 0.034
+  min: 0.017
+  max: 0.068
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD4-22
+  feature: OMEGA
+  help_text: RTSP 서비스의 프레임 갱신 간격
+  auth_level: 1
+- name: used_save
+  label: used save
+  type: bool
+  value: false
+  min: false
+  max: true
+  options: [false, true]
+  group: OMEGA_A_JEP
+  section: PTD4-22
+  feature: OMEGA
+  help_text: 획득 프레임 저장 여부 설정
+  auth_level: 1
+- name: used_cam
+  label: used camera
+  type: bool
+  value: true
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD4-23
+  feature: OMEGA
+  help_text: 카메라를 사용 여부를 설정
+  auth_level: 1
+- name: spec_type
+  label: unit type
+  type: choice
+  value: PTD_RIGHT
+  min: false
+  max: true
+  options: [SCW_RIGHT, SCW_LEFT, PTD_RIGHT, SCW_NOZZLE]
+  group: OMEGA_A_JEP
+  section: PTD4-23
+  feature: OMEGA
+  help_text: 유닛 종류를 설정
+  auth_level: 1
+- name: url
+  label: rtsp 주소
+  type: string
+  value: rtsp://user:userpassword@192.168.2.62:554/stream0
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD4-23
+  feature: OMEGA
+  help_text: IP 카메라 주소를 설정
+  auth_level: 1
+- name: frame_sync_delay
+  label: sync delay
+  type: float
+  value: 0.1
+  min: 0.0
+  max: 0.2
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD4-23
+  feature: OMEGA
+  help_text: RTSP 서비스 동기 조절 시간 설정
+  auth_level: 1
+- name: min_frame_count
+  label: 최소 획득 프레임 수
+  type: int
+  value: 1
+  min: 1
+  max: 2
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD4-23
+  feature: OMEGA
+  help_text: Read 명령 한번에 획득되는 최소 프레임 수를 설정
+  auth_level: 1
+- name: frame_interval
+  label: 프레임 간격
+  type: float
+  value: 0.034
+  min: 0.017
+  max: 0.068
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD4-23
+  feature: OMEGA
+  help_text: RTSP 서비스의 프레임 갱신 간격
+  auth_level: 1
+- name: used_save
+  label: used save
+  type: bool
+  value: false
+  min: false
+  max: true
+  options: [false, true]
+  group: OMEGA_A_JEP
+  section: PTD4-23
+  feature: OMEGA
+  help_text: 획득 프레임 저장 여부 설정
+  auth_level: 1
+- name: used_cam
+  label: used camera
+  type: bool
+  value: true
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD4-24
+  feature: OMEGA
+  help_text: 카메라를 사용 여부를 설정
+  auth_level: 1
+- name: spec_type
+  label: unit type
+  type: choice
+  value: PTD_RIGHT
+  min: false
+  max: true
+  options: [SCW_RIGHT, SCW_LEFT, PTD_RIGHT, SCW_NOZZLE]
+  group: OMEGA_A_JEP
+  section: PTD4-24
+  feature: OMEGA
+  help_text: 유닛 종류를 설정
+  auth_level: 1
+- name: url
+  label: rtsp 주소
+  type: string
+  value: rtsp://user:userpassword@192.168.2.63:554/stream0
+  min: false
+  max: true
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD4-24
+  feature: OMEGA
+  help_text: IP 카메라 주소를 설정
+  auth_level: 1
+- name: frame_sync_delay
+  label: sync delay
+  type: float
+  value: 0.1
+  min: 0.0
+  max: 0.2
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD4-24
+  feature: OMEGA
+  help_text: RTSP 서비스 동기 조절 시간 설정
+  auth_level: 1
+- name: min_frame_count
+  label: 최소 획득 프레임 수
+  type: int
+  value: 1
+  min: 1
+  max: 2
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD4-24
+  feature: OMEGA
+  help_text: Read 명령 한번에 획득되는 최소 프레임 수를 설정
+  auth_level: 1
+- name: frame_interval
+  label: 프레임 간격
+  type: float
+  value: 0.034
+  min: 0.017
+  max: 0.068
+  options: []
+  group: OMEGA_A_JEP
+  section: PTD4-24
+  feature: OMEGA
+  help_text: RTSP 서비스의 프레임 갱신 간격
+  auth_level: 1
+- name: used_save
+  label: used save
+  type: bool
+  value: false
+  min: false
+  max: true
+  options: [false, true]
+  group: OMEGA_A_JEP
+  section: PTD4-24
+  feature: OMEGA
+  help_text: 획득 프레임 저장 여부 설정
+  auth_level: 1
+values:
+  default:
+    OMEGA:
+      OMEGA_A_JEP:
+        SCW2-13:
+          used_cam: true
+          spec_type: SCW_RIGHT
+          url: rtsp://user:userpassword@192.168.2.42:554/stream0
+          frame_sync_delay: 0.1
+          min_frame_count: 1
+          frame_interval: 0.034
+          used_save: false
+        SCW1-13:
+          spec_type: SCW_RIGHT
+          url: rtsp://user:userpassword@192.168.2.34:554/stream0
+          frame_sync_delay: 0.1
+          min_frame_count: 1
+          frame_interval: 0.034
+          used_save: false
+        SCW1-14:
+          used_cam: true
+          spec_type: SCW_LEFT
+          url: rtsp://user:userpassword@192.168.2.35:554/stream0
+          frame_sync_delay: 0.1
+          min_frame_count: 1
+          frame_interval: 0.034
+          used_save: false
+        SCW1-23:
+          used_cam: true
+          spec_type: SCW_RIGHT
+          url: rtsp://user:userpassword@192.168.2.38:554/stream0
+          frame_sync_delay: 0.1
+          min_frame_count: 1
+          frame_interval: 0.034
+          used_save: false
+        SCW1-24:
+          used_cam: true
+          spec_type: SCW_LEFT
+          url: rtsp://user:userpassword@192.168.2.39:554/stream0
+          frame_sync_delay: 0.1
+          min_frame_count: 1
+          frame_interval: 0.034
+          used_save: false
+        SCW2-14:
+          used_cam: true
+          spec_type: SCW_LEFT
+          url: rtsp://user:userpassword@192.168.2.43:554/stream0
+          frame_sync_delay: 0.1
+          min_frame_count: 1
+          frame_interval: 0.034
+          used_save: false
+        SCW2-23:
+          used_cam: true
+          spec_type: SCW_RIGHT
+          url: rtsp://user:userpassword@192.168.2.46:554/stream0
+          frame_sync_delay: 0.1
+          min_frame_count: 1
+          frame_interval: 0.034
+          used_save: false
+        SCW2-24:
+          used_cam: true
+          spec_type: SCW_LEFT
+          url: rtsp://user:userpassword@192.168.2.47:554/stream0
+          frame_sync_delay: 0.1
+          min_frame_count: 1
+          frame_interval: 0.034
+          used_save: false
+        PTD3-11:
+          used_cam: true
+          spec_type: PTD_RIGHT
+          url: rtsp://user:userpassword@192.168.2.48:554/stream0
+          frame_sync_delay: 0.1
+          min_frame_count: 1
+          frame_interval: 0.034
+          used_save: false
+        PTD3-12:
+          used_cam: true
+          spec_type: PTD_RIGHT
+          url: rtsp://user:userpassword@192.168.2.49:554/stream0
+          frame_sync_delay: 0.1
+          min_frame_count: 1
+          frame_interval: 0.034
+          used_save: false
+        PTD3-13:
+          used_cam: true
+          spec_type: PTD_RIGHT
+          url: rtsp://user:userpassword@192.168.2.50:554/stream0
+          frame_sync_delay: 0.1
+          min_frame_count: 1
+          frame_interval: 0.034
+          used_save: false
+        PTD3-14:
+          used_cam: true
+          spec_type: PTD_RIGHT
+          url: rtsp://user:userpassword@192.168.2.51:554/stream0
+          frame_sync_delay: 0.1
+          min_frame_count: 1
+          frame_interval: 0.034
+          used_save: false
+        PTD3-21:
+          used_cam: true
+          spec_type: PTD_RIGHT
+          url: rtsp://user:userpassword@192.168.2.52:554/stream0
+          frame_sync_delay: 0.1
+          min_frame_count: 1
+          frame_interval: 0.034
+          used_save: false
+        PTD3-22:
+          used_cam: true
+          spec_type: PTD_RIGHT
+          url: rtsp://user:userpassword@192.168.2.53:554/stream0
+          frame_sync_delay: 0.1
+          min_frame_count: 1
+          frame_interval: 0.034
+          used_save: false
+        PTD3-23:
+          used_cam: true
+          spec_type: PTD_RIGHT
+          url: rtsp://user:userpassword@192.168.2.54:554/stream0
+          frame_sync_delay: 0.1
+          min_frame_count: 1
+          frame_interval: 0.034
+          used_save: false
+        PTD3-24:
+          used_cam: true
+          spec_type: PTD_RIGHT
+          url: rtsp://user:userpassword@192.168.2.55:554/stream0
+          frame_sync_delay: 0.1
+          min_frame_count: 1
+          frame_interval: 0.034
+          used_save: false
+        PTD4-11:
+          used_cam: true
+          spec_type: PTD_RIGHT
+          url: rtsp://user:userpassword@192.168.2.56:554/stream0
+          frame_sync_delay: 0.1
+          min_frame_count: 1
+          frame_interval: 0.034
+          used_save: false
+        PTD4-12:
+          used_cam: true
+          spec_type: PTD_RIGHT
+          url: rtsp://user:userpassword@192.168.2.57:554/stream0
+          frame_sync_delay: 0.1
+          min_frame_count: 1
+          frame_interval: 0.034
+          used_save: false
+        PTD4-13:
+          used_cam: true
+          spec_type: PTD_RIGHT
+          url: rtsp://user:userpassword@192.168.2.58:554/stream0
+          frame_sync_delay: 0.1
+          min_frame_count: 1
+          frame_interval: 0.034
+          used_save: false
+        PTD4-14:
+          used_cam: true
+          spec_type: PTD_RIGHT
+          url: rtsp://user:userpassword@192.168.2.59:554/stream0
+          frame_sync_delay: 0.1
+          min_frame_count: 1
+          frame_interval: 0.034
+          used_save: false
+        PTD4-21:
+          used_cam: true
+          spec_type: PTD_RIGHT
+          url: rtsp://user:userpassword@192.168.2.60:554/stream0
+          frame_sync_delay: 0.1
+          min_frame_count: 1
+          frame_interval: 0.034
+          used_save: false
+        PTD4-22:
+          used_cam: true
+          spec_type: PTD_RIGHT
+          url: rtsp://user:userpassword@192.168.2.61:554/stream0
+          frame_sync_delay: 0.1
+          min_frame_count: 1
+          frame_interval: 0.034
+          used_save: false
+        PTD4-23:
+          used_cam: true
+          spec_type: PTD_RIGHT
+          url: rtsp://user:userpassword@192.168.2.62:554/stream0
+          frame_sync_delay: 0.1
+          min_frame_count: 1
+          frame_interval: 0.034
+          used_save: false
+        PTD4-24:
+          used_cam: true
+          spec_type: PTD_RIGHT
+          url: rtsp://user:userpassword@192.168.2.63:554/stream0
+          frame_sync_delay: 0.1
+          min_frame_count: 1
+          frame_interval: 0.034
+          used_save: false
