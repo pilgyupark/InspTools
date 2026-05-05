@@ -256,6 +256,9 @@ class ViewFrame(ttk.Frame):
     def get_roi_coords(self) -> list[int]:
         canvas_coords = self.cur_roi.get_coords()
         coords = [int(coord/self.scale) for coord in canvas_coords]
+        width, height = self.baseimg.size
+        coords[0], coords[1] = min(max(0, coords[0]), width - 1), min(max(0, coords[1]), height - 1)
+        coords[2], coords[3] = min(max(0, coords[2]), width - 1), min(max(0, coords[3]), height - 1)
         self.cur_roi.set_mode(Roi.MODE_IDLE)
         return coords
     

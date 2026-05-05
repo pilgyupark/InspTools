@@ -1,8 +1,11 @@
 import tkinter as tk
-from tkinter import messagebox, ttk
+from tkinter import messagebox, ttk, filedialog
 import yaml
 import hashlib
 from typing import Optional
+import os
+from ViewFrame import ViewFrame
+from Roi import Roi
 
 # --- PyYAML Customization (중괄호 블록 포맷 유지) ---
 class FlowDict(dict):
@@ -25,8 +28,8 @@ def prepare_data_for_save(data):
     return data
 
 # --- 메인 애플리케이션 ---
-class TreeConfigEditor(ttk.Frame):
-    def __init__(self, parent, full_config: Optional[dict]=None, auth_level: int=4, config_path: str = "Setting/system_config.yaml"):
+class TreeConfigFrame(ttk.Frame):
+    def __init__(self, parent, view_frame: Optional[ViewFrame]=None, full_config: Optional[dict]=None, auth_level: int=4, config_path: str = "Setting/system_config.yaml"):
         super().__init__(parent)
         self.pack(expand=True, fill=tk.BOTH)
         
@@ -34,6 +37,7 @@ class TreeConfigEditor(ttk.Frame):
         self.config_data = full_config['system_config'] if full_config else None
         self.current_auth_level = auth_level
         self.config_path = config_path
+        self.view_frame = view_frame
         self.data_map = {}
         if self.full_config is None:
             self.load_data()
@@ -58,14 +62,18 @@ class TreeConfigEditor(ttk.Frame):
         # 상단 헤더
         header = ttk.Frame(self)
         header.pack(fill=tk.X)
-        
+        body_frame = ttk.Frame(self)
+        body_frame.pack(fill=tk.BOTH, expand=True)
+        bottom_frame = ttk.Frame(self)
+        bottom_frame.pack(fill=tk.X)
+
         ttk.Label(header, text=f"Lv.{self.current_auth_level} 권한으로 접속 중").pack(side=tk.LEFT, padx=20)
         
-        ttk.Button(header, text="전체 저장 (Save All)", command=self.save_data, 
+        ttk.Button(bottom_frame, text="전체 저장 (Save All)", command=self.save_data, 
                    style="Accent.TButton").pack(side=tk.RIGHT, padx=20)
 
         # 좌우 분할 (TreeView | Content)
-        self.paned = ttk.PanedWindow(self, orient=tk.HORIZONTAL)
+        self.paned = ttk.PanedWindow(body_frame, orient=tk.HORIZONTAL)
         self.paned.pack(expand=True, fill=tk.BOTH, padx=5, pady=5)
 
         # 1. 왼쪽 TreeView 영역
@@ -73,19 +81,31 @@ class TreeConfigEditor(ttk.Frame):
         self.paned.add(self.tree_frame, weight=1)
         
         self.tree = ttk.Treeview(self.tree_frame, selectmode="browse")
+        tree_scrollbar = ttk.Scrollbar(self.tree_frame, orient="vertical")
+        tree_scrollbar.pack(side="right", fill="y")
         self.tree.pack(expand=True, fill=tk.BOTH)
+
         self.tree.bind("<<TreeviewSelect>>", self.on_tree_select)
+        tree_scrollbar.configure(command=self.tree.yview)
+        self.tree.configure(yscrollcommand=tree_scrollbar.set)
 
         # 2. 오른쪽 편집 영역 (스크롤 가능하도록 구성)
-        self.content_canvas = tk.Canvas(self.paned, bg="#282c34")
-        self.v_scroll = ttk.Scrollbar(self.paned, orient="vertical", command=self.content_canvas.yview)
+        self.content_frame = ttk.Frame(self.paned)
+        self.paned.add(self.content_frame, weight=4)
+
+        self.content_canvas = tk.Canvas(self.content_frame, bg="#282c34")
+        self.v_scroll = ttk.Scrollbar(self.content_frame, orient="vertical", command=self.content_canvas.yview)
+        self.v_scroll.pack(side=tk.RIGHT, fill=tk.Y)
+        self.h_scroll = ttk.Scrollbar(self.content_frame, orient="horizontal", command=self.content_canvas.xview)
+        self.h_scroll.pack(side=tk.BOTTOM, fill=tk.X)
+        self.content_canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+
         self.edit_frame = ttk.Frame(self.content_canvas)
+        self.edit_frame.pack(fill=tk.BOTH, expand=True)
         
         self.edit_frame.bind("<Configure>", lambda e: self.content_canvas.configure(scrollregion=self.content_canvas.bbox("all")))
         self.content_canvas.create_window((0, 0), window=self.edit_frame, anchor="nw")
-        self.content_canvas.configure(yscrollcommand=self.v_scroll.set)
-        
-        self.paned.add(self.content_canvas, weight=4)
+        self.content_canvas.configure(yscrollcommand=self.v_scroll.set, xscrollcommand=self.h_scroll.set)
         
         self.populate_tree()
 
@@ -135,10 +155,7 @@ class TreeConfigEditor(ttk.Frame):
             btn_frame.pack(fill=tk.X, padx=10, pady=5)
             for func in data['functions']:
                 if func.get('auth_level', 0) <= self.current_auth_level:
-                    # 람다 캡처 기법 사용
-                    ttk.Button(btn_frame, text=f"▶ {func['label']}", 
-                              command=lambda f=func: self.execute_function(f),
-                              style="Accent.TButton").pack(side=tk.LEFT, padx=5)
+                    self.execute_function(btn_frame, func, data)
 
         # 2. Parameters 위젯들
         if 'params' in data:
@@ -154,43 +171,191 @@ class TreeConfigEditor(ttk.Frame):
         f = ttk.Frame(parent)
         f.pack(fill=tk.X, pady=3)
         
-        lbl = ttk.Label(f, text=param['label'], width=30, anchor="w")
+        lbl = ttk.Label(f, text=param['label'], width=16, anchor="w")
         lbl.pack(side=tk.LEFT)
         
         ptype = param.get('type')
         val = param.get('value')
+        var = self._create_variable(param)
         
         if ptype == "bool":
-            var = tk.BooleanVar(value=val)
             ttk.Checkbutton(f, variable=var, command=lambda: param.update({'value': var.get()})).pack(side=tk.LEFT)
         elif ptype == "choice":
             w = ttk.Combobox(f, values=param.get('options', []))
             w.set(val)
             w.bind("<<ComboboxSelected>>", lambda e: param.update({'value': w.get()}))
-            w.pack(side=tk.LEFT, fill=tk.X, expand=True)
+            w.pack(side=tk.LEFT)
         elif ptype in ["int", "float"]:
             w = ttk.Spinbox(f, from_=param.get('min', -9999), to=param.get('max', 9999))
             w.set(val)
             w.bind("<FocusOut>", lambda e: param.update({'value': float(w.get()) if ptype=="float" else int(w.get())}))
-            w.pack(side=tk.LEFT, fill=tk.X, expand=True)
+            w.pack(side=tk.LEFT)
+        elif ptype == "img_path":
+            self.create_img_path_widget(f, var, param)
+        elif ptype == "roi":
+            self.create_roi_widget(f, var, param)
         else:
             w = ttk.Entry(f)
             w.insert(0, str(val))
             w.bind("<KeyRelease>", lambda e: param.update({'value': w.get()}))
             w.pack(side=tk.LEFT, fill=tk.X, expand=True)
 
-    def execute_function(self, func_data):
-        # 현재 화면의 수정된 값들을 포함하여 파라미터 수집
-        params = {p['id']: p['value'] for p in func_data.get('params', [])}
-        messagebox.showinfo("Function Call", f"ID: {func_data['id']}\nType: {func_data['type']}\nParams: {params}")
+    def create_roi_widget(self, parent: ttk.Widget, variable: tk.Variable, param: dict) -> ttk.Frame:
+        entry = ttk.Entry(parent, textvariable=variable)
+        entry.pack(side="left")
+        
+        def FocusIn(event=None) -> None:
+            try:
+                coords = eval(variable.get())
+                self.view_frame.update_roi_coords(coords)
+            except Exception as e:
+                print(e)
 
+        def FocusOut(event=None) -> None:
+            try:
+                self.view_frame.cur_roi.set_mode(Roi.MODE_IDLE)
+            except Exception as e:
+                print(e)
+
+        def Return(event=None) -> None:
+            try:
+                coords = eval(variable.get())
+                self.view_frame.update_roi_coords(coords)
+            except Exception as e:
+                print(e)
+
+        def on_enter() -> None:
+            try:
+                coords = self.view_frame.get_roi_coords()
+                variable.set(str(coords))
+                param['value'] = coords
+
+            except Exception as e:
+                print(e)
+
+        button = ttk.Button(parent, text="입력", command=on_enter, width=5)
+        button.pack(side="left", padx=5)
+
+        entry.bind("<FocusIn>", FocusIn)
+        entry.bind("<FocusOut>", FocusOut)
+        entry.bind("<Return>", Return)
+    
+    def create_img_path_widget(self, parent: ttk.Widget, variable: tk.Variable, param):
+        ttk.Entry(parent, textvariable=variable).pack(side=tk.LEFT, fill=tk.X, expand=True)
+
+        btn = ttk.Button(parent, text="Browse", command=lambda: browse_file(variable, param), width=5)
+        btn.pack(side=tk.LEFT, padx=(5, 1))
+        btn = ttk.Button(parent, text="Show", command=lambda: on_open(variable), width=5)
+        btn.pack(side=tk.LEFT, padx=1)
+        btn = ttk.Button(parent, text="Save", command=lambda: on_save(variable), width=5)
+        btn.pack(side=tk.LEFT, padx=(1, 5))
+
+        def browse_file(variable, param):
+            current_path = variable.get()
+            initial_dir = str(os.path.dirname(current_path)) if current_path else "./"
+            if not os.path.isdir(initial_dir):
+                initial_dir = "./"
+
+            filetypes = param.get('options', ['All Files', '*.*'])
+            selected_file = filedialog.askopenfilename(title="파일 선택", filetypes=[(ft[0], ft[1]) for ft in zip(filetypes[::2], filetypes[1::2])]
+                                                    , initialdir=initial_dir)
+            if selected_file:
+                variable.set(selected_file)
+                param['value'] = selected_file
+                on_open(variable)
+        
+        def on_open(variable) -> None:
+            file_path = variable.get()
+            if file_path:
+                self.view_frame.open_image(file_path)
+
+        def on_save(variable) -> None:
+            file_path = variable.get()
+            if file_path:
+                self.view_frame.save_image(file_path)
+    
+    def _create_variable(self, param) -> tk.Variable:
+        ptype = param.get('type')
+        value = param.get('value')
+        if ptype == "bool":
+            return tk.BooleanVar(value=bool(value))
+        if ptype == "int":
+            min_val = param.get('min', 0)
+            max_val = param.get('max', 9999)
+            value = max(min_val, min(max_val, int(value))) if value is not None else min_val
+            return tk.IntVar(value=int(value))
+        if ptype == "float":
+            min_val = param.get('min', 0.0)
+            max_val = param.get('max', 9999.0)
+            value = max(min_val, min(max_val, float(value))) if value is not None else min_val
+            return tk.DoubleVar(value=float(value))
+        return tk.StringVar(value="" if value is None else str(value))
+    
     def update_auth_level(self, auth_level):
         self.current_auth_level = auth_level
         self.populate_tree()  # 트리 재구성
 
+    def execute_function(self, labelframe: Optional[ttk.LabelFrame], func: Optional[dict], data: Optional[dict]):
+        btn = ttk.Button(labelframe, text=f"▶ {func['label']}")
+        btn.pack(side=tk.LEFT)
+
+        if func['type'] == "add_item_to_group":
+            entry = ttk.Entry(labelframe, width=10)
+            entry.pack(side=tk.LEFT)
+            btn.config(command=lambda d=data, e=entry: self.add_item_to_group(d, e))
+        elif func['type'] == "remove_item_from_group":
+            w = ttk.Combobox(labelframe, values=[g['id'] for g in data.get('groups', [])], width=10)
+            w.pack(side=tk.LEFT)
+            btn.config(command=lambda d=data, combobox=w: self.remove_item_from_group(d, combobox))
+        elif func['type'] == "show_txt_file":
+            btn.config(command=lambda f=func, d=data: self.show_txt_file(f, d))
+    
+    def show_txt_file(self, func: Optional[dict]=None, data: Optional[dict]=None):
+        # Extract the file path from the data
+        file_path = data.get('params', [{}])[0].get('value', '') if data else ''
+        title = func.get('label', 'TXT 파일 내용') if func else 'TXT 파일 내용'
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+            # 새 창에 텍스트 파일 내용 표시
+            txt_win = tk.Toplevel(self)
+            txt_win.title(title)
+            txt_area = tk.Text(txt_win, wrap=tk.WORD)
+            txt_area.insert(tk.END, content)
+            txt_area.pack(fill=tk.BOTH, expand=True)
+        except Exception as e:
+            messagebox.showerror("파일 읽기 실패", f"오류 발생: {e}, 파일 경로: {file_path}")
+
+    def remove_item_from_group(self, data: Optional[dict], combobox: Optional[ttk.Combobox]):
+        item_id = combobox.get()
+        if 'groups' in data and len(data['groups']) > 0:
+            if item_id:
+                data['groups'] = [g for g in data['groups'] if g['id'] != item_id]
+            else:
+                data['groups'].pop()
+            self.populate_tree()  # 트리 재구성 
+
+    def add_item_to_group(self, data: Optional[dict], entry: Optional[tk.Entry]):
+        if 'groups' not in data:
+            data['groups'] = []
+        label_value = entry.get() if entry and entry.get() else f"New Item {len(data['groups'])+1}"
+        new_item = {
+            'id': f"new_item_{len(data['groups'])+1}",
+            'label': label_value,
+            'type': data['groups'][0]['type'] if 'type' in data['groups'][0] else None,
+            'auth_level': self.current_auth_level
+        }
+        if 'params' in data:
+            new_item['params'] = data['params'][:]
+        if 'functions' in data['groups'][0]:
+            new_item['functions'] = data['groups'][0]['functions'][:]
+         
+        data['groups'].append(new_item)
+        self.populate_tree()  # 트리 재구성
+
 
 # --- 메인 애플리케이션 ---
-class ConfigEditorApp:
+class TreeConfigApp:
     def __init__(self, config_path: str):
         self.config_path = config_path
         self.load_data()
@@ -202,7 +367,7 @@ class ConfigEditorApp:
         self.current_user = "user1"
         self.current_auth_level = 1
 
-        self.tree_editor: TreeConfigEditor = None
+        self.tree_editor: TreeConfigFrame = None
 
         self.build_main_ui()
 
@@ -254,11 +419,11 @@ class ConfigEditorApp:
                     self.current_auth_level = g['auth_level']
                     self.current_user = uid
                     self.login_win.destroy()
-                    self.tree_editor = TreeConfigEditor(self.root, full_config=self.full_config, auth_level=self.current_auth_level, config_path=self.config_path)
+                    self.tree_editor = TreeConfigFrame(self.root, full_config=self.full_config, auth_level=self.current_auth_level, config_path=self.config_path)
                     return
         messagebox.showerror("실패", "인증 정보가 올바르지 않습니다.")
 
 
 if __name__ == "__main__":
-    app = ConfigEditorApp("Setting/system_config.yaml")
+    app = TreeConfigApp("Setting/system_config.yaml")
     app.root.mainloop()

@@ -3,99 +3,123 @@ system_config:
   label: 사용자 정보
   type: null
   auth_level: 4
-  params:
-  - {id: developer_auth_level, label: 개발자 접근 레벨, type: int, value: 4, min: 1, max: 4, auth_level: 4, visibility: hidden, help: 개발자 접근 레벨입니다.}
-  - {id: engineer_auth_level, label: 엔지니어 접근 레벨, type: int, value: 3, min: 1, max: 4, auth_level: 4, visibility: hidden, help: 엔지니어 접근 레벨입니다.}
-  - {id: power_user_auth_level, label: 파워 유저 접근 레벨, type: int, value: 2, min: 1, max: 4, auth_level: 4, visibility: hidden, help: 파워 유저 접근 레벨입니다.}
-  - {id: user_auth_level, label: 사용자 접근 레벨, type: int, value: 1, min: 1, max: 4, auth_level: 4, visibility: hidden, help: 사용자 접근 레벨입니다.}
-  - {id: id, label: ID, value: '', type: str, auth_level: 4, help: 추가할 id입니다.}
-  - {id: label, label: Label, value: '', type: str, auth_level: 4, help: 추가할 Label입니다.}
-  - {id: auth_level, label: auth_level, value: 1, type: int, min: 1, max: 4, auth_level: 4, help: 추가할 접근 레벨입니다.}
-  - {id: full_name, label: 전체 이름, value: '', type: str, auth_level: 4, help: 추가할 사용자의 전체 이름입니다.}
-  - {id: role, label: 역할, value: user, type: choice, options: [developer, engineer, power_user, user], auth_level: 4, help: 추가할 사용자의 역할입니다.}
-  - {id: pw_hash, label: 비밀번호 해시, value: '', type: pw_hash, auth_level: 4, help: 추가할 사용자의 비밀번호 해시입니다.}
-  functions:
-  - id: add_user
-    label: 사용자 추가
-    type: add_item_to_group
-    auth_level: 4
-  - id: remove_user
-    label: 사용자 제거
-    type: remove_item_from_group
-    auth_level: 4
   groups:
-  - id: user1
-    label: 사용자1
+  - id: user_auth_levels
+    label: 사용자 접근 레벨
+    type: null
     auth_level: 4
     params:
-    - {id: full_name, label: 전체 이름, value: admin, type: str, auth_level: 4, help: 사용자의 전체 이름입니다.}
-    - {id: role, label: 역할, value: developer, type: choice, options: [developer, engineer, power_user, user], auth_level: 4, help: 사용자의 역할입니다.}
-    - {id: pw_hash, label: 비밀번호 해시, value: 8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918, type: str, auth_level: 4, visibility: hidden, help: 사용자의 비밀번호 해시입니다.}
-  - id: user2
-    label: 사용자 2
-    auth_level: 3
+    - {id: developer_auth_level, label: 개발자 접근 레벨, type: int, value: 4, min: 1, max: 4, auth_level: 4, visibility: hidden, help: 개발자 접근 레벨입니다.}
+    - {id: engineer_auth_level, label: 엔지니어 접근 레벨, type: int, value: 3, min: 1, max: 4, auth_level: 4, visibility: hidden, help: 엔지니어 접근 레벨입니다.}
+    - {id: power_user_auth_level, label: 파워 유저 접근 레벨, type: int, value: 2, min: 1, max: 4, auth_level: 4, visibility: hidden, help: 파워 유저 접근 레벨입니다.}
+    - {id: user_auth_level, label: 사용자 접근 레벨, type: int, value: 1, min: 1, max: 4, auth_level: 4, visibility: hidden, help: 사용자 접근 레벨입니다.}
+  - id: users
+    label: 사용자 목록
+    auth_level: 4
+    type: null
     params:
-    - {id: full_name, label: 전체 이름, value: engineer1, type: str, auth_level: 4, help: 사용자의 전체 이름입니다.}
-    - {id: role, label: 역할, value: engineer, type: choice, options: [developer, engineer, power_user, user], auth_level: 3, help: 사용자의 역할입니다.}
-    - {id: pw_hash, label: 비밀번호 해시, value: b4b73d4bab61d1ffd4d3d2c38245f66d109dfc46920b7b047c0a0f448ac92d96, type: str, auth_level: 3, visibility: hidden, help: 사용자의 비밀번호 해시입니다.}
-  - id: user3
-    label: 사용자 3
-    auth_level: 2
-    params:
-    - {id: full_name, label: 전체 이름, value: power_user1, type: str, auth_level: 4, help: 사용자의 전체 이름입니다.}
-    - {id: role, label: 역할, value: power_user, type: choice, options: [developer, engineer, power_user, user], auth_level: 2, help: 사용자의 역할입니다.}
-    - {id: pw_hash, label: 비밀번호 해시, value: 052d9cabb0146dbf1c6b07142caab041cd04672ddf34d6ecc990f79710166a0b, type: str, auth_level: 2, visibility: hidden, help: 사용자의 비밀번호 해시입니다.}
-  - id: user4
-    label: 사용자 4
-    auth_level: 1
-    params:
-    - {id: full_name, label: 전체 이름, value: user1, type: str, auth_level: 4, help: 사용자의 전체 이름입니다.}
-    - {id: role, label: 역할, value: user, type: choice, options: [developer, engineer, power_user, user], auth_level: 1, help: 사용자의 역할입니다.}
-    - {id: pw_hash, label: 비밀번호 해시, value: 0a041b9462caa4a31bac3567e0b6e6fd9100787db2ab433d96f6d178cabfce90, type: pw_hash, auth_level: 1, visibility: hidden, help: 사용자의 비밀번호 해시입니다.}
+    - {id: full_name, label: 전체 이름, type: str, value: 홍길동, auth_level: 4, help: 추가할 사용자의 전체 이름입니다.}
+    - {id: role, label: 역할, type: choice, value: user, options: [developer, engineer, power_user, user], auth_level: 4, help: 추가할 사용자의 역할입니다.}
+    - {id: pw_hash, label: 비밀번호 해시, type: pw_hash, value: 홍길동, auth_level: 4, help: 추가할 사용자의 비밀번호 해시입니다.}
+    functions:
+    - id: add_user
+      label: 사용자 추가
+      type: add_item_to_group
+      auth_level: 4
+    - id: remove_user
+      label: 사용자 제거
+      type: remove_item_from_group
+      auth_level: 4
+    groups:
+    - id: user1
+      label: 사용자 1
+      type: null
+      auth_level: 4
+      params:
+      - {id: full_name, label: 전체 이름, type: str, value: admin, auth_level: 4, help: 사용자의 전체 이름입니다.}
+      - {id: role, label: 역할, type: choice, value: developer, options: [developer, engineer, power_user, user], auth_level: 4, help: 사용자의 역할입니다.}
+      - {id: pw_hash, label: 비밀번호 해시, type: str, value: 8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918, auth_level: 4, visibility: hidden, help: 사용자의 비밀번호 해시입니다.}
+    - id: user2
+      label: 사용자 2
+      type: null
+      auth_level: 3
+      params:
+      - {id: full_name, label: 전체 이름, type: str, value: engineer1, auth_level: 4, help: 사용자의 전체 이름입니다.}
+      - {id: role, label: 역할, type: choice, value: engineer, options: [developer, engineer, power_user, user], auth_level: 3, help: 사용자의 역할입니다.}
+      - {id: pw_hash, label: 비밀번호 해시, type: str, value: b4b73d4bab61d1ffd4d3d2c38245f66d109dfc46920b7b047c0a0f448ac92d96, auth_level: 3, visibility: hidden, help: 사용자의 비밀번호 해시입니다.}
+    - id: user3
+      label: 사용자 3
+      type: null
+      auth_level: 2
+      params:
+      - {id: full_name, label: 전체 이름, type: str, value: power_user1, auth_level: 4, help: 사용자의 전체 이름입니다.}
+      - {id: role, label: 역할, type: choice, value: power_user, options: [developer, engineer, power_user, user], auth_level: 2, help: 사용자의 역할입니다.}
+      - {id: pw_hash, label: 비밀번호 해시, type: str, value: 052d9cabb0146dbf1c6b07142caab041cd04672ddf34d6ecc990f79710166a0b, auth_level: 2, visibility: hidden, help: 사용자의 비밀번호 해시입니다.}
+    - id: user4
+      label: 사용자 4
+      type: null
+      auth_level: 1
+      params:
+      - {id: full_name, label: 전체 이름, type: str, value: user1, auth_level: 4, help: 사용자의 전체 이름입니다.}
+      - {id: role, label: 역할, type: choice, value: user, options: [developer, engineer, power_user, user], auth_level: 1, help: 사용자의 역할입니다.}
+      - {id: pw_hash, label: 비밀번호 해시, type: pw_hash, value: 0a041b9462caa4a31bac3567e0b6e6fd9100787db2ab433d96f6d178cabfce90, auth_level: 1, visibility: hidden, help: 사용자의 비밀번호 해시입니다.}
+    - id: new_item_5
+      label: 사용자 5
+      type: null
+      auth_level: 4
+      params:
+      - {id: full_name, label: 전체 이름, type: str, value: 홍길동, auth_level: 4, help: 추가할 사용자의 전체 이름입니다.}
+      - {id: role, label: 역할, type: choice, value: user, options: [developer, engineer, power_user, user], auth_level: 4, help: 추가할 사용자의 역할입니다.}
+      - {id: pw_hash, label: 비밀번호 해시, type: pw_hash, value: 홍길동, auth_level: 4, help: 추가할 사용자의 비밀번호 해시입니다.}
 - id: system_info
   label: 시스템 정보
+  type: null
   auth_level: 4
   params:
-  - {id: system_name, label: 시스템 이름, value: InspTools, type: str, auth_level: 4, help: 시스템의 이름입니다.}
-  - {id: version, label: 버전, value: 1.1.0, type: str, auth_level: 4, help: 시스템의 버전입니다.}
-  - {id: description, label: 설명, value: InspTools는 제조 공정에서 표면 검사와 노즐 위치 검출을 위한 비전 시스템입니다., type: str, auth_level: 4, help: 시스템에 대한 간단한 설명입니다.}
-  - {id: author, label: 개발자, value: 홍길동, type: str, auth_level: 4, help: 시스템 개발자의 이름입니다.}
-  - {id: license_text_file, label: 라이선스 텍스트 파일 경로, value: ./licenses/LICENSE.txt, type: str, auth_level: 1, help: 라이선스 정보를 담고 있는 텍스트 파일의 경로입니다.}
-  functions:
-  - id: show_license_info
-    label: 라이선스 정보 보기
-    type: show_txt_file
-    auth_level: 1
+  - {id: system_name, label: 시스템 이름, type: str, value: InspTools, auth_level: 4, help: 시스템의 이름입니다.}
+  - {id: version, label: 버전, type: str, value: 2.1.1, auth_level: 4, help: 시스템의 버전입니다.}
+  - {id: description, label: 설명, type: str, value: InspTools는 제조 공정에서 표면 검사와 노즐 위치 검출을 위한 비전 시스템입니다., auth_level: 4, help: 시스템에 대한 간단한 설명입니다.}
+  - {id: author, label: 개발자, type: str, value: 홍길동, auth_level: 4, help: 시스템 개발자의 이름입니다.}
+  groups:
+  - id: license_info
+    label: 라이선스 정보
+    type: null
+    auth_level: 4
+    params:
+    - {id: license_text_file, label: 라이선스 텍스트 파일 경로, type: txt_file_path, value: ./licenses/LICENSE.txt, auth_level: 1, help: 라이선스 정보를 담고 있는 텍스트 파일의 경로입니다.}
+    functions:
+    - id: show_license_info
+      label: 라이선스 정보 보기
+      type: show_txt_file
+      auth_level: 1
 - id: camera_config
   label: 카메라 설정
+  type: null
   auth_level: 4
   params:
-  - {id: max_retries, label: 최대 재시도 횟수, value: 5, type: int, min: 0, auth_level: 4, help: 카메라 연결이 실패할 때 재시도할 최대 횟수입니다.}
-  - {id: retry_delay, label: 재시도 간격(s), value: 1.0, type: float, min: 0.0, max: 10.0, auth_level: 4, help: 카메라 연결이 실패할 때 재시도하기 전에 기다리는 시간입니다.}
-  - {id: connection_timeout, label: 연결 타임아웃(s), value: 5.0, type: float, min: 0.0, max: 30.0, auth_level: 4, help: 카메라에 연결할 때 기다리는 최대 시간입니다.}
-  - {id: frame_capture_timeout, label: 프레임 캡처 타임아웃(s), value: 2.0, type: float, min: 0.0, max: 30.0, auth_level: 4, help: 카메라에서 프레임을 캡처할 때 기다리는 최대 시간입니다.}
-  - {id: frame_sync_delay, label: 프레임 싱크 지연 시간(s), value: 0.1, type: float, min: 0.0, max: 0.2, auth_level: 4, help: 카메라에서 프레임 싱크를 맞추기 위해 캡처된 프레임을 처리하기 전에 기다리는 기본 시간입니다.}
-  - {id: frame_interval, label: 프레임 간격(s), value: 0.034, type: float, min: 0.01, max: 1.0, auth_level: 4, help: 카메라에서 프레임을 캡처하는 기본 간격입니다.}
-  - {id: min_frame_count, label: 최소 프레임 수, value: 1, type: int, min: 1, max: 10, auth_level: 4, help: 카메라에서 캡처할 최소 프레임 수입니다.}
-  - {id: frame_save, label: 프레임 저장 여부, value: false, type: bool, auth_level: 4, help: 캡처된 프레임을 파일로 저장할지 여부입니다.}
-  - {id: frame_save_path, label: 프레임 저장 경로, value: frames/, type: str, auth_level: 4, help: 캡처된 프레임을 저장할 디렉토리 경로입니다.}
+  - {id: max_retries, label: 최대 재시도 횟수, type: int, value: 5, min: 0, auth_level: 4, help: 카메라 연결이 실패할 때 재시도할 최대 횟수입니다.}
+  - {id: retry_delay, label: 재시도 간격(s), type: float, value: 1.0, min: 0.0, max: 10.0, auth_level: 4, help: 카메라 연결이 실패할 때 재시도하기 전에 기다리는 시간입니다.}
+  - {id: connection_timeout, label: 연결 타임아웃(s), type: float, value: 5.0, min: 0.0, max: 30.0, auth_level: 4, help: 카메라에 연결할 때 기다리는 최대 시간입니다.}
+  - {id: frame_capture_timeout, label: 프레임 캡처 타임아웃(s), type: float, value: 2.0, min: 0.0, max: 30.0, auth_level: 4, help: 카메라에서 프레임을 캡처할 때 기다리는 최대 시간입니다.}
+  - {id: frame_sync_delay, label: 프레임 싱크 지연 시간(s), type: float, value: 0.1, min: 0.0, max: 0.2, auth_level: 4, help: 카메라에서 프레임 싱크를 맞추기 위해 캡처된 프레임을 처리하기 전에 기다리는 기본 시간입니다.}
+  - {id: frame_interval, label: 프레임 간격(s), type: float, value: 0.034, min: 0.01, max: 1.0, auth_level: 4, help: 카메라에서 프레임을 캡처하는 기본 간격입니다.}
+  - {id: min_frame_count, label: 최소 프레임 수, type: int, value: 1, min: 1, max: 10, auth_level: 4, help: 카메라에서 캡처할 최소 프레임 수입니다.}
+  - {id: frame_save, label: 프레임 저장 여부, type: bool, value: false, auth_level: 4, help: 캡처된 프레임을 파일로 저장할지 여부입니다.}
+  - {id: frame_save_path, label: 프레임 저장 경로, type: str, value: frames/, auth_level: 4, help: 캡처된 프레임을 저장할 디렉토리 경로입니다.}
   groups:
   - id: camera_type
     label: 카메라 유형
+    type: null
     auth_level: 3
     params:
-    - {id: id, label: ID, value: '', type: str, auth_level: 4, help: 추가할 item의 이름입니다.}
-    - {id: label, label: Label, value: '', type: str, auth_level: 4, help: 추가할 item의 Label입니다.}
-    - {id: type, label: type, value: '', type: str, auth_level: 4, help: 추가할 item의 type입니다.}
-    - {id: auth_level, label: 접근 레벨, value: 3, type: int, min: 1, max: 4, auth_level: 4, help: 추가할 item의 접근 레벨입니다.}
-    - {id: brightness, label: 밝기, value: 128, type: int, min: 0, max: 255, auth_level: 3, help: 카메라의 밝기 설정입니다.}
-    - {id: gain, label: 게인(dB), value: 0.0, type: float, min: 0.0, max: 24.0, auth_level: 3, help: 카메라의 게인입니다.}
-    - {id: white_balance, label: 화이트 밸런스, value: auto, type: str, options: [auto, manual], auth_level: 3, help: 카메라의 화이트 밸런스 설정입니다.}
-    - {id: tilting_angle, label: 틸팅 각도(°), value: 0.0, type: float, min: -90.0, max: 90.0, auth_level: 3, help: 카메라의 틸팅 각도입니다.}
-    - {id: panning_angle, label: 패닝 각도(°), value: 0.0, type: float, min: -180.0, max: 180.0, auth_level: 3, help: 카메라의 패닝 각도입니다.}
-    - {id: focus_distance, label: 초점 거리(mm), value: 100.0, type: float, min: 0.1, max: 1000.0, auth_level: 3, help: 카메라의 초점 거리입니다.}
-    - {id: exposure_time, label: 노출 시간(ms), value: 10.0, type: float, min: 0.1, max: 1000.0, auth_level: 3, help: 카메라의 노출 시간입니다.}
-    - {id: light_intensity, label: 조명 강도(%), value: 50.0, type: float, min: 0.0, max: 100.0, auth_level: 3, help: 카메라의 조명 강도입니다.}
+    - {id: brightness, label: 밝기, type: int, value: 128, min: 0, max: 255, auth_level: 3, help: 카메라의 밝기 설정입니다.}
+    - {id: gain, label: 게인(dB), type: float, value: 0.0, min: 0.0, max: 24.0, auth_level: 3, help: 카메라의 게인입니다.}
+    - {id: white_balance, label: 화이트 밸런스, type: choice, value: auto, options: [auto, manual], auth_level: 3, help: 카메라의 화이트 밸런스 설정입니다.}
+    - {id: tilting_angle, label: 틸팅 각도(°), type: float, value: 0.0, min: -90.0, max: 90.0, auth_level: 3, help: 카메라의 틸팅 각도입니다.}
+    - {id: panning_angle, label: 패닝 각도(°), type: float, value: 0.0, min: -180.0, max: 180.0, auth_level: 3, help: 카메라의 패닝 각도입니다.}
+    - {id: focus_distance, label: 초점 거리(mm), type: float, value: 150.0, min: 0.1, max: 1000.0, auth_level: 3, help: 카메라의 초점 거리입니다.}
+    - {id: exposure_time, label: 노출 시간(ms), type: float, value: 10.0, min: 0.1, max: 1000.0, auth_level: 3, help: 카메라의 노출 시간입니다.}
+    - {id: light_intensity, label: 조명 강도(%), type: float, value: 50.0, min: 0.0, max: 100.0, auth_level: 3, help: 카메라의 조명 강도입니다.}
     functions:
     - id: add_camera_type
       label: 카메라 유형 추가
@@ -107,55 +131,67 @@ system_config:
       auth_level: 4
     groups:
     - id: SCW_RIGHT
-      label: 카메라 설정
+      label: SCW_RIGHT 설정
+      type: null
       auth_level: 3
       params:
-      - {id: brightness, label: 밝기, value: 128, type: int, min: 0, max: 255, auth_level: 3, help: 카메라의 밝기 설정입니다.}
-      - {id: gain, label: 게인(dB), value: 0.0, type: float, min: 0.0, max: 24.0, auth_level: 3, help: 카메라의 게인입니다.}
-      - {id: white_balance, label: 화이트 밸런스, value: auto, type: str, options: [auto, manual], auth_level: 3, help: 카메라의 화이트 밸런스 설정입니다.}
-      - {id: tilting_angle, label: 틸팅 각도(°), value: 0.0, type: float, min: -90.0, max: 90.0, auth_level: 3, help: 카메라의 틸팅 각도입니다.}
-      - {id: panning_angle, label: 패닝 각도(°), value: 0.0, type: float, min: -180.0, max: 180.0, auth_level: 3, help: 카메라의 패닝 각도입니다.}
-      - {id: focus_distance, label: 초점 거리(mm), value: 100.0, type: float, min: 0.1, max: 1000.0, auth_level: 3, help: 카메라의 초점 거리입니다.}
-      - {id: exposure_time, label: 노출 시간(ms), value: 10.0, type: float, min: 0.1, max: 1000.0, auth_level: 3, help: 카메라의 노출 시간입니다.}
-      - {id: light_intensity, label: 조명 강도(%), value: 50.0, type: float, min: 0.0, max: 100.0, auth_level: 3, help: 카메라의 조명 강도입니다.}
+      - {id: brightness, label: 밝기, type: int, value: 128, min: 0, max: 255, auth_level: 3, help: 카메라의 밝기 설정입니다.}
+      - {id: gain, label: 게인(dB), type: float, value: 0.0, min: 0.0, max: 24.0, auth_level: 3, help: 카메라의 게인입니다.}
+      - {id: white_balance, label: 화이트 밸런스, type: choice, value: auto, options: [auto, manual], auth_level: 3, help: 카메라의 화이트 밸런스 설정입니다.}
+      - {id: tilting_angle, label: 틸팅 각도(°), type: float, value: 0.0, min: -90.0, max: 90.0, auth_level: 3, help: 카메라의 틸팅 각도입니다.}
+      - {id: panning_angle, label: 패닝 각도(°), type: float, value: 0.0, min: -180.0, max: 180.0, auth_level: 3, help: 카메라의 패닝 각도입니다.}
+      - {id: focus_distance, label: 초점 거리(mm), type: float, value: 100.0, min: 0.1, max: 1000.0, auth_level: 3, help: 카메라의 초점 거리입니다.}
+      - {id: exposure_time, label: 노출 시간(ms), type: float, value: 10.0, min: 0.1, max: 1000.0, auth_level: 3, help: 카메라의 노출 시간입니다.}
+      - {id: light_intensity, label: 조명 강도(%), type: float, value: 50.0, min: 0.0, max: 100.0, auth_level: 3, help: 카메라의 조명 강도입니다.}
     - id: SCW_LEFT
-      label: 카메라 설정
+      label: SCW_LEFT 설정
+      type: null
       auth_level: 3
       params:
-      - {id: brightness, label: 밝기, value: 128, type: int, min: 0, max: 255, auth_level: 3, help: 카메라의 밝기 설정입니다.}
-      - {id: gain, label: 게인(dB), value: 0.0, type: float, min: 0.0, max: 24.0, auth_level: 3, help: 카메라의 게인입니다.}
-      - {id: white_balance, label: 화이트 밸런스, value: auto, type: str, options: [auto, manual], auth_level: 3, help: 카메라의 화이트 밸런스 설정입니다.}
-      - {id: tilting_angle, label: 틸팅 각도(°), value: 0.0, type: float, min: -90.0, max: 90.0, auth_level: 3, help: 카메라의 틸팅 각도입니다.}
-      - {id: panning_angle, label: 패닝 각도(°), value: 0.0, type: float, min: -180.0, max: 180.0, auth_level: 3, help: 카메라의 패닝 각도입니다.}
-      - {id: focus_distance, label: 초점 거리(mm), value: 100.0, type: float, min: 0.1, max: 1000.0, auth_level: 3, help: 카메라의 초점 거리입니다.}
-      - {id: exposure_time, label: 노출 시간(ms), value: 10.0, type: float, min: 0.1, max: 1000.0, auth_level: 3, help: 카메라의 노출 시간입니다.}
-      - {id: light_intensity, label: 조명 강도(%), value: 50.0, type: float, min: 0.0, max: 100.0, auth_level: 3, help: 카메라의 조명 강도입니다.}
+      - {id: brightness, label: 밝기, type: int, value: 128, min: 0, max: 255, auth_level: 3, help: 카메라의 밝기 설정입니다.}
+      - {id: gain, label: 게인(dB), type: float, value: 0.0, min: 0.0, max: 24.0, auth_level: 3, help: 카메라의 게인입니다.}
+      - {id: white_balance, label: 화이트 밸런스, type: choice, value: auto, options: [auto, manual], auth_level: 3, help: 카메라의 화이트 밸런스 설정입니다.}
+      - {id: tilting_angle, label: 틸팅 각도(°), type: float, value: 0.0, min: -90.0, max: 90.0, auth_level: 3, help: 카메라의 틸팅 각도입니다.}
+      - {id: panning_angle, label: 패닝 각도(°), type: float, value: 0.0, min: -180.0, max: 180.0, auth_level: 3, help: 카메라의 패닝 각도입니다.}
+      - {id: focus_distance, label: 초점 거리(mm), type: float, value: 100.0, min: 0.1, max: 1000.0, auth_level: 3, help: 카메라의 초점 거리입니다.}
+      - {id: exposure_time, label: 노출 시간(ms), type: float, value: 10.0, min: 0.1, max: 1000.0, auth_level: 3, help: 카메라의 노출 시간입니다.}
+      - {id: light_intensity, label: 조명 강도(%), type: float, value: 50.0, min: 0.0, max: 100.0, auth_level: 3, help: 카메라의 조명 강도입니다.}
     - id: PTD_RIGHT
-      label: 카메라 설정
+      label: PTD_RIGHT 설정
+      type: null
       auth_level: 3
       params:
-      - {id: brightness, label: 밝기, value: 128, type: int, min: 0, max: 255, auth_level: 3, help: 카메라의 밝기 설정입니다.}
-      - {id: gain, label: 게인(dB), value: 0.0, type: float, min: 0.0, max: 24.0, auth_level: 3, help: 카메라의 게인입니다.}
-      - {id: white_balance, label: 화이트 밸런스, value: auto, type: str, options: [auto, manual], auth_level: 3, help: 카메라의 화이트 밸런스 설정입니다.}
-      - {id: tilting_angle, label: 틸팅 각도(°), value: 0.0, type: float, min: -90.0, max: 90.0, auth_level: 3, help: 카메라의 틸팅 각도입니다.}
-      - {id: panning_angle, label: 패닝 각도(°), value: 0.0, type: float, min: -180.0, max: 180.0, auth_level: 3, help: 카메라의 패닝 각도입니다.}
-      - {id: focus_distance, label: 초점 거리(mm), value: 100.0, type: float, min: 0.1, max: 1000.0, auth_level: 3, help: 카메라의 초점 거리입니다.}
-      - {id: exposure_time, label: 노출 시간(ms), value: 10.0, type: float, min: 0.1, max: 1000.0, auth_level: 3, help: 카메라의 노출 시간입니다.}
-      - {id: light_intensity, label: 조명 강도(%), value: 50.0, type: float, min: 0.0, max: 100.0, auth_level: 3, help: 카메라의 조명 강도입니다.}
+      - {id: brightness, label: 밝기, type: int, value: 128, min: 0, max: 255, auth_level: 3, help: 카메라의 밝기 설정입니다.}
+      - {id: gain, label: 게인(dB), type: float, value: 0.0, min: 0.0, max: 24.0, auth_level: 3, help: 카메라의 게인입니다.}
+      - {id: white_balance, label: 화이트 밸런스, type: choice, value: auto, options: [auto, manual], auth_level: 3, help: 카메라의 화이트 밸런스 설정입니다.}
+      - {id: tilting_angle, label: 틸팅 각도(°), type: float, value: 0.0, min: -90.0, max: 90.0, auth_level: 3, help: 카메라의 틸팅 각도입니다.}
+      - {id: panning_angle, label: 패닝 각도(°), type: float, value: 0.0, min: -180.0, max: 180.0, auth_level: 3, help: 카메라의 패닝 각도입니다.}
+      - {id: focus_distance, label: 초점 거리(mm), type: float, value: 100.0, min: 0.1, max: 1000.0, auth_level: 3, help: 카메라의 초점 거리입니다.}
+      - {id: exposure_time, label: 노출 시간(ms), type: float, value: 10.0, min: 0.1, max: 1000.0, auth_level: 3, help: 카메라의 노출 시간입니다.}
+      - {id: light_intensity, label: 조명 강도(%), type: float, value: 50.0, min: 0.0, max: 100.0, auth_level: 3, help: 카메라의 조명 강도입니다.}
+    - id: new_item_4
+      label: SBW_RIGHT 설정
+      type: null
+      auth_level: 4
+      params:
+      - {id: brightness, label: 밝기, type: int, value: 128, min: 0, max: 255, auth_level: 3, help: 카메라의 밝기 설정입니다.}
+      - {id: gain, label: 게인(dB), type: float, value: 0.0, min: 0.0, max: 24.0, auth_level: 3, help: 카메라의 게인입니다.}
+      - {id: white_balance, label: 화이트 밸런스, type: choice, value: auto, options: [auto, manual], auth_level: 3, help: 카메라의 화이트 밸런스 설정입니다.}
+      - {id: tilting_angle, label: 틸팅 각도(°), type: float, value: 0.0, min: -90.0, max: 90.0, auth_level: 3, help: 카메라의 틸팅 각도입니다.}
+      - {id: panning_angle, label: 패닝 각도(°), type: float, value: 0.0, min: -180.0, max: 180.0, auth_level: 3, help: 카메라의 패닝 각도입니다.}
+      - {id: focus_distance, label: 초점 거리(mm), type: float, value: 150.0, min: 0.1, max: 1000.0, auth_level: 3, help: 카메라의 초점 거리입니다.}
+      - {id: exposure_time, label: 노출 시간(ms), type: float, value: 10.0, min: 0.1, max: 1000.0, auth_level: 3, help: 카메라의 노출 시간입니다.}
+      - {id: light_intensity, label: 조명 강도(%), type: float, value: 50.0, min: 0.0, max: 100.0, auth_level: 3, help: 카메라의 조명 강도입니다.}
   - id: cameras
-    label: 카메라 설정
+    label: 개별 카메라 설정
     type: null
     auth_level: 3
     params:
-    - {id: id, label: ID, value: '', type: str, auth_level: 3, help: 추가할 item의 이름입니다.}
-    - {id: label, label: Label, value: '', type: str, auth_level: 3, help: 추가할 item의 Label입니다.}
-    - {id: type, label: type, value: '', type: str, auth_level: 3, help: 추가할 item의 type입니다.}
-    - {id: auth_level, label: 접근 레벨, value: 2, type: int, min: 1, max: 4, auth_level: 3, help: 추가할 item의 접근 레벨입니다.}
-    - {id: used, label: 사용 여부, value: true, type: bool, auth_level: 3, help: 이 카메라를 시스템에서 사용할지 여부입니다.}
-    - {id: url, label: 카메라 URL, value: '', type: str, auth_level: 3, help: 카메라 스트림 URL입니다.}
-    - {id: unit_type, label: 유닛 유형, value: '', type: choice, options: [SCW_LEFT, SCW_RIGHT], auth_level: 3, help: 카메라 유닛 유형입니다.}
-    - {id: used_read_frame, label: 프레임 읽기 사용 여부, value: true, type: bool, auth_level: 2, help: 연결 테스트 시 카메라에서 프레임을 읽어오는 기능을 사용할지 여부입니다.}
-    - {id: read_frame_count, label: 읽을 프레임 수, value: 5, type: int, min: 1, max: 20, auth_level: 2, help: 연결 테스트 시 카메라에서 읽어올 프레임 수입니다.}
+    - {id: used, label: 사용 여부, type: bool, value: true, auth_level: 3, help: 이 카메라를 시스템에서 사용할지 여부입니다.}
+    - {id: url, label: 카메라 URL, type: str, value: 'rtsp://user:userpassword@192.162.1.34:554/stream0', auth_level: 3, help: 카메라 스트림 URL입니다.}
+    - {id: unit_type, label: 유닛 유형, type: choice, value: SCW_LEFT, options: [SCW_LEFT, SCW_RIGHT], auth_level: 3, help: 카메라 유닛 유형입니다.}
+    - {id: used_read_frame, label: 프레임 읽기 사용 여부, type: bool, value: true, auth_level: 2, help: 연결 테스트 시 카메라에서 프레임을 읽어오는 기능을 사용할지 여부입니다.}
+    - {id: read_frame_count, label: 읽을 프레임 수, type: int, value: 5, min: 1, max: 20, auth_level: 2, help: 연결 테스트 시 카메라에서 읽어올 프레임 수입니다.}
     functions:
     - id: add_camera
       label: 카메라 추가
@@ -168,11 +204,12 @@ system_config:
     groups:
     - id: SCW1-13
       label: SCW1-13 카메라
+      type: null
       auth_level: 2
       params:
-      - {id: used, label: 사용 여부, value: true, type: bool, auth_level: 2, help: 이 카메라를 시스템에서 사용할지 여부입니다.}
-      - {id: url, label: 카메라 URL, value: 'rtsp://user:userpassword@192.162.1.34:554/stream0', type: str, auth_level: 3, help: 카메라 스트림 URL입니다.}
-      - {id: unit_type, label: 유닛 유형, value: SCW_RIGHT, type: choice, options: [SCW_LEFT, SCW_RIGHT, PTD_RIGHT], auth_level: 3, help: 카메라 유닛 유형입니다.}
+      - {id: used, label: 사용 여부, type: bool, value: true, auth_level: 2, help: 이 카메라를 시스템에서 사용할지 여부입니다.}
+      - {id: url, label: 카메라 URL, type: str, value: 'rtsp://user:userpassword@192.162.1.34:554/stream0', auth_level: 3, help: 카메라 스트림 URL입니다.}
+      - {id: unit_type, label: 유닛 유형, type: choice, value: SCW_RIGHT, options: [SCW_LEFT, SCW_RIGHT, PTD_RIGHT], auth_level: 3, help: 카메라 유닛 유형입니다.}
       functions:
       - id: test_camera_connection
         label: 카메라 연결 테스트
@@ -184,11 +221,12 @@ system_config:
         auth_level: 2
     - id: SCW1-14
       label: SCW1-14 카메라
+      type: null
       auth_level: 2
       params:
-      - {id: used, label: 사용 여부, value: true, type: bool, auth_level: 2, help: 이 카메라를 시스템에서 사용할지 여부입니다.}
-      - {id: url, label: 카메라 URL, value: 'rtsp://user:userpassword@192.162.1.35:554/stream0', type: str, auth_level: 3, help: 카메라 스트림 URL입니다.}
-      - {id: unit_type, label: 유닛 유형, value: SCW_LEFT, type: choice, options: [SCW_LEFT, SCW_RIGHT, PTD_RIGHT], auth_level: 3, help: 카메라 유닛 유형입니다.}
+      - {id: used, label: 사용 여부, type: bool, value: true, auth_level: 2, help: 이 카메라를 시스템에서 사용할지 여부입니다.}
+      - {id: url, label: 카메라 URL, type: str, value: 'rtsp://user:userpassword@192.162.1.35:554/stream0', auth_level: 3, help: 카메라 스트림 URL입니다.}
+      - {id: unit_type, label: 유닛 유형, type: choice, value: SCW_LEFT, options: [SCW_LEFT, SCW_RIGHT, PTD_RIGHT], auth_level: 3, help: 카메라 유닛 유형입니다.}
       functions:
       - id: test_camera_connection
         label: 카메라 연결 테스트
@@ -200,11 +238,126 @@ system_config:
         auth_level: 2
     - id: PTD3-11
       label: PTD3-11 카메라
+      type: null
       auth_level: 2
       params:
-      - {id: used, label: 사용 여부, value: true, type: bool, auth_level: 2, help: 이 카메라를 시스템에서 사용할지 여부입니다.}
-      - {id: url, label: 카메라 URL, value: 'rtsp://user:userpassword@192.162.1.50:554/stream0', type: str, auth_level: 3, help: 카메라 스트림 URL입니다.}
-      - {id: unit_type, label: 유닛 유형, value: PTD_RIGHT, type: choice, options: [SCW_LEFT, SCW_RIGHT, PTD_RIGHT], auth_level: 3, help: 카메라 유닛 유형입니다.}
+      - {id: used, label: 사용 여부, type: bool, value: true, auth_level: 2, help: 이 카메라를 시스템에서 사용할지 여부입니다.}
+      - {id: url, label: 카메라 URL, type: str, value: 'rtsp://user:userpassword@192.162.1.50:554/stream0', auth_level: 3, help: 카메라 스트림 URL입니다.}
+      - {id: unit_type, label: 유닛 유형, type: choice, value: PTD_RIGHT, options: [SCW_LEFT, SCW_RIGHT, PTD_RIGHT], auth_level: 3, help: 카메라 유닛 유형입니다.}
+      functions:
+      - id: test_camera_connection
+        label: 카메라 연결 테스트
+        type: test_camera_connection
+        auth_level: 2
+      - id: test_camera_read_frame
+        label: 카메라 프레임 읽기 테스트
+        type: test_camera_read_frame
+        auth_level: 2
+    - id: new_item_4
+      label: SCW1-23 카메라
+      type: null
+      auth_level: 4
+      params:
+      - {id: used, label: 사용 여부, type: bool, value: true, auth_level: 3, help: 이 카메라를 시스템에서 사용할지 여부입니다.}
+      - {id: url, label: 카메라 URL, type: str, value: 'rtsp://user:userpassword@192.162.1.34:554/stream0', auth_level: 3, help: 카메라 스트림 URL입니다.}
+      - {id: unit_type, label: 유닛 유형, type: choice, value: SCW_LEFT, options: [SCW_LEFT, SCW_RIGHT], auth_level: 3, help: 카메라 유닛 유형입니다.}
+      - {id: used_read_frame, label: 프레임 읽기 사용 여부, type: bool, value: true, auth_level: 2, help: 연결 테스트 시 카메라에서 프레임을 읽어오는 기능을 사용할지 여부입니다.}
+      - {id: read_frame_count, label: 읽을 프레임 수, type: int, value: 5, min: 1, max: 20, auth_level: 2, help: 연결 테스트 시 카메라에서 읽어올 프레임 수입니다.}
+      functions:
+      - id: test_camera_connection
+        label: 카메라 연결 테스트
+        type: test_camera_connection
+        auth_level: 2
+      - id: test_camera_read_frame
+        label: 카메라 프레임 읽기 테스트
+        type: test_camera_read_frame
+        auth_level: 2
+    - id: new_item_5
+      label: SCW1-24 카메라
+      type: null
+      auth_level: 4
+      params:
+      - {id: used, label: 사용 여부, type: bool, value: true, auth_level: 3, help: 이 카메라를 시스템에서 사용할지 여부입니다.}
+      - {id: url, label: 카메라 URL, type: str, value: 'rtsp://user:userpassword@192.162.1.34:554/stream0', auth_level: 3, help: 카메라 스트림 URL입니다.}
+      - {id: unit_type, label: 유닛 유형, type: choice, value: SCW_LEFT, options: [SCW_LEFT, SCW_RIGHT], auth_level: 3, help: 카메라 유닛 유형입니다.}
+      - {id: used_read_frame, label: 프레임 읽기 사용 여부, type: bool, value: true, auth_level: 2, help: 연결 테스트 시 카메라에서 프레임을 읽어오는 기능을 사용할지 여부입니다.}
+      - {id: read_frame_count, label: 읽을 프레임 수, type: int, value: 5, min: 1, max: 20, auth_level: 2, help: 연결 테스트 시 카메라에서 읽어올 프레임 수입니다.}
+      functions:
+      - id: test_camera_connection
+        label: 카메라 연결 테스트
+        type: test_camera_connection
+        auth_level: 2
+      - id: test_camera_read_frame
+        label: 카메라 프레임 읽기 테스트
+        type: test_camera_read_frame
+        auth_level: 2
+    - id: new_item_6
+      label: SCW2-13 카메라
+      type: null
+      auth_level: 4
+      params:
+      - {id: used, label: 사용 여부, type: bool, value: true, auth_level: 3, help: 이 카메라를 시스템에서 사용할지 여부입니다.}
+      - {id: url, label: 카메라 URL, type: str, value: 'rtsp://user:userpassword@192.162.1.34:554/stream0', auth_level: 3, help: 카메라 스트림 URL입니다.}
+      - {id: unit_type, label: 유닛 유형, type: choice, value: SCW_LEFT, options: [SCW_LEFT, SCW_RIGHT], auth_level: 3, help: 카메라 유닛 유형입니다.}
+      - {id: used_read_frame, label: 프레임 읽기 사용 여부, type: bool, value: true, auth_level: 2, help: 연결 테스트 시 카메라에서 프레임을 읽어오는 기능을 사용할지 여부입니다.}
+      - {id: read_frame_count, label: 읽을 프레임 수, type: int, value: 5, min: 1, max: 20, auth_level: 2, help: 연결 테스트 시 카메라에서 읽어올 프레임 수입니다.}
+      functions:
+      - id: test_camera_connection
+        label: 카메라 연결 테스트
+        type: test_camera_connection
+        auth_level: 2
+      - id: test_camera_read_frame
+        label: 카메라 프레임 읽기 테스트
+        type: test_camera_read_frame
+        auth_level: 2
+    - id: new_item_7
+      label: SCW2-14 카메라
+      type: null
+      auth_level: 4
+      params:
+      - {id: used, label: 사용 여부, type: bool, value: true, auth_level: 3, help: 이 카메라를 시스템에서 사용할지 여부입니다.}
+      - {id: url, label: 카메라 URL, type: str, value: 'rtsp://user:userpassword@192.162.1.34:554/stream0', auth_level: 3, help: 카메라 스트림 URL입니다.}
+      - {id: unit_type, label: 유닛 유형, type: choice, value: SCW_LEFT, options: [SCW_LEFT, SCW_RIGHT], auth_level: 3, help: 카메라 유닛 유형입니다.}
+      - {id: used_read_frame, label: 프레임 읽기 사용 여부, type: bool, value: true, auth_level: 2, help: 연결 테스트 시 카메라에서 프레임을 읽어오는 기능을 사용할지 여부입니다.}
+      - {id: read_frame_count, label: 읽을 프레임 수, type: int, value: 5, min: 1, max: 20, auth_level: 2, help: 연결 테스트 시 카메라에서 읽어올 프레임 수입니다.}
+      functions:
+      - id: test_camera_connection
+        label: 카메라 연결 테스트
+        type: test_camera_connection
+        auth_level: 2
+      - id: test_camera_read_frame
+        label: 카메라 프레임 읽기 테스트
+        type: test_camera_read_frame
+        auth_level: 2
+    - id: new_item_8
+      label: SCW2-23 카메라
+      type: null
+      auth_level: 4
+      params:
+      - {id: used, label: 사용 여부, type: bool, value: true, auth_level: 3, help: 이 카메라를 시스템에서 사용할지 여부입니다.}
+      - {id: url, label: 카메라 URL, type: str, value: 'rtsp://user:userpassword@192.162.1.34:554/stream0', auth_level: 3, help: 카메라 스트림 URL입니다.}
+      - {id: unit_type, label: 유닛 유형, type: choice, value: SCW_LEFT, options: [SCW_LEFT, SCW_RIGHT], auth_level: 3, help: 카메라 유닛 유형입니다.}
+      - {id: used_read_frame, label: 프레임 읽기 사용 여부, type: bool, value: true, auth_level: 2, help: 연결 테스트 시 카메라에서 프레임을 읽어오는 기능을 사용할지 여부입니다.}
+      - {id: read_frame_count, label: 읽을 프레임 수, type: int, value: 5, min: 1, max: 20, auth_level: 2, help: 연결 테스트 시 카메라에서 읽어올 프레임 수입니다.}
+      functions:
+      - id: test_camera_connection
+        label: 카메라 연결 테스트
+        type: test_camera_connection
+        auth_level: 2
+      - id: test_camera_read_frame
+        label: 카메라 프레임 읽기 테스트
+        type: test_camera_read_frame
+        auth_level: 2
+    - id: new_item_9
+      label: SCW2-24 카메라
+      type: null
+      auth_level: 4
+      params:
+      - {id: used, label: 사용 여부, type: bool, value: true, auth_level: 3, help: 이 카메라를 시스템에서 사용할지 여부입니다.}
+      - {id: url, label: 카메라 URL, type: str, value: 'rtsp://user:userpassword@192.162.1.34:554/stream0', auth_level: 3, help: 카메라 스트림 URL입니다.}
+      - {id: unit_type, label: 유닛 유형, type: choice, value: SCW_LEFT, options: [SCW_LEFT, SCW_RIGHT], auth_level: 3, help: 카메라 유닛 유형입니다.}
+      - {id: used_read_frame, label: 프레임 읽기 사용 여부, type: bool, value: true, auth_level: 2, help: 연결 테스트 시 카메라에서 프레임을 읽어오는 기능을 사용할지 여부입니다.}
+      - {id: read_frame_count, label: 읽을 프레임 수, type: int, value: 5, min: 1, max: 20, auth_level: 2, help: 연결 테스트 시 카메라에서 읽어올 프레임 수입니다.}
       functions:
       - id: test_camera_connection
         label: 카메라 연결 테스트
@@ -221,27 +374,31 @@ system_config:
   groups:
   - id: common_params
     label: 모듈 유형
+    type: null
     auth_level: 4
     groups:
     - id: SCW_RIGHT
       label: SCW_RIGHT 노즐 위치 검출 모듈
+      type: null
       auth_level: 4
       params:
-      - {id: base_dir, label: 기준 디렉토리, value: Setting/nozzle_position_detection/common/SCW_RIGHT/, type: str, auth_level: 4, help: 노즐 위치 검출 모델의 기준 디렉토리입니다.}
+      - {id: base_dir, label: 기준 디렉토리, type: str, value: Setting/nozzle_position_detection/common/SCW_RIGHT/, auth_level: 4, help: 노즐 위치 검출 모델의 기준 디렉토리입니다.}
       groups:
       - id: calibration
         label: 보정 설정
+        type: null
         auth_level: 4
         groups:
         - id: pos1
           label: 위치 1
+          type: null
           auth_level: 4
           params:
-          - {id: image_path, label: 이미지 경로, value: calibration/pos1.jpg, type: str, auth_level: 4, help: 위치 검출 모델의 보정에 사용할 이미지 파일의 경로입니다.}
-          - {id: template_roi, label: 템플릿 ROI, value: [0, 0, 100, 100], type: list, auth_level: 4, help: 위치 검출 모델의 템플릿 ROI입니다.}
-          - {id: search_roi, label: 검색 ROI, value: [0, 0, 100, 100], type: list, auth_level: 4, help: 위치 검출 모델의 검색 ROI입니다.}
-          - {id: template_path, label: 템플릿 저장 경로, value: calibration/temp1.bmp, type: str, auth_level: 4, help: 생성된 템플릿 파일을 저장할 경로입니다.}
-          - {id: mask_path, label: 마스크 저장 경로, value: calibration/mask1.bmp, type: str, auth_level: 4, help: 생성된 마스크 파일을 저장할 경로입니다.}
+          - {id: image_path, label: 이미지 경로, type: img_path, value: 'D:/Git/InspTools/Setting/common/pr_nz_center/scw_right/calibration/pos1.bmp', options: [Image Files, '*.bmp;*.jpg;*.png', All Files, '*.*'], auth_level: 4, help: 위치 검출 모델의 보정에 사용할 이미지 파일의 경로입니다.}
+          - {id: template_roi, label: 템플릿 ROI, type: roi, value: [1058, 252, 1727, 1159], auth_level: 4, help: 위치 검출 모델의 템플릿 ROI입니다.}
+          - {id: search_roi, label: 검색 ROI, type: roi, value: [749, 20, 2033, 1387], auth_level: 4, help: 위치 검출 모델의 검색 ROI입니다.}
+          - {id: template_path, label: 템플릿 저장 경로, type: img_path, value: 'D:/Git/InspTools/Setting/common/pr_nz_center/scw_right/calibration/pos2.bmp', options: [Image Files, '*.bmp;*.jpg;*.png', All Files, '*.*'], auth_level: 4, help: 생성된 템플릿 파일을 저장할 경로입니다.}
+          - {id: mask_path, label: 마스크 저장 경로, type: img_path, value: 'D:/Git/InspTools/Setting/common/pr_nz_center/scw_right/calibration/pos3.bmp', options: [Image Files, '*.bmp;*.jpg;*.png', All Files, '*.*'], auth_level: 4, help: 생성된 마스크 파일을 저장할 경로입니다.}
           functions:
           - id: template_create
             label: 템플릿 생성
@@ -253,13 +410,14 @@ system_config:
             auth_level: 4
         - id: pos2
           label: 위치 2
+          type: null
           auth_level: 4
           params:
-          - {id: image_path, label: 이미지 경로, value: calibration/pos2.jpg, type: str, auth_level: 4, help: 위치 검출 모델의 보정에 사용할 이미지 파일의 경로입니다.}
-          - {id: template_roi, label: 템플릿 ROI, value: [0, 0, 100, 100], type: list, auth_level: 4, help: 위치 검출 모델의 템플릿 ROI입니다.}
-          - {id: search_roi, label: 검색 ROI, value: [0, 0, 100, 100], type: list, auth_level: 4, help: 위치 검출 모델의 검색 ROI입니다.}
-          - {id: template_path, label: 템플릿 저장 경로, value: calibration/temp2.bmp, type: str, auth_level: 4, help: 생성된 템플릿 파일을 저장할 경로입니다.}
-          - {id: mask_path, label: 마스크 저장 경로, value: calibration/mask2.bmp, type: str, auth_level: 4, help: 생성된 마스크 파일을 저장할 경로입니다.}
+          - {id: image_path, label: 이미지 경로, type: img_path, value: 'D:/Git/InspTools/Setting/common/pr_nz_center/scw_right/calibration/pos2.bmp', options: [Image Files, '*.bmp;*.jpg;*.png', All Files, '*.*'], auth_level: 4, help: 위치 검출 모델의 보정에 사용할 이미지 파일의 경로입니다.}
+          - {id: template_roi, label: 템플릿 ROI, type: roi, value: [1123, 1338, 1354, 1656], auth_level: 4, help: 위치 검출 모델의 템플릿 ROI입니다.}
+          - {id: search_roi, label: 검색 ROI, type: roi, value: [918, 1184, 1558, 1809], auth_level: 4, help: 위치 검출 모델의 검색 ROI입니다.}
+          - {id: template_path, label: 템플릿 저장 경로, type: img_path, value: 'D:/Git/InspTools/Setting/common/pr_nz_center/scw_right/calibration/pos2.bmp', options: [Image Files, '*.bmp;*.jpg;*.png', All Files, '*.*'], auth_level: 4, help: 생성된 템플릿 파일을 저장할 경로입니다.}
+          - {id: mask_path, label: 마스크 저장 경로, type: img_path, value: 'D:/Git/InspTools/Setting/common/pr_nz_center/scw_right/calibration/pos3.bmp', options: [Image Files, '*.bmp;*.jpg;*.png', All Files, '*.*'], auth_level: 4, help: 생성된 마스크 파일을 저장할 경로입니다.}
           functions:
           - id: template_create
             label: 템플릿 생성
@@ -271,13 +429,14 @@ system_config:
             auth_level: 4
         - id: pos3
           label: 위치 3
+          type: null
           auth_level: 4
           params:
-          - {id: image_path, label: 이미지 경로, value: calibration/pos3.jpg, type: str, auth_level: 4, help: 위치 검출 모델의 보정에 사용할 이미지 파일의 경로입니다.}
-          - {id: template_roi, label: 템플릿 ROI, value: [0, 0, 100, 100], type: list, auth_level: 4, help: 위치 검출 모델의 템플릿 ROI입니다.}
-          - {id: search_roi, label: 검색 ROI, value: [0, 0, 100, 100], type: list, auth_level: 4, help: 위치 검출 모델의 검색 ROI입니다.}
-          - {id: template_path, label: 템플릿 저장 경로, value: calibration/temp3.bmp, type: str, auth_level: 4, help: 생성된 템플릿 파일을 저장할 경로입니다.}
-          - {id: mask_path, label: 마스크 저장 경로, value: calibration/mask3.bmp, type: str, auth_level: 4, help: 생성된 마스크 파일을 저장할 경로입니다.}
+          - {id: image_path, label: 이미지 경로, type: img_path, value: 'D:/Git/InspTools/Setting/common/pr_nz_center/scw_right/calibration/pos3.bmp', options: [Image Files, '*.bmp;*.jpg;*.png', All Files, '*.*'], auth_level: 4, help: 위치 검출 모델의 보정에 사용할 이미지 파일의 경로입니다.}
+          - {id: template_roi, label: 템플릿 ROI, type: roi, value: [1873, 785, 2122, 1071], auth_level: 4, help: 위치 검출 모델의 템플릿 ROI입니다.}
+          - {id: search_roi, label: 검색 ROI, type: roi, value: [1668, 580, 2326, 1275], auth_level: 4, help: 위치 검출 모델의 검색 ROI입니다.}
+          - {id: template_path, label: 템플릿 저장 경로, type: img_path, value: calibration/temp3.bmp, options: [Image Files, '*.bmp;*.jpg;*.png', All Files, '*.*'], auth_level: 4, help: 생성된 템플릿 파일을 저장할 경로입니다.}
+          - {id: mask_path, label: 마스크 저장 경로, type: img_path, value: calibration/mask3.bmp, options: [Image Files, '*.bmp;*.jpg;*.png', All Files, '*.*'], auth_level: 4, help: 생성된 마스크 파일을 저장할 경로입니다.}
           functions:
           - id: template_create
             label: 템플릿 생성
@@ -289,13 +448,14 @@ system_config:
             auth_level: 4
         - id: pos4
           label: 위치 4
+          type: null
           auth_level: 4
           params:
-          - {id: image_path, label: 이미지 경로, value: calibration/pos4.jpg, type: str, auth_level: 4, help: 위치 검출 모델의 보정에 사용할 이미지 파일의 경로입니다.}
-          - {id: template_roi, label: 템플릿 ROI, value: [0, 0, 100, 100], type: list, auth_level: 4, help: 위치 검출 모델의 템플릿 ROI입니다.}
-          - {id: search_roi, label: 검색 ROI, value: [0, 0, 100, 100], type: list, auth_level: 4, help: 위치 검출 모델의 검색 ROI입니다.}
-          - {id: template_path, label: 템플릿 저장 경로, value: calibration/temp4.bmp, type: str, auth_level: 4, help: 생성된 템플릿 파일을 저장할 경로입니다.}
-          - {id: mask_path, label: 마스크 저장 경로, value: calibration/mask4.bmp, type: str, auth_level: 4, help: 생성된 마스크 파일을 저장할 경로입니다.}
+          - {id: image_path, label: 이미지 경로, type: img_path, value: 'D:/Git/InspTools/Setting/common/pr_nz_center/scw_right/calibration/pos4.bmp', options: [Image Files, '*.bmp;*.jpg;*.png', All Files, '*.*'], auth_level: 4, help: 위치 검출 모델의 보정에 사용할 이미지 파일의 경로입니다.}
+          - {id: template_roi, label: 템플릿 ROI, type: roi, value: [1082, 181, 1801, 1061], auth_level: 4, help: 위치 검출 모델의 템플릿 ROI입니다.}
+          - {id: search_roi, label: 검색 ROI, type: roi, value: [845, 5, 2036, 1222], auth_level: 4, help: 위치 검출 모델의 검색 ROI입니다.}
+          - {id: template_path, label: 템플릿 저장 경로, type: img_path, value: calibration/temp4.bmp, options: [Image Files, '*.bmp;*.jpg;*.png', All Files, '*.*'], auth_level: 4, help: 생성된 템플릿 파일을 저장할 경로입니다.}
+          - {id: mask_path, label: 마스크 저장 경로, type: img_path, value: calibration/mask4.bmp, options: [Image Files, '*.bmp;*.jpg;*.png', All Files, '*.*'], auth_level: 4, help: 생성된 마스크 파일을 저장할 경로입니다.}
           functions:
           - id: template_create
             label: 템플릿 생성
@@ -307,6 +467,7 @@ system_config:
             auth_level: 4
 - id: bowl_height_inspection_module
   label: 볼 높이 검사 모듈
+  type: null
   auth_level: 4
   params:
-  - {id: height_threshold, label: 높이 임계값(mm), value: 10.0, type: float, min: 0.0, max: 100.0, auth_level: 4, help: 볼 높이를 양성으로 판단할 임계값입니다.}
+  - {id: height_threshold, label: 높이 임계값(mm), type: float, value: 10.0, min: 0.0, max: 100.0, auth_level: 4, help: 볼 높이를 양성으로 판단할 임계값입니다.}

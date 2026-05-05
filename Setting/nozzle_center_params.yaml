@@ -1642,7 +1642,7 @@ values:
     PR_NZ_CENTER:
       SCW_RIGHT:
         Position:
-          pos1_img_path: Setting\\COMMON\\PR_NZ_CENTER\\SCW_RIGHT\\Calibration\\pos1.bmp
+          pos1_img_path: D:/Git/InspTools/Setting/common/pr_nz_center/scw_right/calibration/pos1.bmp
           temp1_roi: [100, 100, 200, 200]
           search1_roi: [50, 50, 250, 250]
           pos2_img_path: Setting\\COMMON\\PR_NZ_CENTER\\SCW_RIGHT\\Calibration\\pos2.bmp
@@ -1652,7 +1652,7 @@ values:
           temp3_roi: [100, 100, 200, 200]
           search3_roi: [50, 50, 250, 250]
         Calibration:
-          method: '0'
+          method: '1'
           src_pts: [[600.0, 300.0], [700.0, 280.0], [701.0, 200.0], [601.0, 210.0]]
           dst_pts: [[600.0, 300.0], [700.0, 280.0], [701.0, 200.0], [601.0, 210.0]]
           matrix: [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]

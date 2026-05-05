@@ -4,7 +4,7 @@ from tkinter import messagebox, ttk
 from ViewFrame import ViewFrame
 from UserManager import User, UserManager
 from RecipeFrame import CameraSettingFrame, NozzleCenterFrame
-from TreeConfigEditor import TreeConfigEditor
+from TreeConfig import TreeConfigFrame
 
 class MainFrame:
     VERSION_INFO: str = "version 1.7.2"
@@ -124,7 +124,7 @@ class MainFrame:
         self.NozzleCenter_frame = NozzleCenterFrame(self.notebook, view_frame=self.view_frame, auth_level=self.current_user.auth_level)
         self.notebook.add(self.NozzleCenter_frame, text="Nozzle Center")
         # System Config 탭
-        self.SystemConfig_frame = TreeConfigEditor(self.notebook, auth_level=self.current_user.auth_level)
+        self.SystemConfig_frame = TreeConfigFrame(self.notebook, view_frame=self.view_frame, auth_level=self.current_user.auth_level)
         self.notebook.add(self.SystemConfig_frame, text="System Config")
 
     # bottom frame 생성
